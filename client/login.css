@@ -1,0 +1,32 @@
+* {box-sizing: border-box}
+
+nav {
+    background-color: blue;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form i {
+    margin-left: -30px;
+    cursor: pointer;
+}
+
+/* #registration-section {
+    display: none;
+} */
+
+#form-section {
+    width: 250px;
+}
+
+button {
+    border: none;
+    background: none;
+    padding: 0;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer
+}
