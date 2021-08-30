@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="forms.css" type="text/css">
+    <script defer src="forms.js"></script>
+    <title>Habitsmashers</title>
+</head>
+
+<body>
+
+    <header>
+
+        <nav>
+            <button id="add-habit-btn" class="btn btn-primary">Add New Habit</button>
+            <button id="edit-habit-btn" sclass="btn btn-primary">Edit habit</button>
+        </nav>
+
+    </header>
+
+    <main>
+
+        <section id="add-habit-modal" class="modal d-none">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <span>Add a new habit</span>
+                    <span class="close-modal">&times;</span>
+                </div>
+
+                <form id="add-habit-form" class="d-flex flex-column">
+                    <label for="habit-name"">Name</label>
+                    <input type="text" name="habit-name" id="habit-name" required>
+
+                    <label for="habit-tag">Tag</label>
+                    <input type="text" name="habit-tag" id="habit-tag" required>
+
+                    <label for="habit-frequency">Frequency</label>
+                    <!-- <input type="text" name="habit-frequency" required> -->
+
+                    <div>
+                        <input type="checkbox" name="freq" value="1">
+                        <input type="checkbox" name="freq" value="2">
+                        <input type="checkbox" name="freq" value="3">
+                        <input type="checkbox" name="freq" value="4">
+                        <input type="checkbox" name="freq" value="2">
+                        <input type="checkbox" name="freq" value="3">
+                        <input type="checkbox" name="freq" value="4">
+                    </div>
+
+                    <div>
+                        <label for="habit-priority">Priority</label>
+                        <input type="checkbox" name="habit-priority" id="habit-priority">
+                    </div>
+
+                    <input type="submit" name="submit-habit" value="Add habit">
+
+                </form>
+            </div>
+
+        </section>
+
+    </main>
+
+
+</body>
+
+</html>
