@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const requestRoutes = require('./controllers/requests')
+const requestRoutes = require('./habitRoutes')
 
 const server = express()
 
