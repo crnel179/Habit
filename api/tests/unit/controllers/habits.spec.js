@@ -10,4 +10,14 @@ describe('habits controller', () => {
     beforeEach(() => jest.clearAllMocks());
 
     afterAll(() => jest.resetAllMocks());
+
+    describe('index', () => {
+        test('it returns a habit with a 200 status code', async () => {
+            jest.spyOn(Habit, 'all', 'get')
+                 .mockResolvedValue(['habit1', 'habit2']);
+            await habitController.index(null, mockRes);
+            expect(mockStatus).toHaveBeenCalledWith(200);
+            expect(mockJson).toHaveBeenCalledWith(['habit1', 'habit2']);
+        })
+    });
 })
