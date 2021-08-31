@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <link rel="stylesheet" href="./static/css/forms.css" type="text/css">
-    <script defer src="./static/js/mainForms.js"></script>
+    <link rel="stylesheet" href="./static/css/habitsView.css" type="text/css">
+    <script defer src="./static/js/habitsView.js"></script>
     <script defer src="./static/js/requests.js"></script>
     <title>Habitsmashers</title>
 </head>
@@ -78,7 +78,30 @@
         </section>
 
 
-        <input type="text" name="test" placeholder="Habit" readonly>
+        <section id="edit-habit-modal">
+
+        </section>
+
+
+        <section id="main">
+
+            <article id="first" class="habit">
+                <div class="habit-header">
+                    <h1>Habit Name</h1>
+                    <button type="button" name="show-more-btn">Show more</button>
+                    <button type="button">Edit</button>
+                    <button type="button">Delete</button>
+                </div>
+                <div class="habit-body">
+                    <p>Tag: </p>
+                    <p>Start Date: </p>
+                    <p>Priority: </p>
+                    <p>Frequency: </p>
+                    <p>Highest Streak: </p>
+                </div>
+            </article>
+
+        </section>
 
     </main>
 

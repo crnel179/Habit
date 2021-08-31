@@ -18,13 +18,3 @@ function showModal(e, show) {
         habitModal.classList.add("d-none")
     }
 }
-
-
-let dummyHabit = {
-    name: "habit",
-    frequency: 1,
-    priority: false,
-    tag: 'health',
-    startDate: '20/02/2012',
-    highestStreak: 14
-}
