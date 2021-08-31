@@ -8,11 +8,11 @@ function closeModal(e) {
 function showNewHabitModal(e) {
     e.preventDefault();
     // get the closest section tag (i.e. modal)
-    const newHabitModal = document.querySelector("#add-habit-modal");
+    const newHabitModal = document.querySelector("#habit-modal");
     newHabitModal.classList.remove("d-none");
     newHabitModal.classList.add("d-block");
     // attach event listener to the form
-    const newHabitForm = document.querySelector('#add-habit-form');
+    const newHabitForm = document.querySelector('#habit-form');
     newHabitForm.addEventListener('submit', e => handleCreateHabit(e));
 }
 
@@ -32,16 +32,34 @@ const showDeleteModal = (e) => {
 }
 
 const showEditModal = (e) => {
+    e.preventDefault();
+    // get the closest section tag (i.e. modal)
+    const newEditHabitModal = document.querySelector("#edit-habit-modal");
+    newEditHabitModal.classList.remove("d-none");
+    newEditHabitModal.classList.add("d-block");
+    //get habit name and original habit data
+    const name = e.target.closest('article').getAttribute('id');
 
-
-
-
-
-    // get the new habit form
-    // const editHabitForm = document.querySelector('#edit-habit-form');
-
-
+    // const oldHabit = getOneByName(name);
+    let oldHabit = {
+        name: 'running',
+        tag: 'health',
+        frequency: 1,
+        datesCompleted: ['30-08-2021', '31-08-2021'],
+        highestStreak: 2,
+        priority: false
+    }
+    // add data for original habit as placeholders
+    document.querySelector("input[name='submit-edit-habit']").value = 'Update Habit';
+    document.querySelector('#edit-name').placeholder = name;
+    document.querySelector("#edit-tag").placeholder = oldHabit.tag;
+    document.querySelector("#edit-frequency").placeholder = oldHabit.frequency;
+    if (oldHabit.priority === true) {
+        document.querySelector("#edit-priority").checked;
+    }
     // add event listeners
-    // editHabitForm.addEventListener('submit', e => handleUpdateHabit(e));
-
+    const habitForm = document.querySelector('#edit-habit-form');
+    habitForm.addEventListener('submit', e => updateHabit(e, name));
+    habitForm.reset();
+    document.querySelector("#edit-priority").removeAttribute('checked');
 }

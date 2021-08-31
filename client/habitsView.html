@@ -5,106 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <link rel="stylesheet" href="./static/css/habitsView.css" type="text/css">
-    <script defer src="./static/js/habitsView.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="./static/css/habitsView.css">
+    <script defer src="./static/js/modal.js"></script>
     <script defer src="./static/js/requests.js"></script>
-    <title>Habitsmashers</title>
+    <script defer src="./static/js/habitsView.js"></script>
 </head>
 
 <body>
 
     <header>
-
         <nav>
             <button id="add-habit-btn" class="btn btn-primary">Add New Habit</button>
-            <button id="edit-habit-btn" sclass="btn btn-primary">Edit habit</button>
         </nav>
-
     </header>
 
     <main>
 
-        <section id="add-habit-modal" class="modal d-none">
+        <section id="habit-modal" class="modal d-none">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <span>Add a new habit</span>
+                    <span id="modal-title">Add a new habit</span>
                     <span class="close-modal">&times;</span>
                 </div>
 
-                <form id="add-habit-form" class="d-flex flex-column">
-                    <label for="habitName">Name</label>
-                    <input type="text" name="habit-name" id="habitName" required>
+                <form id="habit-form" class="d-flex flex-column">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" required>
 
-                    <label for="habit-tag">Tag</label>
-                    <input type="text" name="habitTag" id="habitTag" required>
+                    <label for="tag">Tag</label>
+                    <input type="text" name="tag" id="tag" required>
 
-                    <label for="habitFrequency">Frequency</label>
-                    <input type="text" name="habitFrequency" required>
-
-                    <!-- <div>
-                        <label for="monday">Monday</label>
-                        <input type="checkbox" name="freq" value="1">
-
-                        <label for="tuesday">Tuesday</label>
-                        <input type="checkbox" name="freq" value="2">
-
-                        <label for="wednesday">Wednesday</label>
-                        <input type="checkbox" name="freq" value="3">
-
-                        <label for="thursday">Thursday</label>
-                        <input type="checkbox" name="freq" value="4">
-
-                        <label for="friday">Friday</label>
-                        <input type="checkbox" name="freq" value="5">
-
-                        <label for="saturday">Saturday</label>
-                        <input type="checkbox" name="freq" value="6">
-
-                        <label for="sunday">Sunday</label>
-                        <input type="checkbox" name="freq" value="7">
-                    </div> -->
+                    <label for="frequency">Frequency</label>
+                    <input type="text" name="frequency" id="frequency" required>
 
                     <div>
-                        <label for="habit-priority">Priority</label>
-                        <input type="checkbox" name="habit-priority" id="habit-priority">
+                        <label for="priority">Priority</label>
+                        <input type="checkbox" name="priority" id="priority">
                     </div>
 
                     <input type="submit" name="submit-habit" value="Add habit">
-
                 </form>
             </div>
-
         </section>
 
 
-        <section id="edit-habit-modal">
+        <section id="edit-habit-modal" class="modal d-none">
+            <div class="modal-content">
 
-        </section>
-
-
-        <section id="main">
-
-            <article id="first" class="habit">
-                <div class="habit-header">
-                    <h1>Habit Name</h1>
-                    <button type="button" name="show-more-btn">Show more</button>
-                    <button type="button">Edit</button>
-                    <button type="button">Delete</button>
+                <div class="modal-header">
+                    <span id="modal-title">Edit a habit</span>
+                    <span class="close-modal">&times;</span>
                 </div>
-                <div class="habit-body">
-                    <p>Tag: </p>
-                    <p>Start Date: </p>
-                    <p>Priority: </p>
-                    <p>Frequency: </p>
-                    <p>Highest Streak: </p>
-                </div>
-            </article>
 
+                <form id="edit-habit-form" class="d-flex flex-column">
+                    <label for="edit-name">Name</label>
+                    <input type="text" name="name" id="edit-name">
+
+                    <label for="edit-tag">Tag</label>
+                    <input type="text" name="tag" id="edit-tag">
+
+                    <label for="edit-frequency">Frequency</label>
+                    <input type="text" name="frequency" id="edit-frequency">
+
+                    <div>
+                        <label for="edit-priority">Priority</label>
+                        <input type="checkbox" name="priority" id="edit-priority">
+                    </div>
+
+                    <input type="submit" name="submit-edit-habit" value="Update habit">
+                </form>
+            </div>
         </section>
+
+
+        <section id="delete-habit-modal" class="modal d-none">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <span>Delete habit</span>
+                    <span class="close-modal">&times;</span>
+                </div>
+
+                <div id="modal-body">
+                    <p>Do you really want to delte the following habit?</p>
+                    <p id="confirm-delete"></p>
+                    <div>
+                        <button type="button" name="delete-yes">Yes</button>
+                        <button type="button" name="delete-no">No</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="main"></section>
 
     </main>
 
+    <footer></footer>
 
 </body>
 

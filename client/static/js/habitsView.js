@@ -1,4 +1,4 @@
-// add event listenrs for new-habit btn and for cloing the modals
+// add event listeners for new-habit btn and for cloing the modals
 const openModalBtn = document.querySelector("#add-habit-btn");
 const closeModalBtn = document.querySelectorAll('.close-modal')
 openModalBtn.addEventListener('click', e => showNewHabitModal(e))
