@@ -1,5 +1,5 @@
 const { ReturnDocument } = require('mongodb');
-const  Habit = require('./model/Habit');
+const Habit = require('./model/Habit');
 
 async function index(req, res) {
     try{
