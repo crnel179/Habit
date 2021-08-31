@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="./static/css/forms.css" type="text/css">
-    <script defer src="./static/js/forms.js"></script>
+    <script defer src="./static/js/mainForms.js"></script>
+    <script defer src="./static/js/requests.js"></script>
     <title>Habitsmashers</title>
 </head>
 
@@ -32,14 +33,14 @@
                 </div>
 
                 <form id="add-habit-form" class="d-flex flex-column">
-                    <label for="habit-name">Name</label>
-                    <input type="text" name="habit-name" id="habit-name" required>
+                    <label for="habitName">Name</label>
+                    <input type="text" name="habit-name" id="habitName" required>
 
                     <label for="habit-tag">Tag</label>
-                    <input type="text" name="habit-tag" id="habit-tag" required>
+                    <input type="text" name="habitTag" id="habitTag" required>
 
-                    <label for="habit-frequency">Frequency</label>
-                    <input type="text" name="habit-frequency" required>
+                    <label for="habitFrequency">Frequency</label>
+                    <input type="text" name="habitFrequency" required>
 
                     <!-- <div>
                         <label for="monday">Monday</label>
@@ -75,6 +76,9 @@
             </div>
 
         </section>
+
+
+        <input type="text" name="test" placeholder="Habit" readonly>
 
     </main>
 
