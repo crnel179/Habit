@@ -32,7 +32,7 @@ class Habit {
                 const db = await init();
                 const habitData = await db.collection.find({ user_email: user }, { habits: 1, _id: 0 }).toArray();
                 //need to search through array for habit object with matching name
-                const habit;
+                const habit = null;
                 habitData.forEach(element => {
                     if (element.name == name) {
                         habit = element;
