@@ -1,39 +1,30 @@
 const request = require('supertest');
-const app = require('./index');
+const Connection = require('../../dbConfig');
+const app = require('../../index');
 
 describe('endpoints', () => {
 
     describe('POST /register', () => {
 
+        let api;
         beforeEach(async () => {
-            await resetTestDB;
+            // await resetTestDB();
         })
 
         beforeAll(async () => {
-            api = app.listen(process.env.PORT);
-            console.log(`started test server on port ${process.env.PORT}`);
+            await Connection.open();
+            api = app.listen(3000);
         })
 
         afterAll(done => {
-            console.log(`stopping test server on port ${process.env.PORT}`);
             api.close(done)
         })
 
-        // test('should add new unverified user to database', () => {
+        test('this should print some info and pass', async () => {
+            console.log(await Connection.collection.find({}).toArray());
+            expect(true).toBe(true);
+        })
 
-        // })
-
-        // test('attempts to add existing user return THIS error', () => {
-
-        // })
-
-        // test('missing fields in post data returns THIS error', () => {
-
-        // })
-
-        // test('', () => {
-
-        // })
     })
 
 })

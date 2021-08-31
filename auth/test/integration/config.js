@@ -9,7 +9,7 @@ const resetTestDB = () => {
     return new Promise(async (resolve, reject) => {
         try {
             // Open test database connection
-            await Connection.open(true);
+            await Connection.open();
             await Connection.db.query(
                 seedTestDatabase(schema, testSeed)
             );
