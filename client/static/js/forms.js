@@ -1,20 +1,17 @@
+//get the button elements
 const openModalBtn = document.querySelector("#add-habit-btn");
 const closeModalBtn = document.querySelector('.close-modal')
-const addHabitModal = document.querySelector("#add-habit-modal");
+const habitModal = document.querySelector("#add-habit-modal");
 
-openModalBtn.addEventListener('click', e => {
-    e.preventDefault()
-    addHabitModal.classList.remove("d-none");
-    addHabitModal.classList.add("d-block")
-    // addHabitModal.style.display = "block"
-})
+openModalBtn.addEventListener('click', e => showModal(e, true))
+closeModalBtn.addEventListener('click', e => showModal(e, false))
 
-closeModalBtn.addEventListener('click', e => {
+function showModal(e, show) {
     e.preventDefault();
-    addHabitModal.classList.add("d-none")
-})
-
-document.querySelector('#add-habit-form').addEventListener('submit', e => {
-    e.preventDefault();
-    console.log(e.target.freq[0].checked);
-})
+    if (show) {
+        habitModal.classList.remove("d-none");
+        habitModal.classList.add("d-block");
+    } else {
+        habitModal.classList.add("d-none")
+    }
+}

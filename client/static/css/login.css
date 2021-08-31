@@ -7,19 +7,12 @@ nav {
 form {
     display: flex;
     flex-direction: column;
+    width: 300px;
 }
 
 form i {
     margin-left: -30px;
     cursor: pointer;
-}
-
-/* #registration-section {
-    display: none;
-} */
-
-#form-section {
-    width: 250px;
 }
 
 button {
