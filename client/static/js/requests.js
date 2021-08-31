@@ -16,6 +16,22 @@ async function getAllHabits() {
     }
 }
 
+// GET a single habit by name
+async function getOneByName(name) {
+
+    const options = {
+        headers: new Headers({'Authorization': localStorage.getItem('token')})
+    }
+    try {
+        const res = await fetch(`${url}habits/${name}`, options);
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+        // handleError;
+    }
+}
+
 // POST a new habit
 async function handleCreateHabit(e) {
     e.preventDefault()
@@ -41,7 +57,7 @@ async function handleCreateHabit(e) {
 }
 
 // update a habit (PUT)
-async function updateHabit(e, name, data) {
+async function updateHabit(e, name) {
     e.preventDefault();
 
     try {
