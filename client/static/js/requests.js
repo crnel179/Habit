@@ -41,6 +41,24 @@ async function handleHabitForm(e) {
     }
 }
 
+// update a habit (PUT)
+async function updateHabit(e, name, data) {
+    e.preventDefault();
+
+    try {
+        const options = {
+            method: 'PUT',
+            headers: new Headers({'Authorization': localStorage.getItem('token')}),
+            body: JSON.stringify(data);
+        }
+        const res = await fetch(`${url}habits/${name}`, options);
+        const data = res.json();
+        return data;
+    } catch (err) {
+        // handleError
+        console.log(err);
+}
+
 
 // DELETE a habit
 async function deleteHabit(e, name) {
