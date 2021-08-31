@@ -3,7 +3,7 @@ const Habit = require('../model/Habit');
 async function index(req, res) {
     try{
         const habits = await Habit.all;
-        res.status(200).json(habits)
+        res.status(200).json( habits )
     }
     catch(err){
         res.status(404).json({err})
@@ -12,8 +12,7 @@ async function index(req, res) {
 
 async function show(req, res) {
     try{
-
-        const habit = await Habit.findByName(req.param.name);
+        const habit = await Habit.findByName(req.params.name);
         res.status(200).json(habit)
     }
     catch(err){
@@ -33,7 +32,7 @@ async function create(req, res) {
 
 async function update(req, res) {
     try{
-        const updatedHabit = await Habit.update(req.param.name, req.body)
+        const updatedHabit = await Habit.update(req.params.name, req.body)
         res.status(200).json(updatedHabit)
     }
     catch(err){
@@ -43,7 +42,7 @@ async function update(req, res) {
 
 async function destroy(req, res) {
     try{
-        const deletedHabit = await Habit.delete(req.param.name)
+        const deletedHabit = await Habit.delete(req.params.name)
         res.status(200).json(deletedHabit)
     }
     catch(err){
