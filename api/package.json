@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchall",
+    "test": "jest --watchAll",
     "coverage": "jest --coverage",
     "start": "node index.js",
     "dev": "nodemon index.js",
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "jest": "^27.1.0",
+    "mongo-unit": "^2.0.1",
     "nodemon": "^2.0.12",
     "supertest": "^6.1.6"
   }
