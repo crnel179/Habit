@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest --watchall",
     "coverage": "jest --coverage",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "seedDb": "node seed_db.js"
   },
   "author": "",
   "license": "ISC",

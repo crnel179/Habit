@@ -1,4 +1,7 @@
-const { init } = require('dbConfig');
+const { init } = require('./dbConfig');
 
-const db = await init()
+async function seeding() {
+    const db = await init()
+}
+
 
