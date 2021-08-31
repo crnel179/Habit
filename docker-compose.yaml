@@ -8,13 +8,11 @@ services:
     environment:
       - DB_NAME=habittracker
       - DB_CONNECTION=mongodb+srv://habit-smashers21:pWGX766l3sYusCMA@habittracker.hms0s.mongodb.net/habitsmasher-db?retryWrites=true&w=majority
-    depends_on:
-      - db
     volumes:
       - type: bind
         source: ./api
         target: /code
-      command: bash -c "npm install && npm run seedDb && npm run dev"
+    command: bash -c "npm install && npm start"
 
   auth:
     image: node:12.18.4
@@ -28,6 +26,4 @@ services:
       - type: bind
         source: ./auth
         target: /code
-      command: bash -c "npm install && npm start"
-volumes:
-  dbdata:
+    command: bash -c "npm install && npm start"
