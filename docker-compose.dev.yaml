@@ -1,0 +1,45 @@
+  version: '3'
+  services:
+    api:
+      image: node:12.18.4
+      container_name: dev_api_server
+      working_dir: /code
+      ports:
+        - 3000:3000
+      environment:
+        - DB_NAME=habittracker
+        - DB_CONNECTION=mongodb://habitsmashers:habitpass@db:27017
+      depends_on:
+        - db
+      volumes:
+        - type: bind
+          source: ./api
+          target: /code
+      command: bash -c "npm install && npm run seedDb && npm run dev"
+    auth:
+      image: node:12.18.4
+      container_name: dev_auth_server
+      ports:
+        - 5000:5000
+      working_dir: /code
+      environment: 
+        - DB_NAME=habittracker
+        - DB_CONNECTION=mongodb://habitsmashers:habitpass@db:27017
+      depends_on:
+        - db
+      volumes:
+        - type: bind
+          source: ./auth
+          target: /code
+      command: bash -c "npm install && npm run dev"
+    db: 
+      image: mongo:latest
+      volumes:
+        - "dbdata:/var/lib/mongodb/data"
+        - "./db/seed.js:/docker-entrypoint-initdb.d/seed.js:ro"
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=habitsmashers
+        - MONGO_INITDB_DATABASE=habittracker
+        - MONGO_INITDB_ROOT_PASSWORD=habitpass
+  volumes:
+    dbdata:
