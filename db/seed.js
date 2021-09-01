@@ -32,7 +32,17 @@ db.users.insertMany([
                 highest_streak: 0,
                 priority: false
             }
-
+        },
+        verification:
+        {
+            isVerified: false,
+            token: null,
+            timeRequested: null
+        },
+        recovery:
+        {
+            token: null,
+            timeRequested: null
         }
     },
     {
@@ -65,5 +75,16 @@ db.users.insertMany([
             }
 
         },
+        verification:
+        {
+            isVerified: true,
+            token: null,
+            timeRequested: null
+        },
+        recovery:
+        {
+            token: null,
+            timeRequested: null
+        }
     }
 ])

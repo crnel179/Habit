@@ -1,31 +1,12 @@
-const { MongoClient } = require("mongodb");
-// require('dotenv').config();
+const { MongoClient } = require('mongodb')
+const connectionUrl = process.env.DB_CONNECTION;
 
-class Connection {
+const dbName = process.env.DB_NAME;
 
-    static async open() {
-
-        console.log(`connecting to ${process.env.DB_NAME} at url: ${process.env.DB_URL}`)
-        console.log(`using collection: ${process.env.DB_COLLECTION} at url: ${process.env.DB_URL}`)
-
-        try {
-            this.client = await MongoClient.connect(process.env.DB_URL);
-            this.db = this.client.db(process.env.DB_NAME);
-            this.collection = this.db.collection(process.env.DB_COLLECTION);
-        } catch (err) {
-            console.log(err)
-        }
-
-        return this.client;
-    }
-
+const init = async () => {
+    let client = await MongoClient.connect(connectionUrl)
+    console.log('connected to database!', dbName)
+    return client.db(dbName)
 }
 
-Connection.uri = process.env.DB_URL;
-Connection.client = null;
-Connection.options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}
-
-module.exports = Connection;
+module.exports = init;
