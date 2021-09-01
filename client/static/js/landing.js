@@ -57,7 +57,7 @@ function renderLandingView(allHabits) {
     let priority = allHabits.filter(habit => habit.priority === true)
 
     priority.forEach(habit => {
-        const habitCard = renderHabitCard(habit);
+        const habitCard = renderHabitCard(habit, landing=true);
         // add habit to the top if it is a priority one
         let mainSection = document.querySelector('#main');
         if (habit.priority === true) {
