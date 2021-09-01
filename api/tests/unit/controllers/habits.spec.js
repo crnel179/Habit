@@ -1,5 +1,5 @@
 const habitController = require('../../../controllers/habits')
-// const Habit = require('../../../models/Habit');
+const Habit = require('../../../model/Habit');
 
 const mockSend = jest.fn();
 const mockJson = jest.fn();

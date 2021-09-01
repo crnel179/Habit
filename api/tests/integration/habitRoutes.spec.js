@@ -18,5 +18,13 @@ describe('habits endpoints', () => {
         expect(res.statusCode).toEqual(200);
         expect(res.body.length).toEqual(3);
     })
+    
+    it('should return a list of habits by a specific user', async () => {
+        const res = await request(api).get('/habits/username');
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.books.length).toEqual(2);
+    }) 
+
+    
 
 });
