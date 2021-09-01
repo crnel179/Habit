@@ -90,12 +90,27 @@ function makeElement(element, atts) {
     return newElement;
 }
 
-function logout(){
-    localStorage.clear();
-    console.log('logged out');
-}
-
 function currentUser(){
     const username = localStorage.getItem('username')
     return username;
+}
+
+async function logout() {
+    // e.preventDefault()
+
+    try {
+        // ????? what data is required
+        //const data = {};
+        console.log(data);
+
+        const options = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }
+        const res = await fetch(`${url}users/logout`, options)
+        localStorage.clear();
+    } catch (err) {
+        console.warn(`Error: ${err}`);
+    }
 }
