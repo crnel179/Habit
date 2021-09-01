@@ -28,6 +28,12 @@ const emailExists = (req, res, next) => {
 }
 
 const recoveryTokenValid = (req, res, next) => {
+    try {
+        const token = await User.retrieveRecoveryToken(req.body.email);
+        if (token !== req.body.token) res.sendStatus(401);
+    } catch (err) {
+        res.sendStatus(403);
+    }
     next();
 }
 
@@ -35,7 +41,7 @@ const accessTokenValid = (req, res, next) => {
     try {
         jwt.verify(token, process.env.ACCESS_SECRET);
     } catch (err) {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }
     next();
 }
