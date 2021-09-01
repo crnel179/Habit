@@ -1,4 +1,6 @@
-const url = "http://localhost:3000/";
+//-----------FUNCTIONS FOR MAKING API REQUESTS-----------------//
+
+const url = "http://localhost:3030/";
 
 // GET all habits
 async function getAllHabits() {
@@ -56,7 +58,7 @@ async function handleCreateHabit(e) {
     }
 }
 
-// update a habit (PUT)
+// edit a habit (PUT)
 async function updateHabit(e, name) {
     e.preventDefault();
 
@@ -69,6 +71,26 @@ async function updateHabit(e, name) {
         const res = await fetch(`${url}habits/${name}`, options);
         const data = res.json();
         return data;
+    } catch (err) {
+        // handleError
+        console.log(err);
+    }
+}
+
+// update the daily complition (PUT)
+async function updateCompletion(e, name) {
+    e.preventDefault();
+
+    try {
+        const options = {
+            method: 'PUT',
+            headers: new Headers({'Authorization': localStorage.getItem('token')}),
+            body: JSON.stringify(data)
+        }
+        /// endpoint ??????? and data ??????
+        //const res = await fetch(`${url}habits/${name}`, options);
+        // const data = res.json();
+        // return data;
     } catch (err) {
         // handleError
         console.log(err);

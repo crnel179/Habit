@@ -1,4 +1,4 @@
-//----------SERIPTS THAT ARE RUN ON index.html PAGE----------------//
+//----------SCRIPTS THAT ARE RUN ON index.html PAGE----------------//
 
 // get the button and input elements
 const togglePassword = document.querySelectorAll('i');
