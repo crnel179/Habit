@@ -11,6 +11,7 @@ describe('habits endpoints', () => {
 
     afterAll(async () => {
         console.log('Stopping the test server')
+        api.close(done)
     })
 
     it('should return a list of habits that are in the database', async () => {
@@ -20,7 +21,7 @@ describe('habits endpoints', () => {
     })
     
     it('should return a list of habits by a specific user', async () => {
-        const res = await request(api).get('/habits/username');
+        const res = await request(api).get('/habits/name');
         expect(res.statusCode).toEqual(200);
         expect(res.body.books.length).toEqual(2);
     }) 
