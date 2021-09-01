@@ -17,22 +17,26 @@
           target: /code
       command: bash -c "npm install && npm start"
 
-    # auth:
-    #   image: node:12.18.4
-    #   container_name: dev_auth_server
-    #   ports:
-    #     - 5000:5000
-    #   working_dir: /code
-    #   environment: 
-    #     - DB_NAME=habittracker
-    #     - DB_CONNECTION=mongodb://habitsmashers:habitpass@db:27017
-    #   depends_on:
-    #     - db
-    #   volumes:
-    #     - type: bind
-    #       source: ./auth
-    #       target: /code
-    #   command: bash -c "npm install && npm start"
+    auth:
+      image: node:12.18.4
+      container_name: dev_auth_server
+      ports:
+        - 5000:5000
+      working_dir: /code
+      environment: 
+        - DB_NAME=habittracker
+        - DB_USER=habitsmashers
+        - DB_PASS=habitpass
+        - DB_URL=mongodb://habitsmashers:habitpass@db:27017
+        - DB_COLLECTION=usercollection
+        - PORT=5001
+      depends_on:
+        - db
+      volumes:
+        - type: bind
+          source: ./auth
+          target: /code
+      command: bash -c "npm install && npm start"
 
     db: 
       image: mongo:latest
