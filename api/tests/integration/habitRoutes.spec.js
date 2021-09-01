@@ -1,17 +1,33 @@
+const supertest = require('supertest');
+const app = require('../../../api/habitRoutes');
+const mongoose = require('mongoose');
+const mongoDB = "mongo://127.0.0.1/test"
+
+/*  these tests are driving me nuts, there is a problem with the above things
+    the app.listen and api.close functions are not working 
+    causing all the tests to fail
+    i think i need to use mongoose? 
+*/
+
 describe('habits endpoints', () => {
-    
+    it("has a module", () => {
+        expect(app).toBeDefined();
+    });
+  
     let api;
+
     beforeAll(async () => {
-        api = api.listen(5000, () => console.log('Test server running on port 5000'))
+        api = app.listen(5000, () => console.log('Test server running on port 5000'))
     });
 
-    beforeEach(async () => {
-        await resetTestDB();
-    });
+    // beforeEach(async () => {
+    //     await resetTestDB();
+    // });
 
-    afterAll(async () => {
+    afterAll(done => {
         console.log('Stopping the test server')
-        api.close(done)
+        mongoose.connection.close();
+        api.close(done);
     })
 
     it('responds to get / with 200 and gets the welcome message', async () => {
@@ -32,6 +48,11 @@ describe('habits endpoints', () => {
         expect(res.body.books.length).toEqual(2);
     }) 
 
-
+    describe("404 error", () => {
+        it("returns 404 upon incorrect url", async () => {
+            await supertest(api).post("/fail").expect(res.statusCode).toEqual(404);
+        })
+    });
 
 });
+

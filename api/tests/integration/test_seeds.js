@@ -1,4 +1,4 @@
-const db = connect("mongodb://localhost:27017/habittracker")
+const db = connect("mongodb://localhost:27017/testing")
 
 /* this has to drop the test table and then repoopulate it */
 
