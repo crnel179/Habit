@@ -1,4 +1,5 @@
 const init = require('../dbConfig')
+const bcrypt = require('bcryptjs');
 
 class User {
     constructor(body) {
@@ -33,24 +34,29 @@ class User {
 
     static create(body) {
 
-        body.verification = {
-            isVerified: false,
-            verificationToken: null,
-            timeRequested: null
+        const hash = bcrypt.hashSync(body.password, 10);
+
+        let userinfo = {
+            "user_email": body.user_email,
+            "pseudoname": body.user_name,
+            "password": hash,
+            "habits": {},
+            "verification": {
+                "isVerified": false,
+                "verificationToken": null,
+                "timeRequested": null
+            }
         }
-
-        body.password = bcrypt.hashSync(body.password, process.env.SALT_ROUNDS);
-        const user = new User(body);
-
-        console.log(user.json);
 
         return new Promise(async (resolve, reject) => {
 
             try {
                 const db = await init();
-                resp = await db.collection('users').insertOne(user.json);
-                console.log(resp);
+                await db.collection('users').insertOne({ userinfo });
+                // console.log(resp);
+                resolve(userinfo.user_email);
             } catch (err) {
+                console.log(err);
                 reject('error: could not create user');
             }
         })

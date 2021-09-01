@@ -15,9 +15,8 @@ async function getAll(req, res) {
 
 async function create(req, res) {
     try {
-        console.log(req.body);
-        const newUser = await User.create(req.body);
-        res.status(201).json({ email: newUser.email });
+        await User.create(req.body);
+        res.sendStatus(201)
     }
     catch (err) {
         res.status(422).json({ err });
@@ -26,8 +25,8 @@ async function create(req, res) {
 
 async function update(req, res) {
     try {
-        const updatedUser = await User.update(req.body.email, req.body.update);
-        res.status(200).json({ email: updatedUser.email });
+        await User.update(req.body.email, req.body.update);
+        res.sendStatus(200);
     }
     catch (err) {
         // (OGWJ) TODO: check http code here
