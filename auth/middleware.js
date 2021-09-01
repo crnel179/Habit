@@ -20,6 +20,12 @@ const loginDetailsCorrect = (req, res, next) => {
 }
 
 const verificationTokenValid = (req, res, next) => {
+    try {
+        const token = await User.retrieveVerificationToken(req.body.email);
+        if (token !== req.body.token) res.sendStatus(401);
+    } catch (err) {
+        res.sendStatus(403);
+    }
     next();
 }
 
