@@ -1,4 +1,4 @@
-//---------MISCALLENAOUS FUNCTIONS ADN DATA, AVAILABLE TO MODULES-----------//
+//---------MISCALLENOUS FUNCTIONS ADN DATA, AVAILABLE TO MODULES-----------//
 
 const showHabitBody = (e) => {
     e.preventDefault();
@@ -16,9 +16,9 @@ const showHabitBody = (e) => {
 
 // data for rendering buttons on habit card
 const btnFields = [
-    ["show-more-btn", "bi-caret-down-fill", showHabitBody],
-    ["edit-habit-btn", "bi-pencil", showEditModal],
-    ["delete-habit-btn", "bi-trash", showDeleteModal]
+    ["show-more-btn", "bi bi-caret-down-fill", showHabitBody],
+    ["edit-habit-btn", "bi bi-pencil", showEditModal],
+    ["delete-habit-btn", "bi bi-trash", showDeleteModal]
 ]
 
 // data for rendering p tags with habit info
@@ -31,31 +31,34 @@ const pFields = [
 ]
 
 
-function renderHabitCard(habit) {
+function renderHabitCard(habit, landing=null) {
         // create article and two div tags
-        const article = makeElement('article', {class: 'habit', id: `${habit.name}`})
-        const headerDiv = makeElement('div', {class: "habit-header"})
+        const article = makeElement('article', {class: 'habit card', id: `${habit.name}`})
+        const headerDiv = makeElement('div', {class: "habit-header container row"});
+        const btns = makeElement('div', {class: "btn-group col-6"})
         const statusDiv = habitStatusDiv(habit);
         let bodyDiv;
         // if habit is a priority one, make the body visible
         if (habit.priority === true) {
-            bodyDiv = makeElement('div', {class: "d-block habit-body",  id: "habit-body"})
+            bodyDiv = makeElement('div', {class: "d-block habit-body card-text container row",  id: "habit-body"})
         } else {
-            bodyDiv = makeElement('div', {class: "d-none habit-body", id: "habit-body"})
+            bodyDiv = makeElement('div', {class: "d-none habit-body card-text container row", id: "habit-body"})
         }
         // add habit name to h1 tag and add it to habit header div
-        const h1 = document.createElement('h1');
+        const h1 = makeElement('h1', {class: "card-title col-6"});
         h1.innerText = `${habit.name}`;
         headerDiv.appendChild(h1);
         // create buttons and add them to habit header div
+        if (!landing) {
         btnFields.forEach(item => {
-            let btn = makeElement('button', {type: 'button', class: `${item[1]}`, name: `${item[0]}`});
+            let btn = makeElement('button', {type: 'button', class: `btn btn-primary ${item[1]}`, name: `${item[0]}`});
             btn.addEventListener('click', e => item[2](e))
-            headerDiv.appendChild(btn);
-        })
+            btns.appendChild(btn)
+            headerDiv.appendChild(btns);
+        })}
         // create p tags and add habit info
         pFields.forEach(item => {
-            let p = document.createElement('p');
+            let p = makeElement('p');
             p.innerText = `${item[1]} ${habit[item[0]]}`;
             bodyDiv.appendChild(p);
         });
@@ -68,7 +71,7 @@ function habitStatusDiv(habit) {
     // create div with info about daily completion of the status
     const div = makeElement('div', {class: "status-div", type: "button"})
     // create button and add event listener
-    const countBtn = makeElement('btn', {class:"count-btn"});
+    const countBtn = makeElement('btn', {class:"count-btn btn-primary"});
     countBtn.innerText = "Mark as complete";
     countBtn.addEventListener('click', e => updateCompletion(e, habit.name))
     // create span for displaying the count
@@ -89,7 +92,7 @@ function makeElement(element, atts) {
 
 function logout(){
     localStorage.clear();
-    // window.location =
+    console.log('logged out');
 }
 
 function currentUser(){

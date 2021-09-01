@@ -55,9 +55,10 @@ let dummyRes = [
         }
 ]
 
+// get the catogry of habits to be displayed and replace '%20' to spaces
 const category = window.location.hash.substring(1);
-category ? renderHabitsView(category): renderHabitsView();
-
+let correctCat = category.replace(/%20/g, ' ');
+correctCat ? renderHabitsView(correctCat): renderHabitsView();
 //
 // renderHabitsView(dummyRes);
 
