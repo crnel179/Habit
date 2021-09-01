@@ -62,7 +62,7 @@ const recoveryTokenValid = async (req, res, next) => {
 
 const accessTokenValid = (req, res, next) => {
     try {
-        jwt.verify(token, process.env.ACCESS_SECRET);
+        jwt.verify(req.body.token, process.env.ACCESS_SECRET);
         // (OGWJ) TODO: conditional check whitelist/blacklist for token;
     } catch (err) {
         res.sendStatus(401);

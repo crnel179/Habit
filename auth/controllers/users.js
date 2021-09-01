@@ -88,6 +88,7 @@ async function refreshToken(req, res) {
 
 async function invalidateAccessToken(req, res) {
     // here we can remove access token from whitelist or can blacklist
+    res.sendStatus(204);
 }
 
 module.exports = { create, update, destroy, verify, requestVerification, recover, requestRecovery, sendToken, refreshToken, invalidateAccessToken, getAll };
