@@ -1,3 +1,5 @@
+//------------SCRIPTS THAT ARE RUN ON LOADING THE habitView.html PAGE -------------//
+
 // add event listeners for new-habit btn and for cloing the modals
 const openModalBtn = document.querySelector("#add-habit-btn");
 const closeModalBtn = document.querySelectorAll('.close-modal')
@@ -6,14 +8,14 @@ closeModalBtn.forEach(btn => btn.addEventListener('click', e => closeModal(e)))
 
 
 let dummyRes = [
-    {
-        name: 'meditating',
-        tag: 'mental wellness',
-        frequency: 3,
-        datesCompleted: [],
-        highestStreak: 0,
-        priority: false
-    },
+        {
+            name: 'meditating',
+            tag: 'mental wellness',
+            frequency: 3,
+            datesCompleted: [],
+            highestStreak: 0,
+            priority: false
+        },
         {
             name: 'running',
             tag: 'health',

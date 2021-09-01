@@ -1,3 +1,5 @@
+//---------MISCALLENAOUS FUNCTIONS ADN DATA, AVAILABLE TO MODULES-----------//
+
 const showHabitBody = (e) => {
     e.preventDefault();
     // get the div containing the habit body
@@ -70,7 +72,7 @@ function makeElement(element, atts) {
 
 function logout(){
     localStorage.clear();
-    // lwindow.location = 
+    // window.location =
 }
 
 function currentUser(){
