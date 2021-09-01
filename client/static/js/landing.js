@@ -7,23 +7,26 @@ let dummyRes = [
         frequency: 3,
         datesCompleted: [],
         highestStreak: 0,
-        priority: false
+        priority: false,
+        dailyCount: 2
     },
         {
             name: 'running',
             tag: 'health',
-            frequency: 1,
+            frequency: 6,
             datesCompleted: ['30-08-2021', '31-08-2021'],
             highestStreak: 2,
-            priority: true
+            priority: true,
+            dailyCount: 2
         },
         {
             name: 'jogging',
             tag: 'health',
-            frequency: 1,
+            frequency: 2,
             datesCompleted: ['30-08-2021', '31-08-2021'],
             highestStreak: 2,
-            priority: false
+            priority: false,
+            dailyCount: 2
         },
         {
             name: 'swimming',
@@ -31,7 +34,8 @@ let dummyRes = [
             frequency: 1,
             datesCompleted: ['30-08-2021', '31-08-2021'],
             highestStreak: 5,
-            priority: false
+            priority: false,
+            dailyCount: 0
         },
         {
             name: 'drinking water',
@@ -39,7 +43,8 @@ let dummyRes = [
             frequency: 3,
             datesCompleted: ['30-08-2021', '31-08-2021'],
             highestStreak: 7,
-            priority: false
+            priority: false,
+            dailyCount: 0
         }
 ]
 
