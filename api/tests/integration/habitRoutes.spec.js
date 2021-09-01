@@ -2,12 +2,12 @@ describe('habits endpoints', () => {
     
     let api;
     beforeEach(async () => {
-        await resetTestDB()
+        await resetTestDB();
     });
 
     beforeAll(async () => {
-        api = api.listen(5000, () => console.log('Test server running on port 5000'))
-    });
+         api = api.listen(5000, () => console.log('Test server running on port 5000'))
+     });
 
     afterAll(async () => {
         console.log('Stopping the test server')
@@ -25,6 +25,6 @@ describe('habits endpoints', () => {
         expect(res.body.books.length).toEqual(2);
     }) 
 
-    
+
 
 });

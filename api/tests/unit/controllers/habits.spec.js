@@ -20,4 +20,23 @@ describe('habits controller', () => {
             expect(mockJson).toHaveBeenCalledWith(['habit1', 'habit2']);
         })
     });
+
+    describe('show', () => {
+        test('it returns a habit with a 200 status code', async () => {
+            let testHabit = {
+                id: 1, name: 'Test Habit', 
+                tag: 'Test Tag',
+                frequency: 2,
+                datesCompleted: '',
+                priority: ''
+            }
+            jest.spyOn(Habit, 'findById')
+                .mockResolvedValue(new Habit(testHabit));
+                
+            const mockReq = { params: { id: 1 } }
+            await habitController.show(mockReq, mockRes);
+            expect(mockStatus).toHaveBeenCalledWith(200);
+            expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
+        })
+    });
 })
