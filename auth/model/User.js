@@ -53,7 +53,6 @@ class User {
             try {
                 const db = await init();
                 await db.collection('users').insertOne({ ...userinfo });
-                // console.log(resp);
                 resolve(userinfo.user_email);
             } catch (err) {
                 console.log(err);
@@ -80,6 +79,7 @@ class User {
             try {
                 const db = await init();
                 await db.collection('users').deleteOne({ "user_email": user_email });
+                // (OGWJ) TODO: if user doesnt exist before this is called, no error is thrown!
                 resolve(user_email);
             } catch (err) {
                 reject('error: could not delete user');
@@ -111,6 +111,26 @@ class User {
     }
 
     static requestVerification(email) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                // (OGWJ) TODO: copy over logic here.
+            } catch (err) {
+                reject('error requesting token');
+            }
+        })
+    }
+
+    static recover(email, token) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                // (OGWJ) TODO: copy over logic here.
+            } catch (err) {
+                reject('error verifying token');
+            }
+        })
+    }
+
+    static requestRecovery(email) {
         return new Promise(async (resolve, reject) => {
             try {
                 // (OGWJ) TODO: copy over logic here.

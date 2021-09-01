@@ -1,8 +1,9 @@
 const User = require('./model/User');
+const jwt = require('jsonwebtoken');
 
 // (OGWJ) TODO: copy over logic from existing branch
 
-const uniqueCredentials = (req, res, next) => {
+const credentialsUnique = (req, res, next) => {
     next();
 }
 
@@ -18,14 +19,34 @@ const loginDetailsCorrect = (req, res, next) => {
     next();
 }
 
-const validVerificationToken = (req, res, next) => {
+const verificationTokenValid = (req, res, next) => {
+    next();
+}
+
+const emailExists = (req, res, next) => {
+    next();
+}
+
+const recoveryTokenValid = (req, res, next) => {
+    next();
+}
+
+const accessTokenValid = (req, res, next) => {
+    try {
+        jwt.verify(token, process.env.ACCESS_SECRET);
+    } catch (err) {
+        res.sendStatus(403);
+    }
     next();
 }
 
 module.exports = {
-    uniqueCredentials,
+    credentialsUnique,
     loggedIn,
     loggedOut,
+    emailExists,
     loginDetailsCorrect,
-    validVerificationToken
+    verificationTokenValid,
+    recoveryTokenValid,
+    accessTokenValid
 }

@@ -60,4 +60,24 @@ async function requestVerification(req, res) {
     }
 }
 
-module.exports = { create, update, destroy, verify, requestVerification, getAll };
+async function recover(req, res) {
+    try {
+        User.recover(req.body.email, req.body.token);
+    } catch (err) {
+        res.status(500).json({ err });
+    }
+}
+
+async function requestRecovery(req, res) {
+    try {
+        User.requestRecovery(req.body.email);
+    } catch (err) {
+        res.status(500).json({ err });
+    }
+}
+
+async function sendToken(req, res) {
+    res.status(200).json(jwt.sign({ user_email: req.body.user_email }, process.env.ACCESS_SECRET, { algorithm: 'RS256' }));
+}
+
+module.exports = { create, update, destroy, verify, requestVerification, recover, requestRecovery, sendToken, getAll };
