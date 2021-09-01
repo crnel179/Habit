@@ -7,18 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="./static/css/login.css" type="text/css">
-    <script defer src="./static/js/loginHelpers.js"></script>
+    <link rel="stylesheet" href="./static/css/auth.css" type="text/css">
+    <script defer src="./static/js/auth.js"></script>
+    <script defer src="./static/js/authHandlers.js"></script>
     <title>Hubeats</title>
 </head>
 
 <body>
 
     <header>
-
-        <nav>
-            Navbar
-        </nav>
 
     </header>
 
@@ -31,12 +28,12 @@
 
             <form class="auth-form-body mt-3" id="login-form">
                 <label for="email-login">Email</label>
-                <input type="email" name="email-login" id="email-login" required>
+                <input type="email" name="email" id="email-login" required>
 
                 <label for="password-login">Password</label>
 
                 <div>
-                    <input type="password" name="password-login" class="password" id="password-login" required>
+                    <input type="password" name="password" class="password" id="password-login" required>
                     <i class="bi bi-eye-slash"></i>
                 </div>
 
@@ -55,18 +52,18 @@
 
             <form class="auth-form-body mt-3" id="registration-form">
                 <label for="email-reg">Email</label>
-                <input type="email" name="email-reg" id="email-reg" required>
+                <input type="email" name="email" id="email-reg" required>
 
                 <label for="password-reg">Password</label>
                 <div>
-                    <input type="password" name="password-reg" class="password" id="password-reg" required>
+                    <input type="password" name="password" class="password" id="password-reg" required>
                     <i class="bi bi-eye-slash"></i>
                 </div>
                 <p id="password-error"></p>
 
                 <label for="password-reg-repeat">Repeat password</label>
                 <div>
-                    <input type="password" name="password-reg-repeat" class="password" id="password-reg-repeat" required>
+                    <input type="password" name="password" class="password" id="password-reg-repeat" required>
                     <i class="bi bi-eye-slash"></i>
                 </div>
                 <p id="password-error-2"></p>
@@ -78,6 +75,23 @@
         </section>
 
 
+        <section id="verify-user-section" class="d-none d-flex flex-column align-items-center">
+
+            <h1>Enter the verification code we sent to your email address</h1>
+            <h2 id="verify-user-error"></h2>
+
+            <form class="auth-form-body mt-3" id="verify-user-form">
+                <label for="verification-code">Verification Code</label>
+                <input type="text" name="verificationCode" id="verification-code" required>
+
+                <p id="verification-error"></p>
+
+                <input type="submit" name="submit-verification" value="Verify account">
+            </form>
+
+        </section>
+
+
         <section id="recovery1-section" class="d-none d-flex flex-column align-items-center">
 
             <h1>Recover your Hubeats account</h1>
@@ -86,7 +100,7 @@
 
             <form id="recovery-form">
                 <label for="email-recovery">Email</label>
-                <input type="email" name="email-recovery" id="email-recovery" required>
+                <input type="email" name="email" id="email-recovery" required>
 
                 <input type="submit" name="submit-recovery" value="Submit">
             </form>
@@ -99,7 +113,7 @@
 
             <form id="recovery-form-2">
                 <label for="code-recovery">Verification Code</label>
-                <input type="text" name="code-recovery" id="code-recovery" required>
+                <input type="text" name="recoveryCode" id="code-recovery" required>
 
                 <input type="submit" name="code-recovery" value="Submit">
             </form>
@@ -108,7 +122,7 @@
     </main>
 
     <footer></footer>
-    
+
 </body>
 
 </html>

@@ -1,15 +1,33 @@
 version: '3'
 services:
+  api: 
+    image: node:12.18.4
+    working_dir: /code
+    ports:
+      - 3000:3000
+    environment:
+      - DB_NAME=habittracker
+      - DB_CONNECTION=mongodb+srv://habit-smashers21:pWGX766l3sYusCMA@habittracker.hms0s.mongodb.net/habitsmasher-db?retryWrites=true&w=majority
+    volumes:
+      - type: bind
+        source: ./api
+        target: /code
+    command: bash -c "npm install && npm start"
 
-    client:
-        container_name: habit_client_1
-        build: ./client
-        image: habit-client
-        ports:
-          - 8080:8080
-        working_dir: /code
-        volumes:
-          - type: bind
-            source: ./client
-            target: /code
-        command: ["http-server"]
+  auth:
+    image: node:12.18.4
+    ports: 
+      - 5000:5000
+    working_dir: /code
+    environment: 
+      - DB_NAME=habittracker
+      - DB_COLLECTION=users
+      - DB_CONNECTION=mongodb+srv://habit-smashers21:pWGX766l3sYusCMA@habittracker.hms0s.mongodb.net/habitsmasher-db?retryWrites=true&w=majority
+      - SALT_ROUNDS=10
+      - AUTH_SERVER_EMAIL=
+      - AUTH_SERVER_PASS=
+    volumes:
+      - type: bind
+        source: ./auth
+        target: /code
+    command: bash -c "npm install && npm start"

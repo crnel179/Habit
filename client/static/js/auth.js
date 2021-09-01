@@ -1,16 +1,24 @@
+//----------SCRIPTS THAT ARE RUN ON index.html PAGE----------------//
+
 // get the button and input elements
 const togglePassword = document.querySelectorAll('i');
 const newAccountBtn = document.querySelector('#new-account-btn')
 const recoveryBtn = document.querySelector('#pass-recovery-btn')
-const passwordReg = document.querySelector("input[name='password-reg']");
-const passwordRegRepeat = document.querySelector("input[name='password-reg-repeat']");
+const passwordReg = document.querySelector("#password-reg");
+const passwordRegRepeat = document.querySelector("#password-reg-repeat");
+// get the forms
+const loginForm = document.querySelector('#login-form');
+const registerForm = document.querySelector('#registration-form');
 
-// attach event listeners
+// attach button and input event listeners
 togglePassword.forEach(element => element.addEventListener('click', e => handleTogglePass(e)))
 newAccountBtn.addEventListener('click', e => showForm(e, 'registration'))
 recoveryBtn.addEventListener('click', e => showForm(e, 'recovery1'))
 passwordReg.addEventListener('change', e => validatePassword(e))
 passwordRegRepeat.addEventListener('change', e => validatePassword(e));
+// attach form event listeners
+loginForm.addEventListener('submit', e => requestLogin(e));
+registerForm.addEventListener('submit', e => requestRegistration(e))
 
 function handleTogglePass(e) {
     e.preventDefault();
@@ -36,7 +44,7 @@ function showForm(e, type) {
 
 function validatePassword(e) {
     e.preventDefault()
-    const passwords = document.querySelectorAll("input[name='password-reg'], input[name='password-reg-repeat']")
+    const passwords = document.querySelectorAll("#password-reg, #password-reg-repeat")
     let passErrors = document.querySelectorAll('#password-error, #password-error-2')
     const submitBtn = document.querySelector("input[name='submit-reg']");
     // set default error message as none and disable the submit button
