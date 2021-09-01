@@ -189,22 +189,22 @@ class User {
 
     }
 
-    static retrievePassword(email) {
+    static comparePassword(email, password) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const password = await db.collection('users').find(
+                const hash = await db.collection('users').findOne(
                     { "user_email": email },
                     {
                         projection: {
                             _id: false,
-                            "password": true
+                            "password": 1
                         }
                     })
-                if (!!token) resolve(password);
-                throw Error()
+                if (!hash || !bcrypt.compareSync(password, hash.password)) throw Error();
+                resolve(true);
             } catch (err) {
-                reject('error verifying token');
+                reject('error verifying fetching password');
             }
         })
 

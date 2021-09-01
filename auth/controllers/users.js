@@ -1,4 +1,5 @@
 const User = require('../model/User');
+const jwt = require('jsonwebtoken');
 
 // ––––––––––––– DEBUG –––––––––––––– //
 async function getAll(req, res) {
@@ -77,7 +78,7 @@ async function requestRecovery(req, res) {
 }
 
 function sendToken(req, res) {
-    res.status(200).json(jwt.sign({ user_email: req.body.user_email }, process.env.ACCESS_SECRET, { algorithm: 'RS256' }));
+    res.status(200).json(jwt.sign({ user_email: req.body.user_email }, process.env.ACCESS_SECRET));
 }
 
 async function refreshToken(req, res) {
