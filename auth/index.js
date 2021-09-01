@@ -1,16 +1,5 @@
-require('dotenv').config();
+const app = require('./server');
 
-const express = require('express');
-const cors = require('cors');
-const Connection = require('./dbConfig');
-const router = require('./router');
+const port = process.env.PORT || 5000;
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use('', router);
-
-Connection.open()
-    .then(app.listen(process.env.PORT));
-
-module.exports = app;
+app.listen(port, () => console.log(`express server started and listening at port ${port}`));
