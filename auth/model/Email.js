@@ -1,14 +1,13 @@
 const nodemailer = require('nodemailer');
 
 class Email {
-    #constructor() {
+    static types = () => {
+        return {
+            VERIFICATION: 'verification',
+            RECOVERY: 'recovery',
+            SECURITY_BREACH: 'security_breach'
+        }
     }
-}
-
-Email.types = {
-    VERIFICATION: 'verification',
-    RECOVERY: 'recovery',
-    SECURITY_BREACH: 'security_breach'
 }
 
 Email.verificationEmailTemplate = (verificationtoken) => {
@@ -35,21 +34,21 @@ Email.securityBreachEmailTemplate = () => {
 Email.sendCode = (recipient, token, type) => {
 
     let mailOptions = {
-        from: process.env.AUTH_SERVER_EMAIL,
-        pass: process.env.AUTH_SERVER_PASSWORD,
+        from: "HabitSmasherApp@gmail.com",//process.env.AUTH_SERVER_EMAIL,
+        pass: "hab1tpass!",//process.env.AUTH_SERVER_PASSWORD,
         to: recipient,
-        subject: this.types.VERIFICATION,
-        text: type == this.types.VERIFICATION ?
-            this.verificationEmailTemplate(token) :
-            this.recoveryEmailTemplate(token)
+        subject: Email.types.VERIFICATION,
+        text: type == Email.types.VERIFICATION ?
+            Email.verificationEmailTemplate(token) :
+            Email.recoveryEmailTemplate(token)
     }
 
     return new Promise(async (resolve, reject) => {
 
         try {
             let transporter = nodemailer.createTransport({
-                service: process.env.AUTH_SERVER_EMAIL_SERVICE, // e.g. 'gmail'
-                host: process.env.AUTH_SERVER_EMAIL_HOST, // e.g. 'smtp.gmail.com'
+                service: 'gmail', //process.env.AUTH_SERVER_EMAIL_SERVICE, // e.g. 'gmail'
+                host: 'smtp.gmail.com', //process.env.AUTH_SERVER_EMAIL_HOST, // e.g. 'smtp.gmail.com'
                 auth: {
                     user: mailOptions.from,
                     pass: mailOptions.pass

@@ -23,6 +23,7 @@ services:
       - DB_NAME=habittracker
       - DB_COLLECTION=users
       - DB_CONNECTION=mongodb+srv://habit-smashers21:pWGX766l3sYusCMA@habittracker.hms0s.mongodb.net/habitsmasher-db?retryWrites=true&w=majority
+      - SALT_ROUNDS=10
     volumes:
       - type: bind
         source: ./auth
