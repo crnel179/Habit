@@ -29,7 +29,10 @@ userRouter.put('/verify', check.verificationTokenValid, controller.verify);
 userRouter.post('/recovery', check.emailExists, controller.requestRecovery);
 userRouter.put('/recovery', check.recoveryTokenValid, controller.recover);
 
-tokenRouter.get('/', check.loggedIn, controller.sendToken);
-tokenRouter.post('/', check.accessTokenValid, (req, res) => { res.sendStatus(200) });
+userRouter.get('/login', [check.loggedOut, check.loginDetailsCorrect], controller.sendToken);
+userRouter.put('/logout', check.accessTokenValid, controller.invalidateAccessToken);
 
-module.exports = { userRouter };
+tokenRouter.get('/refresh', check.accessTokenValid, controller.refreshToken);
+tokenRouter.post('/authenticate', check.accessTokenValid, (req, res) => { res.sendStatus(200) });
+
+module.exports = { userRouter, tokenRouter };

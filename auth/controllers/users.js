@@ -76,8 +76,17 @@ async function requestRecovery(req, res) {
     }
 }
 
-async function sendToken(req, res) {
+function sendToken(req, res) {
     res.status(200).json(jwt.sign({ user_email: req.body.user_email }, process.env.ACCESS_SECRET, { algorithm: 'RS256' }));
 }
 
-module.exports = { create, update, destroy, verify, requestVerification, recover, requestRecovery, sendToken, getAll };
+async function refreshToken(req, res) {
+    await invalidateAccessToken(req, res);
+    sendToken();
+}
+
+async function invalidateAccessToken(req, res) {
+    // here we can remove access token from whitelist or can blacklist
+}
+
+module.exports = { create, update, destroy, verify, requestVerification, recover, requestRecovery, sendToken, refreshToken, invalidateAccessToken, getAll };

@@ -34,8 +34,8 @@ Email.securityBreachEmailTemplate = () => {
 Email.sendCode = (recipient, token, type) => {
 
     let mailOptions = {
-        from: "HabitSmasherApp@gmail.com",//process.env.AUTH_SERVER_EMAIL,
-        pass: "hab1tpass!",//process.env.AUTH_SERVER_PASSWORD,
+        from: process.env.AUTH_SERVER_EMAIL,
+        pass: rocess.env.AUTH_SERVER_PASSWORD,
         to: recipient,
         subject: Email.types.VERIFICATION,
         text: type == Email.types.VERIFICATION ?
