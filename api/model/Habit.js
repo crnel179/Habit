@@ -42,15 +42,48 @@ class Habit {
         })
     }
 
+    static create(body) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let user = 'sally@google.com'
+                const db = init()
+                const userData = await db.collection('users').find({ user_email: user }).toArray()
+                if (userData.habits[body.name]) {
+                    throw new Error('you have a habit with this name already')
+                } else {
+                    const update = { $set: { [`habits.${body.name}`]: body } };
+                    const created = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options)
+                    resolve(created)
+                }
 
-    // static update(name) {
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //             const db = await init();
-    //             const habitData = await db.collection.find()
-    //         }
-    //     })
-    // }
+            } catch (err) {
+                console.log(err)
+                reject('error in creating habit')
+            }
+        })
+    }
+
+
+    static updateCount(name) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let user = 'sally@google.com'
+                const db = init()
+                const userData = await db.collection('users').find({ user_email: user })
+                const currentCount = userData.habits["name"].dayCount.count
+                if (currentCount < userData.habits["name"].frequency) {
+                    const newCount = currentCount + 1;
+                    const update = { $set: { [`habits.${name}.dayCount.count`]: newCount } };
+                    const updated = await db.collection('users').findOneAndUpdate({ user_email: user }, update)
+                    resolve(updated);
+                }
+                resolve(userData)
+            } catch (err) {
+                console.log(err)
+                reject('error in updating your habit counter')
+            }
+        })
+    }
 
     //----------------------------------alternative update/ deletes method-----------------------------//
 
@@ -61,7 +94,7 @@ class Habit {
                 const db = await init();
                 const update = { $set: { [`habits.${name}`]: body } };
                 const options = { returnNewDocument: true };
-                const updatedHabits = db.collection.findOneAndUpdate({ user_email: user }, update, options);
+                const updatedHabits = await db.collection.findOneAndUpdate({ user_email: user }, update, options);
                 resolve(updatedHabits)
             }
             catch (err) {

@@ -40,6 +40,15 @@ async function update(req, res) {
     }
 }
 
+async function updateCount(req, res) {
+    try{
+        const updatedCount = await Habit.updateCount(req.params.name)
+    }
+    catch(err){
+
+    }
+}
+
 async function destroy(req, res) {
     try{
         const deletedHabit = await Habit.delete(req.params.name)

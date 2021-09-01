@@ -4,7 +4,7 @@ services:
     image: node:12.18.4
     working_dir: /code
     ports:
-      - 3030:3030
+      - 3000:3000
     environment:
       - DB_NAME=habittracker
       - DB_CONNECTION=mongodb+srv://habit-smashers21:pWGX766l3sYusCMA@habittracker.hms0s.mongodb.net/habitsmasher-db?retryWrites=true&w=majority
