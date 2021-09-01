@@ -67,3 +67,13 @@ function makeElement(element, atts) {
     }
     return newElement;
 }
+
+function logout(){
+    localStorage.clear();
+    // lwindow.location = 
+}
+
+function currentUser(){
+    const username = localStorage.getItem('username')
+    return username;
+}
