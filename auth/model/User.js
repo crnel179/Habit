@@ -52,7 +52,7 @@ class User {
 
             try {
                 const db = await init();
-                await db.collection('users').insertOne({ userinfo });
+                await db.collection('users').insertOne({ ...userinfo });
                 // console.log(resp);
                 resolve(userinfo.user_email);
             } catch (err) {
@@ -75,12 +75,12 @@ class User {
         });
     }
 
-    static delete(email) {
+    static delete(user_email) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                await db.collection(process.env.DB_COLLECTION).deleteOne({ user_email: email });
-                resolve(`deleted user ${email}`);
+                await db.collection('users').deleteOne({ "user_email": user_email });
+                resolve(user_email);
             } catch (err) {
                 reject('error: could not delete user');
             }
@@ -91,7 +91,7 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const res = await db.collection(process.env.DB_COLLECTION).findOne({ user_email: email });
+                const res = await db.collection('users').findOne({ user_email: email });
                 if (!res) resolve(false);
                 resolve(true);
             } catch (err) {

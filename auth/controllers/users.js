@@ -36,8 +36,8 @@ async function update(req, res) {
 
 async function destroy(req, res) {
     try {
-        const deletedUser = await User.delete(req.body.email);
-        res.status(200).json(deletedUser);
+        await User.delete(req.body.user_email);
+        res.sendStatus(200);
     }
     catch (err) {
         res.status(400).json({ err });
