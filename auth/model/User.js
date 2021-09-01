@@ -1,5 +1,6 @@
 const init = require('../dbConfig')
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const Email = require('./Email');
 
 class User {
@@ -105,6 +106,7 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 // (OGWJ) TODO: copy over logic here.
+                resolve()
             } catch (err) {
                 reject('error verifying token');
             }
@@ -115,9 +117,10 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const newToken = crypto.randomBytes(10).toString('hex');
+                const newToken = await crypto.randomBytes(10).toString('hex');
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": newToken, "verification.timeRequested": Date() } })
-                await Email.sendCode(email, newToken, Email.types.VERIFICATION);
+                // await Email.sendCode(email, newToken, Email.types.VERIFICATION);
+                resolve();
             } catch (err) {
                 reject('error requesting token');
             }
@@ -129,6 +132,7 @@ class User {
             try {
                 const db = await init();
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "recovery.token": null } })
+                resolve();
             } catch (err) {
                 reject('error verifying token');
             }
@@ -142,6 +146,7 @@ class User {
                 const newToken = crypto.randomBytes(10).toString('hex');
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "recovery.token": newToken, "recovery.timeRequested": Date() } })
                 await Email.sendCode(email, newToken, Email.types.RECOVERY);
+                resolve();
             } catch (err) {
                 reject('error requesting token');
             }

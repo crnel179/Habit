@@ -55,17 +55,19 @@ async function verify(req, res) {
 
 async function requestVerification(req, res) {
     try {
-        User.requestVerification(req.body.email);
+        await User.requestVerification(req.body.user_email);
+        res.sendStatus(200);
     } catch (err) {
-        res.status(500).json({ err });
+        res.status(401).json({ err });
     }
 }
 
 async function recover(req, res) {
     try {
-        User.recover(req.body.email, req.body.token);
+        await User.recover(req.body.email, req.body.token);
+        res.sendStatus(200);
     } catch (err) {
-        res.status(500).json({ err });
+        res.status(401).json({ err });
     }
 }
 
@@ -83,12 +85,12 @@ function sendToken(req, res) {
 
 async function refreshToken(req, res) {
     await invalidateAccessToken(req, res);
-    sendToken();
+    res.status(200).json(jwt.sign({ user_email: req.body.user_email }, process.env.ACCESS_SECRET));
 }
 
 async function invalidateAccessToken(req, res) {
     // here we can remove access token from whitelist or can blacklist
-    res.sendStatus(204);
+    return;
 }
 
 module.exports = { create, update, destroy, verify, requestVerification, recover, requestRecovery, sendToken, refreshToken, invalidateAccessToken, getAll };
