@@ -66,59 +66,57 @@ class Habit {
 
     static updateCount(name) {
         return new Promise(async (resolve, reject) => {
-            try{
+            try {
                 let user = 'sally@google.com'
                 const db = init()
-                const userData = await db.collection('users').find({user_email:user})
-                if (userData.habits[])
-                resolve(`count:${}`)
-            } catch(err){
+                const userData = await db.collection('users').find({ user_email: user })
+                const currentCount = userData.habits["name"].dayCount.count
+                if (currentCount < userData.habits["name"].frequency) {
+                    const newCount = currentCount + 1;
+                    const update = { $set: { [`habits.${name}.dayCount.count`]: newCount } };
+                    const updated = await db.collection('users').findOneAndUpdate({ user_email: user }, update)
+                    resolve(updated);
+                }
+                resolve(userData)
+            } catch (err) {
                 console.log(err)
                 reject('error in updating your habit counter')
             }
         })
-}
-    // static update(name) {
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //             const db = await init();
-    //             const habitData = await db.collection.find()
-    //         }
-    //     })
-    // }
+    }
 
     //----------------------------------alternative update/ deletes method-----------------------------//
 
 
     static update(name, body) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const db = await init();
-            const update = { $set: { [`habits.${name}`]: body } };
-            const options = { returnNewDocument: true };
-            const updatedHabits = await db.collection.findOneAndUpdate({ user_email: user }, update, options);
-            resolve(updatedHabits)
-        }
-        catch (err) {
-            console.log(err)
-            reject('error: could not update')
-        }
-    })
-}
+        return new Promise(async (resolve, reject) => {
+            try {
+                const db = await init();
+                const update = { $set: { [`habits.${name}`]: body } };
+                const options = { returnNewDocument: true };
+                const updatedHabits = await db.collection.findOneAndUpdate({ user_email: user }, update, options);
+                resolve(updatedHabits)
+            }
+            catch (err) {
+                console.log(err)
+                reject('error: could not update')
+            }
+        })
+    }
 
     static destroy(name) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const db = await init();
-            const removed = db.collection.remove({ user_email: user }, { $unset: { [`habits.${name}`]: "" } });
-            resolve(removed)
-        }
-        catch (err) {
-            console.log(err)
-            reject('error in deleting this habit')
-        }
-    })
-}
+        return new Promise(async (resolve, reject) => {
+            try {
+                const db = await init();
+                const removed = db.collection.remove({ user_email: user }, { $unset: { [`habits.${name}`]: "" } });
+                resolve(removed)
+            }
+            catch (err) {
+                console.log(err)
+                reject('error in deleting this habit')
+            }
+        })
+    }
 }
 
 //---------------------------------------------------------------------------------------//
