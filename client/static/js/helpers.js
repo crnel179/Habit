@@ -24,10 +24,10 @@ const btnFields = [
 // data for rendering p tags with habit info
 const pFields = [
     ['tag', "Tag:"],
-    ['startDate', "Start Date:"],
+    ['start_date', "Start Date:"],
     ['priority', "Priority:"],
     ['frequency', "Frequency (times per day):"],
-    ['highestStreak', "Highest streak:"]
+    ['highest_streak', "Highest Streak:"]
 ]
 
 
@@ -76,7 +76,7 @@ function habitStatusDiv(habit) {
     countBtn.addEventListener('click', e => updateCompletion(e, habit.name))
     // create span for displaying the count
     const countSpan = makeElement('span', {class: "daily-count"});
-    countSpan.innerText = `${habit.dailyCount}/${habit.frequency}`;
+    countSpan.innerText = `${habit.dayCount.count}/${habit.frequency}`;
     div.append(countBtn, countSpan);
     return div;
 }
