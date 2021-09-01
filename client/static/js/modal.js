@@ -1,3 +1,5 @@
+//--------FUNCTIONS HANDLING MODALS, AVAILABLE TO ALL MODULES------------//
+
 function closeModal(e) {
     e.preventDefault();
     // get the closest section tag (i.e. modal)
