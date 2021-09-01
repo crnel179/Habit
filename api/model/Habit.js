@@ -47,11 +47,11 @@ class Habit {
             try {
                 let user = 'sally@google.com'
                 const db = init()
-                const update = { $set: { [`habits.${body.name}`]: body } };
-                const userData = await await db.collection('users').find({ user_email: user }).toArray()
-                if (checkUser.habits[body.name]) {
+                const userData = await db.collection('users').find({ user_email: user }).toArray()
+                if (userData.habits[body.name]) {
                     throw new Error('you have a habit with this name already')
                 } else {
+                    const update = { $set: { [`habits.${body.name}`]: body } };
                     const created = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options)
                     resolve(created)
                 }
@@ -62,10 +62,21 @@ class Habit {
             }
         })
     }
-}
 
-    static addCount(){
 
+    static updateCount(name) {
+        return new Promise(async (resolve, reject) => {
+            try{
+                let user = 'sally@google.com'
+                const db = init()
+                const userData = await db.collection('users').find({user_email:user})
+                if (userData.habits[])
+                resolve(`count:${}`)
+            } catch(err){
+                console.log(err)
+                reject('error in updating your habit counter')
+            }
+        })
 }
     // static update(name) {
     //     return new Promise(async (resolve, reject) => {
