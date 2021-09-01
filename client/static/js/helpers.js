@@ -89,7 +89,7 @@ function makeElement(element, atts) {
 
 function logout(){
     localStorage.clear();
-    // window.location =
+    console.log('logged out');
 }
 
 function currentUser(){

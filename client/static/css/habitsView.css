@@ -27,3 +27,16 @@
     color: black;
     cursor: pointer;
 }
+
+
+.float-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  color: black;
+  border: solid 5px #C5A48D;
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  cursor: pointer;
+}
