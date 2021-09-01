@@ -4,6 +4,7 @@ const closeModalBtn = document.querySelectorAll('.close-modal')
 openModalBtn.addEventListener('click', e => showNewHabitModal(e))
 closeModalBtn.forEach(btn => btn.addEventListener('click', e => closeModal(e)))
 
+
 let dummyRes = [
     {
         name: 'meditating',
@@ -22,21 +23,45 @@ let dummyRes = [
             priority: true
         },
         {
+            name: 'jogging',
+            tag: 'health',
+            frequency: 1,
+            datesCompleted: ['30-08-2021', '31-08-2021'],
+            highestStreak: 2,
+            priority: false
+        },
+        {
             name: 'swimming',
             tag: 'sport',
             frequency: 1,
             datesCompleted: ['30-08-2021', '31-08-2021'],
             highestStreak: 5,
             priority: false
+        },
+        {
+            name: 'drinking water',
+            tag: 'welness',
+            frequency: 3,
+            datesCompleted: ['30-08-2021', '31-08-2021'],
+            highestStreak: 7,
+            priority: false
         }
 ]
 
-// get all habits
-//const allHabits = getAllHabits();
+const category = window.location.hash.substring(1);
+category ? renderHabitsView(category): renderHabitsView();
 
-renderHabitsView(dummyRes);
+//
+// renderHabitsView(dummyRes);
 
-function renderHabitsView(allHabits) {
+async function renderHabitsView(filter=null) {
+    // get all habits
+    //const allHabits = await getAllHabits();
+    let allHabits = dummyRes;
+
+    if (filter) {
+        allHabits = dummyRes.filter(i => i.tag === `${filter}`);
+    }
 
     allHabits.forEach(habit => {
         const habitCard = renderHabitCard(habit);
