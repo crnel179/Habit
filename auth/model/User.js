@@ -190,6 +190,27 @@ class User {
 
     }
 
+    static retrievePassword(email) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const db = await db.init();
+                const password = await db.collection('users').find(
+                    { "user_email": email },
+                    {
+                        projection: {
+                            _id: false,
+                            "password": true
+                        }
+                    })
+                if (!!token) resolve(password);
+                throw Error()
+            } catch (err) {
+                reject('error verifying token');
+            }
+        })
+
+    }
+
 }
 
 module.exports = User;
