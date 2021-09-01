@@ -8,12 +8,21 @@ class User {
         this.verification = body.verification;
     }
 
+    get json() {
+        return {
+            "user_name": this.name,
+            "user_email": this.email,
+            "user_password": this.password,
+            "user_verification": this.verification
+        }
+    }
+
 
     static getAll() {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const users = await db.collection(process.env.DB_COLLECTION).find({}).toArray();
+                const users = await db.collection('users').find({}).toArray();
                 resolve(users);
             } catch (err) {
                 reject('error: could not get users');
@@ -33,11 +42,14 @@ class User {
         body.password = bcrypt.hashSync(body.password, process.env.SALT_ROUNDS);
         const user = new User(body);
 
+        console.log(user.json);
+
         return new Promise(async (resolve, reject) => {
 
             try {
                 const db = await init();
-                await db.collection(process.env.DB_COLLECTION).insertOne(user)
+                resp = await db.collection('users').insertOne(user.json);
+                console.log(resp);
             } catch (err) {
                 reject('error: could not create user');
             }
@@ -48,7 +60,7 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const user = await db.collection(process.env.DB_COLLECTION).findOne({ user_email: email });
+                const user = await db.collection('users').findOne({ user_email: email });
                 // (OGWJ) TODO: Implement logic for updating user info.
                 resolve(`updated user ${email}`);
             } catch (err) {

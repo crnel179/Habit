@@ -3,7 +3,7 @@ const User = require('../model/User');
 // ––––––––––––– DEBUG –––––––––––––– //
 async function getAll(req, res) {
     try {
-        const users = await User.getAll;
+        const users = await User.getAll();
         res.status(201).json({ users });
     }
     catch (err) {
@@ -15,6 +15,7 @@ async function getAll(req, res) {
 
 async function create(req, res) {
     try {
+        console.log(req.body);
         const newUser = await User.create(req.body);
         res.status(201).json({ email: newUser.email });
     }
