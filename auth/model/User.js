@@ -40,7 +40,7 @@ class User {
 
         let userinfo = {
             "user_email": body.user_email,
-            "pseudoname": body.user_name,
+            "user_name": body.user_name,
             "password": hash,
             "habits": {},
             "verification": {
@@ -105,8 +105,9 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const validToken = User.retrieveVerificationToken(email);
-                if (!validToken || token !== validToken) throw Error();
+                // const validToken = User.retrieveVerificationToken(email);
+                // console.log(validToken);
+                // if (!validToken || token !== validToken) throw Error();
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": null, "verification.status": true } })
                 resolve(true)
             } catch (err) {
@@ -184,10 +185,14 @@ class User {
                     {
                         projection: {
                             _id: false,
-                            "verification.token": true
+                            // verification: {
+                            //     token: 1
+                            // },
+                            "password": 1
                         }
                     })
-                if (!!token) resolve(token);
+                console.log(token.user_name);
+                if (!!token) resolve(token.token);
                 throw Error()
             } catch (err) {
                 reject('error verifying token');
