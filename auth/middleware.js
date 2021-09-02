@@ -1,5 +1,6 @@
 const User = require('./model/User');
 const jwt = require('jsonwebtoken');
+const blacklist = require('./data/tokenBlacklist');
 
 const loggedIn = (req, res, next) => {
     // (OGWJ) NOTE: Perhaps accessTokenValid middleware is enough to test this?
@@ -63,7 +64,7 @@ const recoveryTokenValid = async (req, res, next) => {
 const accessTokenValid = (req, res, next) => {
     try {
         jwt.verify(req.body.token, process.env.ACCESS_SECRET);
-        // (OGWJ) TODO: conditional check whitelist/blacklist for token;
+        if (blacklist.includes(req.body.token)) throw Error();
     } catch (err) {
         res.sendStatus(401);
     }

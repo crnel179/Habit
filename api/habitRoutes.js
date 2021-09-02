@@ -2,13 +2,13 @@ const express = require ('express')
 const router = express.Router()
 const habitsController = require('./controllers/habits')
 
-router.get('/', habitsController.index)
-router.post('/', habitsController.create)
+router.get('/:user/', habitsController.index)
+router.post('/:user/', habitsController.create)
 
 
-router.get('/:name', habitsController.show)
-router.put('/:name', habitsController.update)
-router.put('/:name/count', habitsController.updateCount)
-router.delete('/:name', habitsController.destroy)
+router.get('/:user/:name', habitsController.show)
+router.put('/:user/:name', habitsController.update)
+router.put('/:user/:name/:count', habitsController.updateCount)
+router.delete('/:user/:name', habitsController.destroy)
 
 module.exports = router;

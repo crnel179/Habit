@@ -67,8 +67,7 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const user = await db.collection('users').findOne({ "user_email": email });
-                // (OGWJ) TODO: Implement logic for updating user info.
+                await db.collection('users').updateOne({ "user_email": email }, { $set: { [update.parameter]: update.value } });
                 resolve(`updated user ${email}`);
             } catch (err) {
                 reject('error: could not update user info');
@@ -123,7 +122,7 @@ class User {
                 const newToken = await crypto.randomBytes(10).toString('hex');
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": newToken, "verification.timeRequested": Date() } })
                 // await Email.sendCode(email, newToken, Email.types.VERIFICATION);
-                resolve();
+                resolve(newToken);
             } catch (err) {
                 reject('error requesting token');
             }

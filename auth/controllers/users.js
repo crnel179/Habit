@@ -1,5 +1,6 @@
 const User = require('../model/User');
 const jwt = require('jsonwebtoken');
+const blacklist = require('../data/tokenBlacklist');
 
 // ––––––––––––– DEBUG –––––––––––––– //
 async function getAll(req, res) {
@@ -26,8 +27,16 @@ async function create(req, res) {
 
 async function update(req, res) {
     try {
-        await User.update(req.body.email, req.body.update);
+        // Only accept one valid user param update at a time!
+        const validKeys = ["user_email", "pseudoname", "password"];
+        const givenKey = req.body.update.keys()[0];
+        if (!validKeys.includes(givenKey)) return res.sendStatus(401);
+        const update = {
+            parameter: givenKey, value: req.body.update.entries()[0].value
+        }
+        await User.update(req.body.email, update);
         res.sendStatus(200);
+
     }
     catch (err) {
         // (OGWJ) TODO: check http code here
@@ -55,8 +64,14 @@ async function verify(req, res) {
 
 async function requestVerification(req, res) {
     try {
-        await User.requestVerification(req.body.user_email);
-        res.sendStatus(200);
+        // (OGWJ) NOTE: I have commented out email send for client side debugging. 
+        //              This temporarily returns the token directly.
+        //
+        //              await User.requestVerification(req.body.user_email);
+        //              res.sendStatus(200);
+        const verificationCode = await User.requestVerification(req.body.user_email)
+
+        res.status(200).json({ verificationCode });
     } catch (err) {
         res.status(401).json({ err });
     }
@@ -89,7 +104,7 @@ async function refreshToken(req, res) {
 }
 
 async function invalidateAccessToken(req, res) {
-    // here we can remove access token from whitelist or can blacklist
+    blacklist.push(req.body.token);
     return;
 }
 
