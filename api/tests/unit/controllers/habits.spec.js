@@ -11,9 +11,11 @@ describe('habits controller', () => {
 
     afterAll(() => jest.resetAllMocks());
 
+    /* no longer works, issue with the expect(mockStatus).toHaveBeenCalledWith(200); receiving 404 */
+
     describe('index', () => {
         test('it returns a habit with a 200 status code', async () => {
-            jest.spyOn(Habit, 'all', 'get')
+            jest.spyOn(Habit, 'all')
                  .mockResolvedValue(['habit1', 'habit2']);
             await habitController.index(null, mockRes);
             expect(mockStatus).toHaveBeenCalledWith(200);
@@ -30,6 +32,8 @@ describe('habits controller', () => {
                         name: 'test',
                         tag: 'test',
                         dates_completed: ['30-08-2021', '31-08-2021'],
+                        frequency: 1,
+                        dayCount: {date: '01-09-21', completed: false, count:0},
                         highest_streak: 2,
                         priority: true
                     }
@@ -45,9 +49,6 @@ describe('habits controller', () => {
         })
     });
 
-    /* THIS DOES NOT PASS AS THERE IS NO CREATE METHOD WITHIN /model/Habit.js */
-
-    /*
     describe('create', () => {
         test('it creates and returns a new habit with a 201 status code', async () => {
             let testHabit = {   
@@ -57,6 +58,8 @@ describe('habits controller', () => {
                         name: 'test',
                         tag: 'test',
                         dates_completed: ['30-08-2021', '31-08-2021'],
+                        frequency: 1,
+                        dayCount: {date: '01-09-21', completed: false, count:0},
                         highest_streak: 2,
                         priority: true
                     }
@@ -70,7 +73,60 @@ describe('habits controller', () => {
             expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
         })
     });
-    */
+    
+    describe('update', () => {
+        test('it updates a current habit with a 200 status code', async () =>{
+            let testHabit = {   
+                test:
+                    {
+                        start_date: '28-11-2021',
+                        name: 'test',
+                        tag: 'test',
+                        dates_completed: ['30-08-2021', '31-08-2021'],
+                        frequency: 1,
+                        dayCount: {date: '01-09-21', completed: false, count:0},
+                        highest_streak: 2,
+                        priority: true
+                    }
+                }
+
+            jest.spyOn(Habit, 'update')
+                .mockResolvedValue(new Habit(testHabit))
+
+            const mockReq = { params: { name: 'test' } }
+            await habitController.update(mockReq, mockRes);
+            expect(mockStatus).toHaveBeenCalledWith(200);
+            expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
+        })
+    })
+
+    describe('updateCount', () => {
+        test('it updates a current habits streak count with a ? status code', async () =>{
+            let testHabit = {   
+                test:
+                    {
+                        start_date: '28-11-2021',
+                        name: 'test',
+                        tag: 'test',
+                        dates_completed: ['30-08-2021', '31-08-2021'],
+                        frequency: 1,
+                        dayCount: {date: '01-09-21', completed: false, count:0},
+                        highest_streak: 2,
+                        priority: true
+                    }
+                }
+
+            jest.spyOn(Habit, 'updateCount')
+                .mockResolvedValue(new Habit(testHabit))
+
+            const mockReq = { params: { name: 'test' } }
+            await habitController.updateCount(mockReq, mockRes); 
+            expect(mockStatus).toHaveBeenCalledWith(200); 
+            expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
+        })
+    })
+
+    /* no longer works, "Cannot spy the destroy property because it is not a function; undefined given instead" */
 
     describe('destroy', () => {
         test('it returns a 200 status code on successful deletion', async () => {
