@@ -114,6 +114,21 @@ class User {
         })
     }
 
+    static isVerified(email) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const db = await init();
+                const userInfo = await db.collection('users').findOne({ "user_email": email });
+                console.log(`user verified: ${userInfo.verification.status}`);
+                resolve(userInfo.verification.status);
+            } catch (err) {
+                console.log(err);
+                reject('error verifying token');
+            }
+        })
+
+    }
+
     static requestVerification(email) {
         return new Promise(async (resolve, reject) => {
             try {
