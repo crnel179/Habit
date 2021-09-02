@@ -69,7 +69,8 @@ async function requestVerification(req, res) {
         //
         //              await User.requestVerification(req.body.user_email);
         //              res.sendStatus(200);
-        const verificationCode = await User.retrieveVerificationToken(req.body.user_email)
+        const verificationCode = await User.requestVerification(req.body.user_email)
+
         res.status(200).json({ verificationCode });
     } catch (err) {
         res.status(401).json({ err });
