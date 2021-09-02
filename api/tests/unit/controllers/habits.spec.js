@@ -116,7 +116,7 @@ describe('habits controller', () => {
 
             const mockReq = { params: { name: 'test' } }
             await habitController.updateCount(mockReq, mockRes); //i dont believe this works because the try and catch function in updateCount is not complete
-            // expect(mockStatus).toHaveBeenCalledWith(200); status code has not been disclosed yet in habits.js
+            expect(mockStatus).toHaveBeenCalledWith(200); 
             expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
         })
     })
