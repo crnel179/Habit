@@ -9,11 +9,13 @@ class Habit {
         this.priority = body.priority
     }
 
-    static get all() {
+    static all(user) {
         return new Promise(async (resolve, reject) => {
             try {
-                let user = 'jo@google.com';
+                
+               // let user = 'jo@google.com';
                 const db = await init();
+                console.log(user)
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const habits = userData[0].habits;
                 resolve(habits);
@@ -54,18 +56,11 @@ class Habit {
                 const userData = await db.collection('users').find({ user_email: user }).toArray()
                 if (userData[0].habits[body.name]) {
                     throw new Error('you have a habit with this name already')
-<<<<<<< HEAD
-=======
-                } else {
-                    const options = { returnNewDocument: true };
-                    const update = { $set: { [`habits.${body.name}`]: body } };
-                    const created = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options)
-                    resolve(created)
->>>>>>> development
                 }
                 else if (body.priority == true) {
                     Habit.resetPriority()
                 }
+                const options = { returnNewDocument: true };
                 const update = { $set: { [`habits.${body.name}`]: body } };
                 const created = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options)
                 resolve(created)
@@ -166,9 +161,4 @@ class Habit {
 //     }
 //
 
-<<<<<<< HEAD
-
 module.exports = Habit;
-=======
-module.exports = Habit;
->>>>>>> development

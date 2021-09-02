@@ -2,7 +2,7 @@ const Habit = require('../model/Habit');
 
 async function index(req, res) {
     try{
-        const habits = await Habit.all;
+        const habits = await Habit.all(req.params.user);
         res.status(200).json( habits )
     }
     catch(err){
@@ -60,8 +60,4 @@ async function destroy(req, res) {
     }
 }
 
-<<<<<<< HEAD
 module.exports = { index, show, create, update, destroy, updateCount }
-=======
-module.exports = { index, show, create, update, destroy, updateCount }
->>>>>>> development
