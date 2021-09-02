@@ -56,7 +56,8 @@ async function destroy(req, res) {
 
 async function verify(req, res) {
     try {
-        User.verify(req.body.email, req.body.token);
+        await User.verify(req.body.user_email);
+        res.sendStatus(200);
     } catch (err) {
         res.status(500).json({ err });
     }
