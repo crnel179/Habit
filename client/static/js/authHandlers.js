@@ -7,7 +7,7 @@ async function requestLogin(e){
     e.preventDefault();
     try {
         const formData = Object.fromEntries(new FormData(e.target));
-        console.log(formData);
+        formData.user_email = formData.email;
         const options = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -17,6 +17,7 @@ async function requestLogin(e){
         const data = await res.json()
         // if (data.err){ throw Error(data.err); }
         login(data);
+        //window.location = './static/html/landing.html'
     } catch (err) {
         console.warn(`Error: ${err}`);
     }
@@ -57,6 +58,7 @@ async function requestEmailVerification(formData) {
 
 async function verifyEmail(e) {
     e.preventDefault();
+    console.log('verify email');
     try {
         const formData = Object.fromEntries(new FormData(e.target));
         formData.user_email = localStorage.getItem('email');
@@ -69,6 +71,7 @@ async function verifyEmail(e) {
         }
         const res = await fetch(`${url}users/verify`, options)
         const data = await res.json()
+        console.log(data);
 
     } catch (err) {
         console.warn(`Error: ${err}`);
