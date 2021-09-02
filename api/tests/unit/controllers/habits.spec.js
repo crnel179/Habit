@@ -11,6 +11,8 @@ describe('habits controller', () => {
 
     afterAll(() => jest.resetAllMocks());
 
+    /* no longer works, issue with the expect(mockStatus).toHaveBeenCalledWith(200); receiving 404 */
+
     describe('index', () => {
         test('it returns a habit with a 200 status code', async () => {
             jest.spyOn(Habit, 'all')
@@ -72,8 +74,6 @@ describe('habits controller', () => {
         })
     });
     
-    /* update test */
-
     describe('update', () => {
         test('it updates a current habit with a 200 status code', async () =>{
             let testHabit = {   
@@ -100,9 +100,6 @@ describe('habits controller', () => {
         })
     })
 
-
-    /* update count test */
-
     describe('updateCount', () => {
         test('it updates a current habits streak count with a ? status code', async () =>{
             let testHabit = {   
@@ -123,12 +120,13 @@ describe('habits controller', () => {
                 .mockResolvedValue(new Habit(testHabit))
 
             const mockReq = { params: { name: 'test' } }
-            await habitController.updateCount(mockReq, mockRes); //i dont believe this works because the try and catch function in updateCount is not complete
+            await habitController.updateCount(mockReq, mockRes); 
             expect(mockStatus).toHaveBeenCalledWith(200); 
             expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
         })
     })
 
+    /* no longer works, "Cannot spy the destroy property because it is not a function; undefined given instead" */
 
     describe('destroy', () => {
         test('it returns a 200 status code on successful deletion', async () => {

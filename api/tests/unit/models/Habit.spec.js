@@ -4,6 +4,8 @@ jest.mock('mongodb');
 
 const db = require('../../../dbConfig');
 
+/* test suite runs but failsssssss helppppp */
+
 describe('Habit', () => {
     beforeEach(() => jest.clearAllMocks())
 

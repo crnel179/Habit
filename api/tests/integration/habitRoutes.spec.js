@@ -5,8 +5,7 @@ const mongoDB = "mongo://127.0.0.1/test"
 
 /*  these tests are driving me nuts, there is a problem with the above things
     the app.listen and api.close functions are not working 
-    causing all the tests to fail
-    i think i need to use mongoose? 
+    causing all the tests to fail 
 */
 
 describe('habits endpoints', () => {
@@ -19,6 +18,8 @@ describe('habits endpoints', () => {
     beforeAll(async () => {
         api = app.listen(5000, () => console.log('Test server running on port 5000'))
     });
+
+    /* i do not believe this function is relevant in mongo */
 
     // beforeEach(async () => {
     //     await resetTestDB();
