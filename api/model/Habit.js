@@ -9,10 +9,9 @@ class Habit {
         this.priority = body.priority
     }
 
-    static get all() {
+    static all(user) {
         return new Promise(async (resolve, reject) => {
             try {
-                let user = 'jo@google.com';
                 const db = await init();
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const habits = userData[0].habits;
@@ -24,10 +23,11 @@ class Habit {
         })
     }
 
-    static findByName(name) {
+    static findByName(user, name) {
         return new Promise(async (resolve, reject) => {
             try {
-                let user = 'sally@google.com' // substitute until system has been built on in passing the user credentials
+                console.log(user);
+                console.log(name);
                 const db = await init();
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const allHabits = userData[0].habits;
@@ -46,20 +46,21 @@ class Habit {
         })
     }
 
-    static create(body) {
+    static create(user, body) {
         return new Promise(async (resolve, reject) => {
             try {
-                let user = 'sally@google.com'
                 const db = await init()
                 const userData = await db.collection('users').find({ user_email: user }).toArray()
-                if (userData[0].habits[body.name]) {
-                    throw new Error('you have a habit with this name already')
-                } else {
-                    const options = { returnNewDocument: true };
-                    const update = { $set: { [`habits.${body.name}`]: body } };
-                    const created = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options)
-                    resolve(created)
-                }
+                // if (userData[0].habits[body.name]) {
+                //     throw new Error('you have a habit with this name already')
+                // }
+                // else if (body.priority == true) {
+                //     Habit.resetPriority()
+                // }
+                const options = { returnNewDocument: true };
+                const update = { $set: { [`habits.${body.name}`]: body } };
+                const created = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options)
+                resolve(created)
 
             } catch (err) {
                 console.log(err)
@@ -69,18 +70,26 @@ class Habit {
     }
 
 
-    static updateCount(name) {
+    static updateCount(user, name) {
         return new Promise(async (resolve, reject) => {
             try {
-                let user = 'sally@google.com'
-                const db = init()
-                const userData = await db.collection('users').find({ user_email: user })
-                const currentCount = userData.habits["name"].dayCount.count
-                if (currentCount < userData.habits["name"].frequency) {
+                const db = await init()
+                const userData = await db.collection('users').find({ user_email: user }).toArray()
+                const habit = userData[0].habits["name"]
+                const currentCount = habit.dayCount.count
+
+                if (currentCount < habit.frequency) {
                     const newCount = currentCount + 1;
-                    const update = { $set: { [`habits.${name}.dayCount.count`]: newCount } };
+                    const update = { $set: { [`${habit}.dayCount.count`]: newCount } };
                     const updated = await db.collection('users').findOneAndUpdate({ user_email: user }, update)
                     resolve(updated);
+                }
+                else if (currentCount == habit.frequency && habit.dayCount.completed == false) {
+                    const update =
+                    {
+                        $set: { [`${habit}.dayCount.completed`]: true, 'habit.highest_streak': Habit.compareStreak() }
+                    }
+                    db.collection('users').findOneAndUpdate({ user_email: user }, update)
                 }
                 resolve(userData)
             } catch (err) {
@@ -90,16 +99,13 @@ class Habit {
         })
     }
 
-    //----------------------------------alternative update/ deletes method-----------------------------//
-
-
-    static update(name, body) {
+    static update(user, name, body) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
                 const update = { $set: { [`habits.${name}`]: body } };
                 const options = { returnNewDocument: true };
-                const updatedHabits = await db.collection.findOneAndUpdate({ user_email: user }, update, options);
+                const updatedHabits = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options);
                 resolve(updatedHabits)
             }
             catch (err) {
@@ -109,11 +115,11 @@ class Habit {
         })
     }
 
-    static destroy(name) {
+    static delete(user, name) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const removed = db.collection.remove({ user_email: user }, { $unset: { [`habits.${name}`]: "" } });
+                const removed = await db.collection('users').findOneAndUpdate({ user_email: user }, { $unset: { [`habits.${name}`]: "" } });
                 resolve(removed)
             }
             catch (err) {
@@ -121,6 +127,12 @@ class Habit {
                 reject('error in deleting this habit')
             }
         })
+    }
+
+
+
+    static compareSteak() {
+
     }
 }
 

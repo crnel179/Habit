@@ -39,9 +39,18 @@ const emailDoesNotExist = async (req, res, next) => {
     next();
 }
 
+const userVerified = async (req, res, next) => {
+    try {
+        if (!await User.isVerified(req.body.user_email)) throw Error();
+    } catch (err) {
+        res.sendStatus(401);
+    }
+    next();
+}
+
 const verificationTokenValid = async (req, res, next) => {
     try {
-        const token = await User.retrieveVerificationToken(req.body.email);
+        const token = await User.retrieveVerificationToken(req.body.user_email);
         if (token !== req.body.token) return res.sendStatus(401);
         // (OGWJ) TODO: Check if expired.
     } catch (err) {
@@ -77,6 +86,7 @@ module.exports = {
     emailExists,
     emailDoesNotExist,
     loginDetailsCorrect,
+    userVerified,
     verificationTokenValid,
     recoveryTokenValid,
     accessTokenValid

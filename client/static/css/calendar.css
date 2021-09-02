@@ -27,6 +27,7 @@ button {
 
 #header button {
     background-color: blue;
+    border-radius: 40%;
 }
 
 #container {
@@ -65,6 +66,10 @@ button {
     justify-content: space-between;
     border-radius: 40%;
 }
+
+.day + #currentDay {
+    background-color:gray;
+  }
 
 .padding {
     cursor: default;

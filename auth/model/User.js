@@ -40,12 +40,12 @@ class User {
 
         let userinfo = {
             "user_email": body.user_email,
-            "pseudoname": body.user_name,
+            "user_name": body.user_name,
             "password": hash,
             "habits": {},
             "verification": {
                 "status": false,
-                "verificationToken": null,
+                "token": null,
                 "timeRequested": null
             }
         }
@@ -101,18 +101,32 @@ class User {
         })
     }
 
-    static verify(email, token) {
+    static verify(email) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const validToken = User.retrieveVerificationToken(email);
-                if (!validToken || token !== validToken) throw Error();
-                await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": null, "verification.status": true } })
+                await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": null, "verification.timeRequested": null, "verification.status": true } })
                 resolve(true)
             } catch (err) {
+                console.log(err);
                 reject('error verifying token');
             }
         })
+    }
+
+    static isVerified(email) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const db = await init();
+                const userInfo = await db.collection('users').findOne({ "user_email": email });
+                console.log(`user verified: ${userInfo.verification.status}`);
+                resolve(userInfo.verification.status);
+            } catch (err) {
+                console.log(err);
+                reject('error verifying token');
+            }
+        })
+
     }
 
     static requestVerification(email) {
@@ -178,16 +192,18 @@ class User {
     static retrieveVerificationToken(email) {
         return new Promise(async (resolve, reject) => {
             try {
+                console.log(email);
                 const db = await init();
-                const token = await db.collection('users').find(
+                const response = await db.collection('users').findOne(
                     { "user_email": email },
                     {
                         projection: {
                             _id: false,
-                            "verification.token": true
+                            "verification": 1
                         }
                     })
-                if (!!token) resolve(token);
+                console.log(response);
+                if (!!response.verification.token) resolve(response.verification.token);
                 throw Error()
             } catch (err) {
                 reject('error verifying token');

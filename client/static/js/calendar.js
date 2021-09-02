@@ -19,7 +19,7 @@ const weekdays = [
     "Saturday",
 ];
 
-function load() {
+function loadCalendar() {
     const date = new Date();
 
     // sets the value of the month (to be displayed) according to nav
@@ -65,6 +65,11 @@ function load() {
         if (i > paddingDays) {
             // display the date within the day square
             dayBox.textContent = i - paddingDays;
+            dayBox.setAttribute("id", "divId" + (i - paddingDays));
+
+            if (i - paddingDays === day && nav === 0) {
+                dayBox.id = "currentDay";
+            }
         } else {
             // differentiates the style compared to day squares in the css
             dayBox.classList.add("padding");
@@ -78,25 +83,16 @@ function buttons() {
     // on click event listener for the next button to display the next month
     document.querySelector("#nextBtn").addEventListener("click", () => {
         nav++;
-        load();
+        loadCalendar();
     });
 
     // on click event listener for the back button to display the previous month
     document.querySelector("#backBtn").addEventListener("click", () => {
         nav--;
-        load();
+        loadCalendar();
     });
 }
 
+
 buttons();
-load();
-
-
-// function makeElement(element, atts) {
-//     //cutom function for making elements and adding attributes to them
-//     let newElement = document.createElement(`${element}`)
-//     for (let key in atts) {
-//         newElement.setAttribute(`${key}`, `${atts[key]}`)
-//     }
-//     return newElement;
-// }
+loadCalendar();

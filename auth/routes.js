@@ -24,7 +24,6 @@ userRouter.post('/', check.emailDoesNotExist, controller.create);
 userRouter.put('/', [check.loggedIn, check.emailDoesNotExist], controller.update); // NOT IMPLEMENTED
 userRouter.delete('/', [check.loggedIn, check.loginDetailsCorrect], controller.destroy);
 
-// (OGWJ)
 userRouter.post('/verify', check.loginDetailsCorrect, controller.requestVerification);
 userRouter.put('/verify', check.verificationTokenValid, controller.verify);
 
@@ -32,8 +31,9 @@ userRouter.put('/verify', check.verificationTokenValid, controller.verify);
 // userRouter.post('/recovery', check.emailExists, controller.requestRecovery);
 // userRouter.put('/recovery', check.recoveryTokenValid, controller.recover);
 
-userRouter.post('/login', [check.loggedOut, check.loginDetailsCorrect], controller.sendToken);
-userRouter.put('/logout', check.accessTokenValid, controller.invalidateAccessToken);
+// need to add middleware to checkUserVerified to login route
+userRouter.post('/login', [check.loggedOut, check.loginDetailsCorrect, check.userVerified], controller.sendToken);
+userRouter.put('/logout', check.accessTokenValid, (req, res) => { controller.invalidateAccessToken(req, res); res.sendStatus(200) });
 
 // add check.emailExists? 
 tokenRouter.post('/refresh', check.accessTokenValid, controller.refreshToken);
