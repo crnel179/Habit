@@ -1,11 +1,8 @@
 api/node_modules
 api/package-lock.json
 api/coverage
-
-auth/node_modules
-auth/package-lock.json
-auth/coverage
-
-client/node_modules
-client/package-lock.json
 client/coverage
+
+node_modules
+coverage
+package-lock.json
