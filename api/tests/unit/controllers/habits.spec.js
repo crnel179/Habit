@@ -13,7 +13,7 @@ describe('habits controller', () => {
 
     describe('index', () => {
         test('it returns a habit with a 200 status code', async () => {
-            jest.spyOn(Habit, 'all', 'get')
+            jest.spyOn(Habit, 'all')
                  .mockResolvedValue(['habit1', 'habit2']);
             await habitController.index(null, mockRes);
             expect(mockStatus).toHaveBeenCalledWith(200);
