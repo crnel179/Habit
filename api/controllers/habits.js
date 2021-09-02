@@ -22,8 +22,7 @@ async function show(req, res) {
 
 async function create(req, res) {
     try{
-        const user = req.params.user;
-        const newHabit = await Habit.create(user, req.body)
+        const newHabit = await Habit.create(req.params.user, req.body)
         res.status(201).json(newHabit)
     }
     catch(err){
@@ -43,7 +42,7 @@ async function update(req, res) {
 
 async function updateCount(req, res) {
     try{
-        const updatedCount = await Habit.updateCount(req.params.name)
+        const updatedCount = await Habit.updateCount(req.params.user, req.params.name)
         res.status(200).json(updatedCount)
     }
     catch(err){
@@ -53,8 +52,7 @@ async function updateCount(req, res) {
 
 async function destroy(req, res) {
     try{
-        const user = req.params.user;
-        const deletedHabit = await Habit.delete(user, req.params.name)
+        const deletedHabit = await Habit.delete(req.params.user, req.params.name)
         res.status(200).json(deletedHabit)
     }
     catch(err){

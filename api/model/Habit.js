@@ -2,11 +2,14 @@ const init = require('../dbConfig')
 
 class Habit {
     constructor(body) {
+        this.start_date = body.start_date
         this.name = body.name
         this.tag = body.tag
+        this.dates_completed = body.dates_completed
+        this.day_count = {date: body.start_date, completed: false, count: 0}
         this.frequency = body.frequency
-        this.datesCompleted = body.dates_completed
-        this.priority = body.priority
+        this.highest_streak = 0
+        this.priority = (body.priority == 'on' ? true : false)
     }
 
     static all(user) {
@@ -15,7 +18,8 @@ class Habit {
                 const db = await init();
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const habits = userData[0].habits;
-                resolve(habits);
+                const habitsArr = Object.values(habits);
+                resolve(habitsArr);
             } catch (err) {
                 console.log(err)
                 reject('error retrieving habits')
@@ -25,9 +29,7 @@ class Habit {
 
     static findByName(user, name) {
         return new Promise(async (resolve, reject) => {
-            try {
-                console.log(user);
-                console.log(name);
+            try { 
                 const db = await init();
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const allHabits = userData[0].habits;
@@ -51,17 +53,15 @@ class Habit {
             try {
                 const db = await init()
                 const userData = await db.collection('users').find({ user_email: user }).toArray()
-                // if (userData[0].habits[body.name]) {
-                //     throw new Error('you have a habit with this name already')
-                // }
-                // else if (body.priority == true) {
-                //     Habit.resetPriority()
-                // }
-                const options = { returnNewDocument: true };
+                if (userData[0].habits[body.name]) {
+                    throw new Error('you have a habit with this name already')
+                }
+                else if (body.priority == true) {
+                    Habit.resetPriority()
+                }
                 const update = { $set: { [`habits.${body.name}`]: body } };
-                const created = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options)
-                resolve(created)
-
+                await db.collection('users').updateOne({ user_email: user }, update) //this returned the not updated object
+                resolve('successfully created habit')
             } catch (err) {
                 console.log(err)
                 reject('error in creating habit')
@@ -104,9 +104,8 @@ class Habit {
             try {
                 const db = await init();
                 const update = { $set: { [`habits.${name}`]: body } };
-                const options = { returnNewDocument: true };
-                const updatedHabits = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options);
-                resolve(updatedHabits)
+                await db.collection('users').updateOne({ user_email: user }, update);
+                resolve('successfully updated the habit')
             }
             catch (err) {
                 console.log(err)
@@ -119,8 +118,8 @@ class Habit {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const removed = await db.collection('users').findOneAndUpdate({ user_email: user }, { $unset: { [`habits.${name}`]: "" } });
-                resolve(removed)
+                await db.collection('users').updateOne({ user_email: user }, { $unset: { [`habits.${name}`]: "" } });
+                resolve('successfully deleted habit')
             }
             catch (err) {
                 console.log(err)
