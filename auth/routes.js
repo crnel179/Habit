@@ -20,13 +20,17 @@ async function testEmail(req, res) {
 userRouter.get('/testemail', testEmail);
 // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– //
 userRouter.post('/', check.emailDoesNotExist, controller.create);
+// TODO
 userRouter.put('/', [check.loggedIn, check.emailDoesNotExist], controller.update); // NOT IMPLEMENTED
 userRouter.delete('/', [check.loggedIn, check.loginDetailsCorrect], controller.destroy);
 
 userRouter.post('/verify', check.loginDetailsCorrect, controller.requestVerification);
+// TODO
 userRouter.put('/verify', check.verificationTokenValid, controller.verify);
 
+// TODO
 userRouter.post('/recovery', check.emailExists, controller.requestRecovery);
+// TODO
 userRouter.put('/recovery', check.recoveryTokenValid, controller.recover);
 
 userRouter.get('/login', [check.loggedOut, check.loginDetailsCorrect], controller.sendToken);

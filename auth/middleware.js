@@ -13,8 +13,7 @@ const loggedOut = (req, res, next) => {
 
 const loginDetailsCorrect = async (req, res, next) => {
     try {
-        const hash = await User.retrievePassword(req.body.user_email);
-        if (!bcrypt.compareSync(req.body.password, hash)) throw Error()
+        if (!await User.comparePassword(req.body.user_email, req.body.password)) return res.sendStatus(401);
     } catch (err) {
         res.sendStatus(403);
     }
@@ -63,7 +62,7 @@ const recoveryTokenValid = async (req, res, next) => {
 
 const accessTokenValid = (req, res, next) => {
     try {
-        jwt.verify(token, process.env.ACCESS_SECRET);
+        jwt.verify(req.body.token, process.env.ACCESS_SECRET);
         // (OGWJ) TODO: conditional check whitelist/blacklist for token;
     } catch (err) {
         res.sendStatus(401);
