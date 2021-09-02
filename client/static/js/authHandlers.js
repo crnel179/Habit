@@ -1,7 +1,7 @@
 //-----------FUNCTIONS FOR AUTHNETICATION REQUESTS AND HANDLING AUTH-----------//
 // accessible only for index.html
 
-const url = 'http://localhost:5000/'
+const url = 'http://localhost:3030/'
 
 async function requestLogin(e){
     e.preventDefault();
@@ -79,7 +79,19 @@ async function verifyEmail(e) {
 }
 
 function login(token, email){
-    sessionStorage.setItem('email', email);
-    sessionStorage.setItem('token', token);
+    localStorage.setItem('email', email);
+    localStorage.setItem('token', token);
+    document.cookie = "name=token; SameSite=None;";
+    document.cookie = `value=${token};`;
+    document.cookie = `email=${email};`;
+    document.cookie = 'url=./static/html/landing.html';
+
+  //   document.cookie = {
+  //     url: './static/html/landing.html',
+  //     name: 'token',
+  //     value: token,
+  //     expirationDate: new Date()
+  // }
+
     window.location = "./static/html/landing.html";
 }

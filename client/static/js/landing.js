@@ -1,5 +1,7 @@
 //-----------------SCRIPTS THAT ARE RUN ON LOADING landing.html PAGE ---------//
 
+
+
 // let dummyRes = [
 //     {
 //         name: 'meditating',
