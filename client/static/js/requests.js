@@ -5,10 +5,11 @@ const url = "http://localhost:3030/";
 async function getAllHabits() {
     // GET all habits
     const options = {
-        headers: new Headers({'Authorization': localStorage.getItem('token')})
+        headers: new Headers({'Authorization': sessionStorage.getItem('token')})
     }
     try {
         const user_email = localStorage.getItem('email');
+        console.log(user_email);
         const res = await fetch(`${url}habits/${user_email}`, options);
         const data = await res.json();
         return data;
@@ -21,7 +22,8 @@ async function getAllHabits() {
 async function getOneByName(name) {
     // GET a single habit by name
     const options = {
-        headers: new Headers({'Authorization': localStorage.getItem('token')})
+        headers: new Headers({'Authorization': localStorage.getItem('token'),
+                'Content-Type': 'application/json'})
     }
     try {
         const user_email = localStorage.getItem('email');
@@ -49,10 +51,11 @@ async function handleCreateHabit(e) {
 
         const options = {
             method: 'POST',
-            headers: new Headers({'Authorization': localStorage.getItem('token')}),
+            headers: new Headers({'Authorization': localStorage.getItem('token'),
+                        'Content-Type': 'application/json'}),
             body: JSON.stringify(data)
         }
-        const res = await fetch(`${url}/${user_email}/habits`, options);
+        const res = await fetch(`${url}habits/${user_email}`, options);
         closeModal();
         renderHabitsView();
     } catch (err) {
@@ -72,7 +75,8 @@ async function updateHabit(e, name) {
 
         const options = {
             method: 'PUT',
-            headers: new Headers({'Authorization': localStorage.getItem('token')}),
+            headers: new Headers({'Authorization': localStorage.getItem('token'),
+                        'Content-Type': 'application/json'}),
             body: JSON.stringify(formData)
         }
         const res = await fetch(`${url}habits/${user_email}/${name}`, options);
@@ -99,7 +103,8 @@ async function updateCompletion(e, name) {
     try {
         const options = {
             method: 'PUT',
-            headers: new Headers({'Authorization': localStorage.getItem('token')}),
+            headers: new Headers({'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json'}),
             body: JSON.stringify({user_email: ''})
         }
 
@@ -121,7 +126,8 @@ async function deleteHabit(e, name) {
         const user_email = localStorage.getItem('email');
         const options = {
             method: 'DELETE',
-            headers: new Headers({'Authorization': localStorage.getItem('token')})
+            headers: new Headers({'Authorization': localStorage.getItem('token'),
+                        'Content-Type': 'application/json'})
         }
         console.log(name);
         const res = await fetch(`${url}habits/${user_email}/${name}`, options);
