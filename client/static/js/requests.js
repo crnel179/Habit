@@ -9,7 +9,7 @@ async function getAllHabits() {
     }
     try {
         const user_email = localStorage.getItem('email');
-        const res = await fetch(`${url}habits?${user_email}`, options);
+        const res = await fetch(`${url}habits/${user_email}`, options);
         const data = await res.json();
         return data;
     } catch (err) {
@@ -25,7 +25,7 @@ async function getOneByName(name) {
     }
     try {
         const user_email = localStorage.getItem('email');
-        const res = await fetch(`${url}habits/${name}?${user_email}`, options);
+        const res = await fetch(`${url}habits/${user_email}/${name}`, options);
         const data = await res.json();
         return data;
     } catch (err) {
@@ -52,7 +52,7 @@ async function handleCreateHabit(e) {
             headers: new Headers({'Authorization': localStorage.getItem('token')}),
             body: JSON.stringify(data)
         }
-        const res = await fetch(`${url}habits?${user_email}`, options);
+        const res = await fetch(`${url}/${user_email}/habits`, options);
         closeModal();
         renderHabitsView();
     } catch (err) {
@@ -75,7 +75,7 @@ async function updateHabit(e, name) {
             headers: new Headers({'Authorization': localStorage.getItem('token')}),
             body: JSON.stringify(formData)
         }
-        const res = await fetch(`${url}habits/${name}?${user_email}`, options);
+        const res = await fetch(`${url}habits/${user_email}/${name}`, options);
         const data = res.json();
         // return data;
         //if successful, close modal and refresh view
@@ -103,7 +103,7 @@ async function updateCompletion(e, name) {
             body: JSON.stringify({user_email: ''})
         }
 
-        const res = await fetch(`${url}habits/${name}/${count}?${user_email}`, options);
+        const res = await fetch(`${url}habits/${user_email}/${name}/${count}`, options);
         // const data = res.json();
         span.innerText = `${count}/${split[1]}`;
         if (parseInt(split[0]) === parseInt(split[1])) {
@@ -124,7 +124,7 @@ async function deleteHabit(e, name) {
             headers: new Headers({'Authorization': localStorage.getItem('token')})
         }
         console.log(name);
-        const res = await fetch(`${url}habits/${name}?${user_email}`, options);
+        const res = await fetch(`${url}habits/${user_email}/${name}`, options);
         const data = res.json();
         // return data;
     } catch (err) {
