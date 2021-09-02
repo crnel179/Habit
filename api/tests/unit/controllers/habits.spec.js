@@ -30,6 +30,8 @@ describe('habits controller', () => {
                         name: 'test',
                         tag: 'test',
                         dates_completed: ['30-08-2021', '31-08-2021'],
+                        frequency: 1,
+                        dayCount: {date: '01-09-21', completed: false, count:0},
                         highest_streak: 2,
                         priority: true
                     }
@@ -54,6 +56,8 @@ describe('habits controller', () => {
                         name: 'test',
                         tag: 'test',
                         dates_completed: ['30-08-2021', '31-08-2021'],
+                        frequency: 1,
+                        dayCount: {date: '01-09-21', completed: false, count:0},
                         highest_streak: 2,
                         priority: true
                     }
@@ -79,6 +83,8 @@ describe('habits controller', () => {
                         name: 'test',
                         tag: 'test',
                         dates_completed: ['30-08-2021', '31-08-2021'],
+                        frequency: 1,
+                        dayCount: {date: '01-09-21', completed: false, count:0},
                         highest_streak: 2,
                         priority: true
                     }
@@ -106,6 +112,8 @@ describe('habits controller', () => {
                         name: 'test',
                         tag: 'test',
                         dates_completed: ['30-08-2021', '31-08-2021'],
+                        frequency: 1,
+                        dayCount: {date: '01-09-21', completed: false, count:0},
                         highest_streak: 2,
                         priority: true
                     }
