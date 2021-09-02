@@ -12,10 +12,7 @@ class Habit {
     static all(user) {
         return new Promise(async (resolve, reject) => {
             try {
-                
-               // let user = 'jo@google.com';
                 const db = await init();
-                console.log(user)
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const habits = userData[0].habits;
                 resolve(habits);
@@ -26,10 +23,9 @@ class Habit {
         })
     }
 
-    static findByName(name) {
+    static findByName(user, name) {
         return new Promise(async (resolve, reject) => {
-            try {
-                let user = 'sally@google.com' // substitute until system has been built on in passing the user credentials
+            try { 
                 const db = await init();
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const allHabits = userData[0].habits;
@@ -48,10 +44,9 @@ class Habit {
         })
     }
 
-    static create(body) {
+    static create(user, body) {
         return new Promise(async (resolve, reject) => {
             try {
-                let user = 'sally@google.com'
                 const db = await init()
                 const userData = await db.collection('users').find({ user_email: user }).toArray()
                 if (userData[0].habits[body.name]) {
@@ -73,10 +68,9 @@ class Habit {
     }
 
 
-    static updateCount(name) {
+    static updateCount(user, name) {
         return new Promise(async (resolve, reject) => {
             try {
-                let user = 'sally@google.com'
                 const db = await init()
                 const userData = await db.collection('users').find({ user_email: user }).toArray()
                 const habit = userData[0].habits["name"]
@@ -103,7 +97,7 @@ class Habit {
         })
     }
 
-    static update(name, body) {
+    static update(user, name, body) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
@@ -119,7 +113,7 @@ class Habit {
         })
     }
 
-    static delete(name) {
+    static delete(user, name) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
