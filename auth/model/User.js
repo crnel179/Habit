@@ -44,7 +44,7 @@ class User {
             "password": hash,
             "habits": {},
             "verification": {
-                "isVerified": false,
+                "status": false,
                 "verificationToken": null,
                 "timeRequested": null
             }
@@ -105,8 +105,11 @@ class User {
     static verify(email, token) {
         return new Promise(async (resolve, reject) => {
             try {
-                // (OGWJ) TODO: copy over logic here.
-                resolve()
+                const db = await init();
+                const validToken = User.retrieveVerificationToken(email);
+                if (!validToken || token !== validToken) throw Error();
+                await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": null, "verification.status": true } })
+                resolve(true)
             } catch (err) {
                 reject('error verifying token');
             }
