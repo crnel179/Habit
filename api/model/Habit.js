@@ -48,7 +48,7 @@ class Habit {
                 let user = 'sally@google.com'
                 const db = init()
                 const userData = await db.collection('users').find({ user_email: user }).toArray()
-                if (userData.habits[body.name]) {
+                if (userData[0].habits[body.name]) {
                     throw new Error('you have a habit with this name already')
                 } else {
                     const update = { $set: { [`habits.${body.name}`]: body } };
@@ -69,13 +69,21 @@ class Habit {
             try {
                 let user = 'sally@google.com'
                 const db = init()
-                const userData = await db.collection('users').find({ user_email: user })
-                const currentCount = userData.habits["name"].dayCount.count
-                if (currentCount < userData.habits["name"].frequency) {
+                const userData = await db.collection('users').find({ user_email: user }).toArray()
+                const habit = userData[0].habits["name"]
+                const currentCount = habit.dayCount.count
+
+                if (currentCount < habit.frequency) {
                     const newCount = currentCount + 1;
-                    const update = { $set: { [`habits.${name}.dayCount.count`]: newCount } };
+                    const update = { $set: { [`${habit}.dayCount.count`]: newCount } };
                     const updated = await db.collection('users').findOneAndUpdate({ user_email: user }, update)
                     resolve(updated);
+                }
+                else if (currentCount == habit.frequency && habit.dayCount.completed == false) {
+                    const update =
+                    { $set: { [`${habit}.dayCount.completed`]: true,'habit.highest_streak': compareStreak()}
+                    }
+                    db.collection('users').findOneAndUpdate({ user_email: user }, update)
                 }
                 resolve(userData)
             } catch (err) {
@@ -139,5 +147,6 @@ class Habit {
 //         })
 //     }
 //
+
 
 module.exports = Habit;
