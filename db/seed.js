@@ -16,8 +16,8 @@ db.users.insertMany([
                 name: 'running',
                 tag: 'health',
                 dates_completed: ['30-08-2021', '31-08-2021'],
-                frequency:1,
-                dayCount: {date: '01-09-21', completed: false, count:0},
+                frequency: 1,
+                dayCount: { date: '01-09-21', completed: false, count: 0 },
                 highest_streak: 2,
                 priority: true
             },
@@ -28,14 +28,14 @@ db.users.insertMany([
                 tag: 'mental wellness',
                 dates_completed: [],
                 frequency: 3,
-                dayCount: {date: '01-09-21', completed: false, count:0},
+                dayCount: { date: '01-09-21', completed: false, count: 0 },
                 highest_streak: 0,
                 priority: false
             }
         },
         verification:
         {
-            isVerified: false,
+            status: false,
             token: null,
             timeRequested: null
         },
@@ -58,7 +58,7 @@ db.users.insertMany([
                 tag: 'health',
                 dates_completed: ['30-08-2021', '31-08-2021'],
                 frequency: 3,
-                dayCount: {date: '01-09-21', completed: false, count:0},
+                dayCount: { date: '01-09-21', completed: false, count: 0 },
                 highest_streak: 2,
                 priority: true
             },
@@ -68,7 +68,7 @@ db.users.insertMany([
                 name: 'cooking',
                 tag: 'mental wellness',
                 dates_completed: [],
-                dayCount: {date: '01-09-21', completed:false, count:0},
+                dayCount: { date: '01-09-21', completed: false, count: 0 },
                 frequency: 1,
                 highest_streak: 0,
                 priority: false
@@ -77,7 +77,7 @@ db.users.insertMany([
         },
         verification:
         {
-            isVerified: true,
+            status: true,
             token: null,
             timeRequested: null
         },

@@ -15,6 +15,7 @@ class Habit {
                 const db = await init();
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const habits = userData[0].habits;
+                // if (!habits) throw Error();
                 resolve(habits);
             } catch (err) {
                 console.log(err)
