@@ -25,7 +25,7 @@ class Habit {
 
     static findByName(user, name) {
         return new Promise(async (resolve, reject) => {
-            try { 
+            try {
                 const db = await init();
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const allHabits = userData[0].habits;
@@ -49,12 +49,13 @@ class Habit {
             try {
                 const db = await init()
                 const userData = await db.collection('users').find({ user_email: user }).toArray()
-                if (userData[0].habits[body.name]) {
-                    throw new Error('you have a habit with this name already')
-                }
-                else if (body.priority == true) {
-                    Habit.resetPriority()
-                }
+            
+                // if (userData[0].habits[body.name]) {
+                //     throw new Error('you have a habit with this name already')
+                // }
+                // else if (body.priority == true) {
+                //     Habit.resetPriority()
+                // }
                 const options = { returnNewDocument: true };
                 const update = { $set: { [`habits.${body.name}`]: body } };
                 const created = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options)

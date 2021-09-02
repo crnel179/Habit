@@ -22,7 +22,8 @@ async function show(req, res) {
 
 async function create(req, res) {
     try{
-        const newHabit = await Habit.create(req.body)
+        const user = req.params.user;
+        const newHabit = await Habit.create(user, req.body)
         res.status(201).json(newHabit)
     }
     catch(err){

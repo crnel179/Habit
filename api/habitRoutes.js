@@ -3,8 +3,8 @@ const router = express.Router()
 const habitsController = require('./controllers/habits')
 const check = require('./middleware')
 
-router.get('/:user/', check.tokenVerified, habitsController.index)
-router.post('/:user/', check.tokenVerified, habitsController.create)
+router.get('/:user/', habitsController.index)
+router.post('/:user/', habitsController.create)
 
 
 router.get('/:user/:name', check.tokenVerified, habitsController.show)

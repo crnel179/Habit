@@ -72,16 +72,14 @@ async function verifyEmail(e) {
             body: JSON.stringify(formData)
         }
         const res = await fetch(`${url}users/verify`, options)
-        const data = await res.json()
-        console.log(data);
-        // window.location = './index.html'
+        window.location = './index.html'
     } catch (err) {
         console.log(`Error: ${err}`);
     }
 }
 
 function login(token, email){
-    localStorage.setItem('email', email);
-    localStorage.setItem('token', token);
-    //     window.location = "./static/html/landing.html";
+    sessionStorage.setItem('email', email);
+    sessionStorage.setItem('token', token);
+    window.location = "./static/html/landing.html";
 }
