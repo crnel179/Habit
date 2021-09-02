@@ -82,9 +82,13 @@ function checkPasswordsMatch() {
 }
 
 function showEmailForm() {
+    //hide registration form and dispaly email verification form
     const regSection = document.querySelector("#registration-section");
     regSection.classList.add('d-none');
     const verifySection = document.querySelector("#verify-user-section");
     verifySection.classList.remove('d-none')
-    verifySection.classList.add('d-block')
+    verifySection.classList.add('d-block');
+    // add event listener to verificatin form
+    const verForm = document.querySelector('#verify-user-form');
+    verForm.addEventListener('submit', e => verifyEmail(e));
 }
