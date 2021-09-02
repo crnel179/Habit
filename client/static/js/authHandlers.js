@@ -16,10 +16,12 @@ async function requestLogin(e){
         const res = await fetch(`${url}users/login`, options)
         const data = await res.json()
         // if (data.err){ throw Error(data.err); }
-        login(data);
-        //window.location = './static/html/landing.html'
+        login(data, formData.email);
     } catch (err) {
-        console.warn(`Error: ${err}`);
+        console.log(`Error: ${err}`);
+        const errElement = document.createElement('p');
+        errElement.innerText = 'Login failed';
+        document.querySelector('#login-section').appendChild(errElement);
     }
 }
 
@@ -39,7 +41,7 @@ async function requestRegistration(formData) {
     } catch (err) {
         const h1 = document.querySelector("#registration-error");
         h1.innerText = err;
-        console.warn(err);
+        console.log(err);
     }
 }
 
@@ -52,7 +54,7 @@ async function requestEmailVerification(formData) {
         }
         await fetch(`${url}users/verify`, options)
     } catch (err) {
-        console.warn(err);
+        console.log(err);
     }
 }
 
@@ -72,16 +74,14 @@ async function verifyEmail(e) {
         const res = await fetch(`${url}users/verify`, options)
         const data = await res.json()
         console.log(data);
-
+        // window.location = './index.html'
     } catch (err) {
-        console.warn(`Error: ${err}`);
+        console.log(`Error: ${err}`);
     }
 }
 
-
-
-function login(data){
-    localStorage.setItem('email', data.email);
-    localStorage.setItem('token', data.token);
+function login(token, email){
+    localStorage.setItem('email', email);
+    localStorage.setItem('token', token);
     //     window.location = "./static/html/landing.html";
 }
