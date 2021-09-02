@@ -2,7 +2,7 @@ const Habit = require('../model/Habit');
 
 async function index(req, res) {
     try{
-        const habits = await Habit.all;
+        const habits = await Habit.all(req.params.user);
         res.status(200).json( habits )
     }
     catch(err){
@@ -36,16 +36,17 @@ async function update(req, res) {
         res.status(200).json(updatedHabit)
     }
     catch(err){
-        res.status().json({err})
+        res.status400().json({err})
     }
 }
 
 async function updateCount(req, res) {
     try{
         const updatedCount = await Habit.updateCount(req.params.name)
+        res.status(200).json(updatedCount)
     }
     catch(err){
-
+        res.status(400).json({err})
     }
 }
 
