@@ -1,5 +1,6 @@
 const User = require('../model/User');
 const jwt = require('jsonwebtoken');
+const blacklist = require('../data/tokenBlacklist');
 
 // ––––––––––––– DEBUG –––––––––––––– //
 async function getAll(req, res) {
@@ -102,7 +103,7 @@ async function refreshToken(req, res) {
 }
 
 async function invalidateAccessToken(req, res) {
-    // here we can remove access token from whitelist or can blacklist
+    blacklist.push(req.body.token);
     return;
 }
 
