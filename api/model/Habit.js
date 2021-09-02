@@ -149,7 +149,11 @@ class Habit {
     }
 
     static compareStreaks(currentStreak, longestStreak) {
-
+        if(currentStreak > longestStreak){
+            return currentStreak;
+        }else{
+            return longestStreak;
+        }
     }
 
     static consecutiveDateCheck(date, previousDate) {
