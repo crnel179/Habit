@@ -41,7 +41,7 @@ const emailDoesNotExist = async (req, res, next) => {
 
 const verificationTokenValid = async (req, res, next) => {
     try {
-        const token = await User.retrieveVerificationToken(req.body.email);
+        const token = await User.retrieveVerificationToken(req.body.user_email);
         console.log(token);
         if (token !== req.body.token) return res.sendStatus(401);
         // (OGWJ) TODO: Check if expired.

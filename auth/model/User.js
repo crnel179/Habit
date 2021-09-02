@@ -101,16 +101,14 @@ class User {
         })
     }
 
-    static verify(email, token) {
+    static verify(email) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                // const validToken = User.retrieveVerificationToken(email);
-                // console.log(validToken);
-                // if (!validToken || token !== validToken) throw Error();
-                await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": null, "verification.status": true } })
+                await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": null, "verification.timeRequested": null, "verification.status": true } })
                 resolve(true)
             } catch (err) {
+                console.log(err);
                 reject('error verifying token');
             }
         })
@@ -179,20 +177,18 @@ class User {
     static retrieveVerificationToken(email) {
         return new Promise(async (resolve, reject) => {
             try {
+                console.log(email);
                 const db = await init();
-                const token = await db.collection('users').find(
+                const response = await db.collection('users').findOne(
                     { "user_email": email },
                     {
                         projection: {
                             _id: false,
-                            // verification: {
-                            //     token: 1
-                            // },
-                            "password": 1
+                            "verification": 1
                         }
                     })
-                console.log(token.user_name);
-                if (!!token) resolve(token.token);
+                console.log(response);
+                if (!!response.verification.token) resolve(response.verification.token);
                 throw Error()
             } catch (err) {
                 reject('error verifying token');
