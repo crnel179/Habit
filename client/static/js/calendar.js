@@ -90,3 +90,13 @@ function buttons() {
 
 buttons();
 load();
+
+
+// function makeElement(element, atts) {
+//     //cutom function for making elements and adding attributes to them
+//     let newElement = document.createElement(`${element}`)
+//     for (let key in atts) {
+//         newElement.setAttribute(`${key}`, `${atts[key]}`)
+//     }
+//     return newElement;
+// }
