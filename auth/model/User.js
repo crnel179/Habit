@@ -45,7 +45,7 @@ class User {
             "habits": {},
             "verification": {
                 "status": false,
-                "verificationToken": null,
+                "token": null,
                 "timeRequested": null
             }
         }
