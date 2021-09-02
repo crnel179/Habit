@@ -3,8 +3,9 @@ body {
     margin-top: 50px;
     justify-content: center;
     background-color: lightgray;
-  }
-  button {
+}
+
+button {
     width: 75px;
     cursor: pointer;
     box-shadow: 0px 0px 2px gray;
@@ -13,38 +14,44 @@ body {
     padding: 5px;
     border-radius: 5px;
     color: white;
-  }
-  
-  #header {
+}
+
+#header {
     padding: 10px;
     color: blue;
     font-size: 26px;
     font-family: sans-serif;
     display: flex;
     justify-content: space-between;
-  }
-  #header button {
-    background-color:blue;
-  }
-  #container {
+}
+
+#header button {
+    background-color: blue;
+}
+
+#container {
     width: 770px;
-  }
-  #weekdays {
+}
+
+#weekdays {
     width: 100%;
     display: flex;
     color: gray;
-  }
-  #weekdays div {
+}
+
+#weekdays div {
     width: 100px;
     padding: 10px;
-  }
-  #calendar {
+}
+
+#calendar {
     width: 100%;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
-  }
-  .day {
+}
+
+.day {
     width: 100px;
     padding: 10px;
     height: 100px;
@@ -56,14 +63,12 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
-  .day:hover {
-    background-color: lightgray;
-  }
-  
+}
+
   .day + #currentDay {
     background-color:#e8f4fa;
-  }
+}
+
   .event {
     font-size: 10px;
     padding: 3px;
@@ -73,8 +78,9 @@ body {
     max-height: 55px;
     overflow: hidden;
   }
+
   .padding {
     cursor: default;
     background-color: lightgray;
     box-shadow: none;
-  }
+}

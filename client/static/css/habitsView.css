@@ -1,29 +1,13 @@
-.modal {
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.4);
-}
 
-.modal-content {
-    width: 300px;
-    margin: 10% auto; /* center the modal */
-    padding: 10px;
-    border: 1px solid;
-}
 
-.close-modal {
-    color: gray;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close-modal:hover,
-.close-modal:focus {
-    color: black;
-    cursor: pointer;
+.float-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  color: black;
+  border: solid 5px #C5A48D;
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  cursor: pointer;
 }

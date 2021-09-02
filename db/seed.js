@@ -16,6 +16,8 @@ db.users.insertMany([
                 name: 'running',
                 tag: 'health',
                 dates_completed: ['30-08-2021', '31-08-2021'],
+                frequency:1,
+                dayCount: {date: '01-09-21', completed: false, count:0},
                 highest_streak: 2,
                 priority: true
             },
@@ -25,10 +27,22 @@ db.users.insertMany([
                 name: 'meditating',
                 tag: 'mental wellness',
                 dates_completed: [],
+                frequency: 3,
+                dayCount: {date: '01-09-21', completed: false, count:0},
                 highest_streak: 0,
                 priority: false
             }
-
+        },
+        verification:
+        {
+            isVerified: false,
+            token: null,
+            timeRequested: null
+        },
+        recovery:
+        {
+            token: null,
+            timeRequested: null
         }
     },
     {
@@ -43,6 +57,8 @@ db.users.insertMany([
                 name: 'swimming',
                 tag: 'health',
                 dates_completed: ['30-08-2021', '31-08-2021'],
+                frequency: 3,
+                dayCount: {date: '01-09-21', completed: false, count:0},
                 highest_streak: 2,
                 priority: true
             },
@@ -52,10 +68,23 @@ db.users.insertMany([
                 name: 'cooking',
                 tag: 'mental wellness',
                 dates_completed: [],
+                dayCount: {date: '01-09-21', completed:false, count:0},
+                frequency: 1,
                 highest_streak: 0,
                 priority: false
             }
 
         },
+        verification:
+        {
+            isVerified: true,
+            token: null,
+            timeRequested: null
+        },
+        recovery:
+        {
+            token: null,
+            timeRequested: null
+        }
     }
 ])
