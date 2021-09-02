@@ -25,7 +25,9 @@ class Habit {
 
     static findByName(user, name) {
         return new Promise(async (resolve, reject) => {
-            try { 
+            try {
+                console.log(user);
+                console.log(name);
                 const db = await init();
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const allHabits = userData[0].habits;
@@ -49,12 +51,12 @@ class Habit {
             try {
                 const db = await init()
                 const userData = await db.collection('users').find({ user_email: user }).toArray()
-                if (userData[0].habits[body.name]) {
-                    throw new Error('you have a habit with this name already')
-                }
-                else if (body.priority == true) {
-                    Habit.resetPriority()
-                }
+                // if (userData[0].habits[body.name]) {
+                //     throw new Error('you have a habit with this name already')
+                // }
+                // else if (body.priority == true) {
+                //     Habit.resetPriority()
+                // }
                 const options = { returnNewDocument: true };
                 const update = { $set: { [`habits.${body.name}`]: body } };
                 const created = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options)
@@ -103,7 +105,7 @@ class Habit {
                 const db = await init();
                 const update = { $set: { [`habits.${name}`]: body } };
                 const options = { returnNewDocument: true };
-                const updatedHabits = await db.collection.findOneAndUpdate({ user_email: user }, update, options);
+                const updatedHabits = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options);
                 resolve(updatedHabits)
             }
             catch (err) {
@@ -117,7 +119,7 @@ class Habit {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const removed = db.collection.remove({ user_email: user }, { $unset: { [`habits.${name}`]: "" } });
+                const removed = await db.collection('users').findOneAndUpdate({ user_email: user }, { $unset: { [`habits.${name}`]: "" } });
                 resolve(removed)
             }
             catch (err) {
