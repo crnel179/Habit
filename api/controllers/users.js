@@ -65,14 +65,8 @@ async function verify(req, res) {
 
 async function requestVerification(req, res) {
     try {
-        // (OGWJ) NOTE: I have commented out email send for client side debugging. 
-        //              This temporarily returns the token directly.
-        //
-        //              await User.requestVerification(req.body.user_email);
-        //              res.sendStatus(200);
-        const verificationCode = await User.requestVerification(req.body.user_email)
-
-        res.status(200).json({ verificationCode });
+        await User.requestVerification(req.body.user_email)
+        res.sendStatus(200);
     } catch (err) {
         res.status(401).json({ err });
     }
