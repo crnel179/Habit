@@ -31,10 +31,14 @@ class Habit {
                 const db = await init();
                 const userData = await db.collection('users').find({ user_email: user }).toArray();
                 const allHabits = userData[0].habits;
+                let value;
                 for (const habit in allHabits) {
-                    if (habit == name) { resolve(allHabits[habit]) };
+                    if (habit === name) { value = allHabits[habit] }
                 }
-                throw new Error('no matching habit');
+                resolve(value);
+                if (!value) {
+                    throw new Error('no matching habit');
+                }
             } catch (err) {
                 console.log(err)
                 reject('error in returning this habit', err)
@@ -50,6 +54,14 @@ class Habit {
                 const userData = await db.collection('users').find({ user_email: user }).toArray()
                 if (userData[0].habits[body.name]) {
                     throw new Error('you have a habit with this name already')
+<<<<<<< HEAD
+=======
+                } else {
+                    const options = { returnNewDocument: true };
+                    const update = { $set: { [`habits.${body.name}`]: body } };
+                    const created = await db.collection('users').findOneAndUpdate({ user_email: user }, update, options)
+                    resolve(created)
+>>>>>>> development
                 }
                 else if (body.priority == true) {
                     Habit.resetPriority()
@@ -154,5 +166,9 @@ class Habit {
 //     }
 //
 
+<<<<<<< HEAD
 
 module.exports = Habit;
+=======
+module.exports = Habit;
+>>>>>>> development

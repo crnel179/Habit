@@ -52,7 +52,7 @@ async function updateCount(req, res) {
 
 async function destroy(req, res) {
     try{
-        const deletedHabit = await Habit.delete(req.params.name)
+        const deletedHabit = await Habit.destroy(req.params.name)
         res.status(200).json(deletedHabit)
     }
     catch(err){
@@ -60,4 +60,8 @@ async function destroy(req, res) {
     }
 }
 
+<<<<<<< HEAD
 module.exports = { index, show, create, update, destroy, updateCount }
+=======
+module.exports = { index, show, create, update, destroy, updateCount }
+>>>>>>> development

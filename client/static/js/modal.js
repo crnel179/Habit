@@ -1,10 +1,13 @@
-//--------FUNCTIONS HANDLING MODALS, AVAILABLE TO ALL MODULES------------//
+//--------FUNCTIONS FOR HANDLING MODALS, AVAILABLE TO ALL MODULES------------//
 
 function closeModal(e) {
     e.preventDefault();
-    // get the closest section tag (i.e. modal)
+    // get the closest section tag (i.e. modal) and change bootstrap class
     const modal = e.target.closest('section');
+    const form = e.target.closest('div').nextElementSibling;
     modal.classList.toggle("d-none");
+    // if modal has a form, reset it
+    if (form.nodeName === "FORM") { form.reset() }
 }
 
 function showNewHabitModal(e) {
@@ -33,7 +36,7 @@ const showDeleteModal = (e) => {
     noBtn.addEventListener('click', e => closeModal(e));
 }
 
-const showEditModal = (e) => {
+const showEditModal = async (e) => {
     e.preventDefault();
     // get the closest section tag (i.e. modal)
     const newEditHabitModal = document.querySelector("#edit-habit-modal");
@@ -42,15 +45,16 @@ const showEditModal = (e) => {
     //get habit name and original habit data
     const name = e.target.closest('article').getAttribute('id');
 
-    // const oldHabit = getOneByName(name);
-    let oldHabit = {
-        name: 'running',
-        tag: 'health',
-        frequency: 1,
-        datesCompleted: ['30-08-2021', '31-08-2021'],
-        highestStreak: 2,
-        priority: false
-    }
+    const oldHabit = await getOneByName(name);
+    console.log(oldHabit);
+    // let oldHabit = {
+    //     name: 'running',
+    //     tag: 'health',
+    //     frequency: 1,
+    //     datesCompleted: ['30-08-2021', '31-08-2021'],
+    //     highestStreak: 2,
+    //     priority: false
+    // }
     // add data for original habit as placeholders
     document.querySelector("input[name='submit-edit-habit']").value = 'Update Habit';
     document.querySelector('#edit-name').placeholder = name;
@@ -64,4 +68,12 @@ const showEditModal = (e) => {
     habitForm.addEventListener('submit', e => updateHabit(e, name));
     habitForm.reset();
     document.querySelector("#edit-priority").removeAttribute('checked');
+}
+
+function displayModalError(e, err) {
+    const modal = e.target.closest('section');
+    console.log(modal);
+    const errorSpan = makeElement('span', { class: "error-msg" });
+    errorSpan.innerText = err;
+    modal.firstElementChild.append(errorSpan);
 }
