@@ -112,7 +112,7 @@ class Habit {
         })
     }
 
-    static destroy(name) {
+    static delete(name) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
