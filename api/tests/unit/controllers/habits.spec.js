@@ -45,9 +45,6 @@ describe('habits controller', () => {
         })
     });
 
-    /* THIS DOES NOT PASS AS THERE IS NO CREATE METHOD WITHIN /model/Habit.js */
-
-    /*
     describe('create', () => {
         test('it creates and returns a new habit with a 201 status code', async () => {
             let testHabit = {   
@@ -70,7 +67,60 @@ describe('habits controller', () => {
             expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
         })
     });
-    */
+    
+    /* update test */
+
+    describe('update', () => {
+        test('it updates a current habit with a 200 status code', async () =>{
+            let testHabit = {   
+                test:
+                    {
+                        start_date: '28-11-2021',
+                        name: 'test',
+                        tag: 'test',
+                        dates_completed: ['30-08-2021', '31-08-2021'],
+                        highest_streak: 2,
+                        priority: true
+                    }
+                }
+
+            jest.spyOn(Habit, 'update')
+                .mockResolvedValue(new Habit(testHabit))
+
+            const mockReq = { params: { name: 'test' } }
+            await habitController.update(mockReq, mockRes);
+            expect(mockStatus).toHaveBeenCalledWith(200);
+            expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
+        })
+    })
+
+
+    /* update count test */
+
+    describe('updateCount', () => {
+        test('it updates a current habits streak count with a ? status code', async () =>{
+            let testHabit = {   
+                test:
+                    {
+                        start_date: '28-11-2021',
+                        name: 'test',
+                        tag: 'test',
+                        dates_completed: ['30-08-2021', '31-08-2021'],
+                        highest_streak: 2,
+                        priority: true
+                    }
+                }
+
+            jest.spyOn(Habit, 'updateCount')
+                .mockResolvedValue(new Habit(testHabit))
+
+            const mockReq = { params: { name: 'test' } }
+            await habitController.updateCount(mockReq, mockRes); //i dont believe this works because the try and catch function in updateCount is not complete
+            // expect(mockStatus).toHaveBeenCalledWith(200); status code has not been disclosed yet in habits.js
+            expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
+        })
+    })
+
 
     describe('destroy', () => {
         test('it returns a 200 status code on successful deletion', async () => {
