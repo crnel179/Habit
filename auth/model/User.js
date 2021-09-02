@@ -1,5 +1,6 @@
 const init = require('../dbConfig')
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const Email = require('./Email');
 
 class User {
@@ -43,7 +44,7 @@ class User {
             "password": hash,
             "habits": {},
             "verification": {
-                "isVerified": false,
+                "status": false,
                 "verificationToken": null,
                 "timeRequested": null
             }
@@ -104,7 +105,11 @@ class User {
     static verify(email, token) {
         return new Promise(async (resolve, reject) => {
             try {
-                // (OGWJ) TODO: copy over logic here.
+                const db = await init();
+                const validToken = User.retrieveVerificationToken(email);
+                if (!validToken || token !== validToken) throw Error();
+                await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": null, "verification.status": true } })
+                resolve(true)
             } catch (err) {
                 reject('error verifying token');
             }
@@ -115,9 +120,10 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const newToken = crypto.randomBytes(10).toString('hex');
+                const newToken = await crypto.randomBytes(10).toString('hex');
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": newToken, "verification.timeRequested": Date() } })
-                await Email.sendCode(email, newToken, Email.types.VERIFICATION);
+                // await Email.sendCode(email, newToken, Email.types.VERIFICATION);
+                resolve();
             } catch (err) {
                 reject('error requesting token');
             }
@@ -129,6 +135,7 @@ class User {
             try {
                 const db = await init();
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "recovery.token": null } })
+                resolve();
             } catch (err) {
                 reject('error verifying token');
             }
@@ -142,6 +149,7 @@ class User {
                 const newToken = crypto.randomBytes(10).toString('hex');
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "recovery.token": newToken, "recovery.timeRequested": Date() } })
                 await Email.sendCode(email, newToken, Email.types.RECOVERY);
+                resolve();
             } catch (err) {
                 reject('error requesting token');
             }
@@ -189,22 +197,22 @@ class User {
 
     }
 
-    static retrievePassword(email) {
+    static comparePassword(email, password) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const password = await db.collection('users').find(
+                const hash = await db.collection('users').findOne(
                     { "user_email": email },
                     {
                         projection: {
                             _id: false,
-                            "password": true
+                            "password": 1
                         }
                     })
-                if (!!token) resolve(password);
-                throw Error()
+                if (!hash || !bcrypt.compareSync(password, hash.password)) throw Error();
+                resolve(true);
             } catch (err) {
-                reject('error verifying token');
+                reject('error verifying fetching password');
             }
         })
 
