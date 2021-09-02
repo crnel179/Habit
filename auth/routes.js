@@ -32,7 +32,7 @@ userRouter.put('/verify', check.verificationTokenValid, controller.verify);
 // userRouter.put('/recovery', check.recoveryTokenValid, controller.recover);
 
 // need to add middleware to checkUserVerified to login route
-userRouter.post('/login', [check.loggedOut, check.loginDetailsCorrect], controller.sendToken);
+userRouter.post('/login', [check.loggedOut, check.loginDetailsCorrect, check.userVerified], controller.sendToken);
 userRouter.put('/logout', check.accessTokenValid, (req, res) => { controller.invalidateAccessToken(req, res); res.sendStatus(200) });
 
 // add check.emailExists? 
