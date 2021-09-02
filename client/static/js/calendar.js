@@ -65,6 +65,7 @@ function load() {
         if (i > paddingDays) {
             // display the date within the day square
             dayBox.textContent = i - paddingDays;
+            dayBox.setAttribute('id', 'divId' + (i - paddingDays));
         } else {
             // differentiates the style compared to day squares in the css
             dayBox.classList.add("padding");
@@ -88,15 +89,6 @@ function buttons() {
     });
 }
 
+
 buttons();
 load();
-
-
-// function makeElement(element, atts) {
-//     //cutom function for making elements and adding attributes to them
-//     let newElement = document.createElement(`${element}`)
-//     for (let key in atts) {
-//         newElement.setAttribute(`${key}`, `${atts[key]}`)
-//     }
-//     return newElement;
-// }
