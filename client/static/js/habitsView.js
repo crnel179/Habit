@@ -6,7 +6,9 @@ const closeModalBtn = document.querySelectorAll('.close-modal')
 openModalBtn.addEventListener('click', e => showNewHabitModal(e))
 closeModalBtn.forEach(btn => btn.addEventListener('click', e => closeModal(e)))
 
-// 
+localStorage.setItem('email', 'jon@snow.com')
+
+//
 // let dummyRes = [
 //     {
 //         name: 'meditating',

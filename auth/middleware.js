@@ -1,5 +1,6 @@
 const User = require('./model/User');
 const jwt = require('jsonwebtoken');
+const blacklist = require('./data/tokenBlacklist');
 
 const loggedIn = (req, res, next) => {
     // (OGWJ) NOTE: Perhaps accessTokenValid middleware is enough to test this?
@@ -13,8 +14,7 @@ const loggedOut = (req, res, next) => {
 
 const loginDetailsCorrect = async (req, res, next) => {
     try {
-        const hash = await User.retrievePassword(req.body.user_email);
-        if (!bcrypt.compareSync(req.body.password, hash)) throw Error()
+        if (!await User.comparePassword(req.body.user_email, req.body.password)) return res.sendStatus(401);
     } catch (err) {
         res.sendStatus(403);
     }
@@ -41,7 +41,8 @@ const emailDoesNotExist = async (req, res, next) => {
 
 const verificationTokenValid = async (req, res, next) => {
     try {
-        const token = await User.retrieveVerificationToken(req.body.email);
+        const token = await User.retrieveVerificationToken(req.body.user_email);
+        console.log(token);
         if (token !== req.body.token) return res.sendStatus(401);
         // (OGWJ) TODO: Check if expired.
     } catch (err) {
@@ -63,8 +64,8 @@ const recoveryTokenValid = async (req, res, next) => {
 
 const accessTokenValid = (req, res, next) => {
     try {
-        jwt.verify(token, process.env.ACCESS_SECRET);
-        // (OGWJ) TODO: conditional check whitelist/blacklist for token;
+        jwt.verify(req.body.token, process.env.ACCESS_SECRET);
+        if (blacklist.includes(req.body.token)) throw Error();
     } catch (err) {
         res.sendStatus(401);
     }

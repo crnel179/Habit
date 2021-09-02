@@ -1,5 +1,6 @@
 const init = require('../dbConfig')
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const Email = require('./Email');
 
 class User {
@@ -39,12 +40,12 @@ class User {
 
         let userinfo = {
             "user_email": body.user_email,
-            "pseudoname": body.user_name,
+            "user_name": body.user_name,
             "password": hash,
             "habits": {},
             "verification": {
-                "isVerified": false,
-                "verificationToken": null,
+                "status": false,
+                "token": null,
                 "timeRequested": null
             }
         }
@@ -66,8 +67,7 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const user = await db.collection('users').findOne({ "user_email": email });
-                // (OGWJ) TODO: Implement logic for updating user info.
+                await db.collection('users').updateOne({ "user_email": email }, { $set: { [update.parameter]: update.value } });
                 resolve(`updated user ${email}`);
             } catch (err) {
                 reject('error: could not update user info');
@@ -101,11 +101,14 @@ class User {
         })
     }
 
-    static verify(email, token) {
+    static verify(email) {
         return new Promise(async (resolve, reject) => {
             try {
-                // (OGWJ) TODO: copy over logic here.
+                const db = await init();
+                await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": null, "verification.timeRequested": null, "verification.status": true } })
+                resolve(true)
             } catch (err) {
+                console.log(err);
                 reject('error verifying token');
             }
         })
@@ -115,9 +118,10 @@ class User {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const newToken = crypto.randomBytes(10).toString('hex');
+                const newToken = await crypto.randomBytes(10).toString('hex');
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": newToken, "verification.timeRequested": Date() } })
-                await Email.sendCode(email, newToken, Email.types.VERIFICATION);
+                // await Email.sendCode(email, newToken, Email.types.VERIFICATION);
+                resolve(newToken);
             } catch (err) {
                 reject('error requesting token');
             }
@@ -129,6 +133,7 @@ class User {
             try {
                 const db = await init();
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "recovery.token": null } })
+                resolve();
             } catch (err) {
                 reject('error verifying token');
             }
@@ -142,6 +147,7 @@ class User {
                 const newToken = crypto.randomBytes(10).toString('hex');
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "recovery.token": newToken, "recovery.timeRequested": Date() } })
                 await Email.sendCode(email, newToken, Email.types.RECOVERY);
+                resolve();
             } catch (err) {
                 reject('error requesting token');
             }
@@ -171,16 +177,18 @@ class User {
     static retrieveVerificationToken(email) {
         return new Promise(async (resolve, reject) => {
             try {
+                console.log(email);
                 const db = await init();
-                const token = await db.collection('users').find(
+                const response = await db.collection('users').findOne(
                     { "user_email": email },
                     {
                         projection: {
                             _id: false,
-                            "verification.token": true
+                            "verification": 1
                         }
                     })
-                if (!!token) resolve(token);
+                console.log(response);
+                if (!!response.verification.token) resolve(response.verification.token);
                 throw Error()
             } catch (err) {
                 reject('error verifying token');
@@ -189,22 +197,22 @@ class User {
 
     }
 
-    static retrievePassword(email) {
+    static comparePassword(email, password) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
-                const password = await db.collection('users').find(
+                const hash = await db.collection('users').findOne(
                     { "user_email": email },
                     {
                         projection: {
                             _id: false,
-                            "password": true
+                            "password": 1
                         }
                     })
-                if (!!token) resolve(password);
-                throw Error()
+                if (!hash || !bcrypt.compareSync(password, hash.password)) throw Error();
+                resolve(true);
             } catch (err) {
-                reject('error verifying token');
+                reject('error verifying fetching password');
             }
         })
 

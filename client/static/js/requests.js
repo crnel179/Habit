@@ -2,14 +2,14 @@
 
 const url = "http://localhost:3030/";
 
-// GET all habits
 async function getAllHabits() {
-
+    // GET all habits
     const options = {
         headers: new Headers({'Authorization': localStorage.getItem('token')})
     }
     try {
-        const res = await fetch(`${url}habits`, options);
+        const user_email = localStorage.getItem('email');
+        const res = await fetch(`${url}habits/${user_email}`, options);
         const data = await res.json();
         return data;
     } catch (err) {
@@ -18,14 +18,14 @@ async function getAllHabits() {
     }
 }
 
-// GET a single habit by name
 async function getOneByName(name) {
-
+    // GET a single habit by name
     const options = {
         headers: new Headers({'Authorization': localStorage.getItem('token')})
     }
     try {
-        const res = await fetch(`${url}habits/${name}`, options);
+        const user_email = localStorage.getItem('email');
+        const res = await fetch(`${url}habits/${user_email}/${name}`, options);
         const data = await res.json();
         return data;
     } catch (err) {
@@ -33,19 +33,18 @@ async function getOneByName(name) {
     }
 }
 
-// POST a new habit
 async function handleCreateHabit(e) {
     e.preventDefault()
-
+    // POST a new habit
     try {
         // retrieve data from the form
         const data = Object.fromEntries(new FormData(e.target));
         const date = new Date;
         data.start_date = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-        // data.user_email = "j@j.com";
         data.dates_completed = [];
         data.dayCount = {};
         data.highest_streak = 0;
+        const user_email = localStorage.getItem('email');
         console.log(data);
 
         const options = {
@@ -53,7 +52,7 @@ async function handleCreateHabit(e) {
             headers: new Headers({'Authorization': localStorage.getItem('token')}),
             body: JSON.stringify(data)
         }
-        const res = await fetch(`${url}habits`, options);
+        const res = await fetch(`${url}/${user_email}/habits`, options);
         closeModal();
         renderHabitsView();
     } catch (err) {
@@ -62,22 +61,23 @@ async function handleCreateHabit(e) {
     }
 }
 
-// edit a habit (PUT)
 async function updateHabit(e, name) {
     e.preventDefault();
-
+    // edit a habit (PUT)
     try {
         const formData = Object.fromEntries(new FormData(e.target));
 
         console.log(formData);
+        const user_email = localStorage.getItem('email');
+
         const options = {
             method: 'PUT',
             headers: new Headers({'Authorization': localStorage.getItem('token')}),
             body: JSON.stringify(formData)
         }
-        const res = await fetch(`${url}habits/${name}`, options);
+        const res = await fetch(`${url}habits/${user_email}/${name}`, options);
         const data = res.json();
-        return data;
+        // return data;
         //if successful, close modal and refresh view
         closeModal(e);
         renderHabitsView();
@@ -94,6 +94,7 @@ async function updateCompletion(e, name) {
     const span = e.target.nextElementSibling;
     const split = span.innerText.split('/');
     const count = parseInt(split[0]) + 1;
+    const user_email = localStorage.getItem('email');
 
     try {
         const options = {
@@ -102,7 +103,7 @@ async function updateCompletion(e, name) {
             body: JSON.stringify({user_email: ''})
         }
 
-        const res = await fetch(`${url}habits/${name}/${count}`, options);
+        const res = await fetch(`${url}habits/${user_email}/${name}/${count}`, options);
         // const data = res.json();
         span.innerText = `${count}/${split[1]}`;
         if (parseInt(split[0]) === parseInt(split[1])) {
@@ -113,18 +114,17 @@ async function updateCompletion(e, name) {
     }
 }
 
-// DELETE a habit
 async function deleteHabit(e, name) {
     e.preventDefault();
-
+    // DELETE a habit
     try {
+        const user_email = localStorage.getItem('email');
         const options = {
             method: 'DELETE',
-            headers: new Headers({'Authorization': localStorage.getItem('token')}),
-            body: JSON.stringify({user_email: ''})
+            headers: new Headers({'Authorization': localStorage.getItem('token')})
         }
         console.log(name);
-        const res = await fetch(`${url}habits/${name}`, options);
+        const res = await fetch(`${url}habits/${user_email}/${name}`, options);
         const data = res.json();
         // return data;
     } catch (err) {
