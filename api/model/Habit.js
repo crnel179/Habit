@@ -93,20 +93,6 @@ class Habit {
         })
     }
 
-
-
-    static markAsCompleted(habit, user, db) {
-        const update =
-        {
-            $set: {
-                [`${habit}.day_count.completed`]: true,
-                'habit.dates_completed': Habit.habitCompleted(habit),
-                'habit.highest_streak': Habit.getStreak(habit)
-            }
-        }
-        db.collection('users').updateOne({ user_email: user }, update)
-    }
-
     static update(user, name, body) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -134,6 +120,18 @@ class Habit {
                 reject('error in deleting this habit')
             }
         })
+    }
+
+    static markAsCompleted(habit, user, db) {
+        const update =
+        {
+            $set: {
+                [`${habit}.day_count.completed`]: true,
+                'habit.dates_completed': Habit.habitCompleted(habit),
+                'habit.highest_streak': Habit.getStreak(habit)
+            }
+        }
+        db.collection('users').updateOne({ user_email: user }, update)
     }
 
 
@@ -184,20 +182,10 @@ class Habit {
         return datesArr.push(completedDate)
     }
 
-
-    static resetPriority(userData) {
-        //find which habit has a priority 
-        //query to update tje habit priority ot equal false 
-        return new Promise(async (resolve, reject) => {
-            try {
-
-
-
-            } catch (err) {
-                console.log(err)
-                reject('could not reset priority habit')
-            }
-        })
+    static resetPriority(userData, user, db) {
+        const priorityHabit = userData.find(habit => habit.priority == true)
+        const update = {$set: { [`habits[${priorityHabit.name}].priority`]:  false }}
+        db.collection('users').updateOne({user_email: user}, update)
     }
 }
 
