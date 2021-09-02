@@ -57,7 +57,7 @@ class Habit {
                     throw new Error('you have a habit with this name already')
                 }
                 else if (body.priority == true) {
-                    Habit.resetPriority()
+                    Habit.resetPriority(userData)
                 }
                 const update = { $set: { [`habits.${body.name}`]: new Habit(body) } };
                 await db.collection('users').updateOne({ user_email: user }, update) //this returned the not updated object
@@ -77,30 +77,34 @@ class Habit {
                 const userData = await db.collection('users').find({ user_email: user }).toArray()
                 const habit = userData[0].habits[name]
                 const currentCount = habit.day_count.count
-
-                if (currentCount < habit.frequency) {
+                if (currentCount == habit.frequency && habit.dayCount.completed == false) {
+                    await Habit.marksAsCompleted(habit, user, db)
+                    resolve('habit has been successfully completed for today')
+                } else {
                     const newCount = currentCount + 1;
                     const update = { $set: { [`${habit}.day_count.count`]: newCount } };
                     await db.collection('users').updateOne({ user_email: user }, update)
                     resolve('successfully updated habit count');
-                }
-                else if (currentCount == habit.frequency && habit.dayCount.completed == false) {
-                    const update =
-                    {
-                        $set: {
-                            [`${habit}.day_count.completed`]: true,
-                            'habit.dates_completed': habitCompleted(habit),
-                            'habit.highest_streak': Habit.getStreak(habit)
-                        }
-                    }
-                    db.collection('users').findOneAndUpdate({ user_email: user }, update)
-                    resolve('habit has been successfully completed for today')
                 }
             } catch (err) {
                 console.log(err)
                 reject('error in updating your habit counter')
             }
         })
+    }
+
+
+
+    static markAsCompleted(habit, user, db) {
+        const update =
+        {
+            $set: {
+                [`${habit}.day_count.completed`]: true,
+                'habit.dates_completed': Habit.habitCompleted(habit),
+                'habit.highest_streak': Habit.getStreak(habit)
+            }
+        }
+        db.collection('users').updateOne({ user_email: user }, update)
     }
 
     static update(user, name, body) {
@@ -133,7 +137,6 @@ class Habit {
     }
 
 
-
     static getStreak(habit) {
         const datesArr = habit.dates_completed;
         let currentStreak;
@@ -149,9 +152,9 @@ class Habit {
     }
 
     static compareStreaks(currentStreak, longestStreak) {
-        if(currentStreak > longestStreak){
+        if (currentStreak > longestStreak) {
             return currentStreak;
-        }else{
+        } else {
             return longestStreak;
         }
     }
@@ -179,6 +182,22 @@ class Habit {
         const date = new Date;
         const completedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
         return datesArr.push(completedDate)
+    }
+
+
+    static resetPriority(userData) {
+        //find which habit has a priority 
+        //query to update tje habit priority ot equal false 
+        return new Promise(async (resolve, reject) => {
+            try {
+
+
+
+            } catch (err) {
+                console.log(err)
+                reject('could not reset priority habit')
+            }
+        })
     }
 }
 
