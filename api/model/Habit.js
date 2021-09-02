@@ -89,9 +89,8 @@ class Habit {
                     {
                         $set: {
                             [`${habit}.day_count.completed`]: true,
-                            'habit.dates_completed': habitCompleted(user, name),
-                            'habit.highest_streak': Habit.getStreak()
-                        
+                            'habit.dates_completed': habitCompleted(habit),
+                            'habit.highest_streak': Habit.getStreak(habit)
                         }
                     }
                     db.collection('users').findOneAndUpdate({ user_email: user }, update)
@@ -135,30 +134,48 @@ class Habit {
 
 
 
-    static getStreak(user) {
+    static getStreak(habit) {
+        const datesArr = habit.dates_completed;
+        let currentStreak;
+        for (let i = datesArr.length - 1; i < 0; i--) {
+            if (consecutiveDateCheck(datesArr[i], datesArr[i - 1])) {
+                currentStreak++;
+            }
+            else {
+                break;
+            }
+        }
+        return Habit.compareStreaks(currentStreak, habit.highest_streak)
+    }
+
+    static compareStreaks(currentStreak, longestStreak) {
 
     }
+
+    static consecutiveDateCheck(date, previousDate) {
+        const monthLengths = [31, 28, 31, 30, 31, 30, 31, 30, 31, 30, 31]
+        let dateArr = date.split('-');
+        let previousDateArr = previousDate.split('-');
+        if (previousDateArr[0] == dateArr[0] - 1) {
+            return true;
+        }
+        else if (previousDateArr[0] == monthLengths[previousDateArr[1] - 1] && dateArr[0] == 1) {
+            return true;
+        }
+        else if (previousDateArr[0] == 31 && previousDateArr[1] == 12 && dateArr[0] == 1 && dateArr[1] == 1) {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    static habitCompleted(habit) {
+        const datesArr = habit.dates_completed
+        const date = new Date;
+        const completedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+        return datesArr.push(completedDate)
+    }
 }
-
-//---------------------------------------------------------------------------------------//
-
-//     static destroy(name) {
-//         return new Promise(async (resolve, reject) => {
-//             try {
-//                 const db = await init();
-//                 const habitData = await db.collection.find({ user_email: user }, { habits: 1, _id: 0 }).toArray();
-//                 //need to find the correct habit to pop.
-//                 const habitIndex = habitData.find(habit => habit.name == name);
-//                 newHabitArray = habitData.splice(habitIndex, 1);
-//                 const removed = await db.collection.updateOne({ user_email: user }, { $set: { habits: newHabitArray } })
-//                 resolve(removed)
-//             }
-//             catch (err) {
-//                 console.log(err)
-//                 reject('error in deleting this habit')
-//             }
-//         })
-//     }
-//
 
 module.exports = Habit;
