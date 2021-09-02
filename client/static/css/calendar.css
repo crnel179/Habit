@@ -67,6 +67,10 @@ button {
     border-radius: 40%;
 }
 
+.day + #currentDay {
+    background-color:gray;
+  }
+
 .padding {
     cursor: default;
     background-color: lightgray;
