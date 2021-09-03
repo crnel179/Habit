@@ -1,3 +1,5 @@
+const url = "http://localhost:3030/";
+
 // navigation through months (keeps track of the selected month)
 let nav = 0;
 // the day clicked on
@@ -65,8 +67,10 @@ function loadCalendar() {
         if (i > paddingDays) {
             // display the date within the day square
             dayBox.textContent = i - paddingDays;
+            // assigns separate ids for each created div for 'dayBox'
             dayBox.setAttribute("id", "divId" + (i - paddingDays));
 
+            // highlights the current day
             if (i - paddingDays === day && nav === 0) {
                 dayBox.id = "currentDay";
             }
@@ -75,7 +79,30 @@ function loadCalendar() {
             dayBox.classList.add("padding");
         }
 
+        function displayHabits() {
+            const habits = getAllHabits();
+            dayBox.querySelector("#divId").textContent = habits;
+        }
+
         calendar.appendChild(dayBox);
+    }
+
+    console.log(displayHabits());
+}
+
+async function getAllHabits() {
+    // GET all habits
+    const options = {
+        headers: new Headers({ Authorization: localStorage.getItem("token") }),
+    };
+    try {
+        const user_email = localStorage.getItem("email");
+        const res = await fetch(`${url}habits/${user_email}`, options);
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+        // handleError;
     }
 }
 
@@ -92,7 +119,6 @@ function buttons() {
         loadCalendar();
     });
 }
-
 
 buttons();
 loadCalendar();

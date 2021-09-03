@@ -5,8 +5,7 @@ const openModalBtn = document.querySelector("#add-habit-btn");
 const closeModalBtn = document.querySelectorAll('.close-modal')
 openModalBtn.addEventListener('click', e => showNewHabitModal(e))
 closeModalBtn.forEach(btn => btn.addEventListener('click', e => closeModal(e)))
-
-localStorage.setItem('email', 'jon@snow.com')
+localStorage.setItem('email', 'sally@google.com')
 
 //
 // let dummyRes = [

@@ -10,6 +10,12 @@
 
   <script defer src="/client/static/js/calendar.js"></script>
   <script defer src="/client/static/js/requests.js"></script>
+  <script defer src="/client/static/js/habitsView.js"></script>
+  <script defer src="/client/static/js/helpers.js"></script>
+  <script defer src="/client/static/js/modal.js"></script>
+  <script defer src="/api/model/Habit.js"></script>
+  <script defer src="/api/habitRoutes.js"></script>
+  <script defer src="/auth/routes.js"></script>
 
   <title>Tracker</title>
 </head>
@@ -19,6 +25,12 @@
   <div id="container">
     <div id="header">
       <div id="displayMonth"></div>
+
+      <div>
+        <button id="habit1" class="hab">Habit 1</button>
+        <button id="habit2" class="hab">Habit 2</button>
+        <button id="habit3" class="hab">Habit 3</button>
+      </div>
 
       <div>
         <button id="backBtn">Back</button>

@@ -114,14 +114,29 @@ class User {
         })
     }
 
+    static isVerified(email) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const db = await init();
+                const userInfo = await db.collection('users').findOne({ "user_email": email });
+                console.log(`user verified: ${userInfo.verification.status}`);
+                resolve(userInfo.verification.status);
+            } catch (err) {
+                console.log(err);
+                reject('error verifying token');
+            }
+        })
+
+    }
+
     static requestVerification(email) {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
                 const newToken = await crypto.randomBytes(10).toString('hex');
                 await db.collection('users').updateOne({ "user_email": email }, { '$set': { "verification.token": newToken, "verification.timeRequested": Date() } })
-                // await Email.sendCode(email, newToken, Email.types.VERIFICATION);
-                resolve(newToken);
+                await Email.sendCode(email, newToken, Email.types.VERIFICATION);
+                resolve(true);
             } catch (err) {
                 reject('error requesting token');
             }
