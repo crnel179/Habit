@@ -76,7 +76,7 @@ function habitStatusDiv(habit) {
     countBtn.addEventListener('click', e => updateCompletion(e, habit.name))
     // create span for displaying the count
     const countSpan = makeElement('span', {class: "daily-count"});
-    countSpan.innerText = `${habit.dayCount.count}/${habit.frequency}`;
+    countSpan.innerText = `${habit.day_count.count}/${habit.frequency}`;
     div.append(countBtn, countSpan);
     return div;
 }
