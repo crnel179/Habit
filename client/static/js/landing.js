@@ -1,22 +1,5 @@
 //-----------------SCRIPTS THAT ARE RUN ON LOADING landing.html PAGE ---------//
 
-function getCookies() {
-
-    const cookies = document.cookie.split('; ');
-    console.log(cookies[5]);
-    let n = cookies.filter(cookie => cookie.startsWith('email').split('='))
-    let em = n[1]
-    console.log(em);
-    const email = cookies.find(row => row.startsWith('email=')).split('=')[1];
-    const token = cookies.find(row => row.startsWith('token=')).split('=')[1];
-    return email, token;
-}
-
-// delete cookies by changing expiry date
-// document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ";
-//
-// console.log(getCookies());
-
 renderLandingView();
 
 async function renderLandingView() {
