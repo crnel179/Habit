@@ -81,10 +81,10 @@ async function verifyEmail(e) {
 function login(token, email){
     localStorage.setItem('email', email);
     localStorage.setItem('token', token);
-    document.cookie = "name=token; SameSite=None;";
-    document.cookie = `value=${token};`;
-    document.cookie = `email=${email};`;
-    document.cookie = 'url=./static/html/landing.html';
+    // document.cookie = "name=token; SameSite=None;";
+    document.cookie = `token=${token}; SameSite=None;`;
+    document.cookie = `email=${email}; SameSite=None;`;
+    // document.cookie = 'url=./static/html/landing.html';
 
   //   document.cookie = {
   //     url: './static/html/landing.html',
