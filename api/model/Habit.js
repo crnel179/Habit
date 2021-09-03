@@ -56,8 +56,8 @@ class Habit {
                 if (userData[0].habits[body.name]) {
                     throw new Error('you have a habit with this name already')
                 }
-                else if (body.priority == true) {
-                    Habit.resetPriority(userData)
+                else if (body.priority == 'on') {
+                    Habit.resetPriority(userData, user, db)
                 }
                 const update = { $set: { [`habits.${body.name}`]: new Habit(body) } };
                 await db.collection('users').updateOne({ user_email: user }, update) //this returned the not updated object
@@ -74,16 +74,17 @@ class Habit {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init()
-                const userData = await db.collection('users').find({ user_email: user }).toArray()
-                const habit = userData[0].habits[name]
-                const currentCount = habit.day_count.count
-                if (currentCount == habit.frequency && habit.dayCount.completed == false) {
-                    await Habit.marksAsCompleted(habit, user, db)
+                const userData = await db.collection('users').find({ user_email: user }).toArray();
+                const habit = userData[0].habits[name];
+                const currentCount = habit.day_count.count;
+                if (currentCount == habit.frequency && habit.day_count.completed == false) {
+                    await Habit.markAsCompleted(habit, user, db)
                     resolve('habit has been successfully completed for today')
                 } else {
                     const newCount = currentCount + 1;
-                    const update = { $set: { [`${habit}.day_count.count`]: newCount } };
-                    await db.collection('users').updateOne({ user_email: user }, update)
+                    const update = { $set: { [`habits.${name}.day_count.count`]: newCount } };
+                   // const update = { $set: { [`habits.${body.name}`]: new Habit(body) } };
+                    await db.collection('users').updateOne({ user_email: user }, update) 
                     resolve('successfully updated habit count');
                 }
             } catch (err) {
@@ -123,12 +124,13 @@ class Habit {
     }
 
     static markAsCompleted(habit, user, db) {
+        const name = habit.name
         const update =
         {
             $set: {
-                [`${habit}.day_count.completed`]: true,
-                'habit.dates_completed': Habit.habitCompleted(habit),
-                'habit.highest_streak': Habit.getStreak(habit)
+                [`habits.${name}.day_count.completed`]: true,
+                [`habits.${name}.dates_completed`]: Habit.habitCompleted(habit),
+                [`habits.${name}.highest_streak`]: Habit.getStreak(habit)
             }
         }
         db.collection('users').updateOne({ user_email: user }, update)
@@ -183,8 +185,10 @@ class Habit {
     }
 
     static resetPriority(userData, user, db) {
-        const priorityHabit = userData.find(habit => habit.priority == true)
-        const update = {$set: { [`habits[${priorityHabit.name}].priority`]:  false }}
+        
+        const habits = Object.values(userData[0].habits)
+        const priorityHabit = habits.find(habit => habit.priority == true)
+        const update = {$set: { [`habits.${priorityHabit.name}.priority`]:  false }}
         db.collection('users').updateOne({user_email: user}, update)
     }
 }
