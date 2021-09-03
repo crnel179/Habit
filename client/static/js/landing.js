@@ -12,9 +12,10 @@ function getCookies() {
     return email, token;
 }
 
-document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ";
-
-console.log(getCookies());
+// delete cookies by changing expiry date
+// document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ";
+//
+// console.log(getCookies());
 
 renderLandingView();
 
