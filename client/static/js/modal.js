@@ -44,22 +44,12 @@ const showEditModal = async (e) => {
     newEditHabitModal.classList.add("d-block");
     //get habit name and original habit data
     const name = e.target.closest('article').getAttribute('id');
-
     const oldHabit = await getOneByName(name);
-    console.log(oldHabit);
-    // let oldHabit = {
-    //     name: 'running',
-    //     tag: 'health',
-    //     frequency: 1,
-    //     datesCompleted: ['30-08-2021', '31-08-2021'],
-    //     highestStreak: 2,
-    //     priority: false
-    // }
-    // add data for original habit as placeholders
+
     document.querySelector("input[name='submit-edit-habit']").value = 'Update Habit';
-    document.querySelector('#edit-name').placeholder = name;
-    document.querySelector("#edit-tag").placeholder = oldHabit.tag;
-    document.querySelector("#edit-frequency").placeholder = oldHabit.frequency;
+    document.querySelector('#edit-name').value = name;
+    document.querySelector("#edit-tag").value = oldHabit.tag;
+    document.querySelector("#edit-frequency").value = oldHabit.frequency;
     if (oldHabit.priority === true) {
         document.querySelector("#edit-priority").checked;
     }

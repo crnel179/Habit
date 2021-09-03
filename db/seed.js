@@ -7,7 +7,8 @@ db.users.insertMany([
     {
         user_email: 'jo@google.com',
         pseudoname: 'jo',
-        password: 'hashbrowns',
+        password: '$2a$10$cPIePKthT6qI4Uq4JuRYkOrvle7ijFj1r0TAbFdHqntJ7XjSL7VtG',
+        // password: 'hashbrowns',
         habits:
         {
             running:
@@ -15,9 +16,9 @@ db.users.insertMany([
                 start_date: '28-11-2021',
                 name: 'running',
                 tag: 'health',
-                dates_completed: ['30-08-2021', '31-08-2021'],
+                dates_completed: ['30-8-2021', '31-8-2021'],
                 frequency:1,
-                dayCount: {date: '01-09-21', completed: false, count:0},
+                day_count: {date: '1-9-21', completed: false, count:0},
                 highest_streak: 2,
                 priority: true
             },
@@ -28,14 +29,14 @@ db.users.insertMany([
                 tag: 'mental wellness',
                 dates_completed: [],
                 frequency: 3,
-                dayCount: {date: '01-09-21', completed: false, count:0},
+                day_count: {date: '1-9-21', completed: false, count:0},
                 highest_streak: 0,
                 priority: false
             }
         },
         verification:
         {
-            isVerified: false,
+            status: false,
             token: null,
             timeRequested: null
         },
@@ -48,6 +49,7 @@ db.users.insertMany([
     {
         user_email: 'sally@google.com',
         pseudoname: 'sally',
+        password: '$2a$10$fK2EzWmj/.Bud8ZwEqVrS.GrdzttkxEebieTFAHHQLrmyhJds5F.a',
         password: 'hash',
         habits:
         {
@@ -56,9 +58,9 @@ db.users.insertMany([
                 start_date: '28-11-2021',
                 name: 'swimming',
                 tag: 'health',
-                dates_completed: ['30-08-2021', '31-08-2021'],
+                dates_completed: ['30-8-2021', '31-08-2021'],
                 frequency: 3,
-                dayCount: {date: '01-09-21', completed: false, count:0},
+                day_count: {date: '1-9-21', completed: false, count:0},
                 highest_streak: 2,
                 priority: true
             },
@@ -68,7 +70,7 @@ db.users.insertMany([
                 name: 'cooking',
                 tag: 'mental wellness',
                 dates_completed: [],
-                dayCount: {date: '01-09-21', completed:false, count:0},
+                day_count: {date: '1-9-21', completed:false, count:0},
                 frequency: 1,
                 highest_streak: 0,
                 priority: false
@@ -77,7 +79,7 @@ db.users.insertMany([
         },
         verification:
         {
-            isVerified: true,
+            status: true,
             token: null,
             timeRequested: null
         },

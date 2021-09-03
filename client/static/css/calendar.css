@@ -91,5 +91,23 @@ button {
 }
 
 @media only screen and (max-width: 760px) {
+    #calendar {
+        display: flex;
+        /* display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr  auto; */
+        align-self: center;
+        justify-content: center;
+    }
+}
 
+@media only screen and (max-width: 700px) {
+    #weekdays {
+        display: none;
+    }
+    /* #calendar {
+        display: flex;
+        /* flex-wrap: wrap; */
+        align-self: center;
+        justify-content: center;
+    } */
 }

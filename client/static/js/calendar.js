@@ -80,20 +80,20 @@ function loadCalendar() {
             dayBox.classList.add("padding");
         }
 
-    //     function displayHabits() {
-    //         const priority = dummyRes.filter(
-    //             (element) => (element.priority = true)
-    //         );
-    //         // console.log(habits);
-    //         const habits = priority.filter();
-    //         // const habits = getAllHabits();
-    //         dayBox.querySelector("#divId").textContent = habits;
-    //     }
+        function displayHabits() {
+            const priority = dummyRes.filter(
+                (element) => (element.priority = true)
+            );
+            // console.log(habits);
+            const habits = priority.filter();
+            // const habits = getAllHabits();
+            dayBox.querySelector("#divId").textContent = habits;
+        }
 
         calendar.appendChild(dayBox);
     }
 
-    // console.log(displayHabits());
+    console.log(displayHabits());
 }
 
 // async function getAllHabits() {

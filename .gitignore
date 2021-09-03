@@ -2,3 +2,7 @@ api/node_modules
 api/package-lock.json
 api/coverage
 client/coverage
+
+node_modules
+coverage
+package-lock.json

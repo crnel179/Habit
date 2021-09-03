@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const requestRoutes = require('./habitRoutes')
 const { userRouter, tokenRouter } = require('./authRoutes')
+const check = require('./middleware');
 
 const server = express()
 
