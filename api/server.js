@@ -9,7 +9,7 @@ const server = express()
 server.use(cors());
 server.use(express.json());
 
-server.use('/habits', check.accessTokenValid, requestRoutes);
+server.use('/habits', requestRoutes);
 server.use('/users', userRouter);
 server.use('/tokens', tokenRouter);
 

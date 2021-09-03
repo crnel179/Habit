@@ -98,26 +98,28 @@ function currentUser(){
 function getCookies() {
 
     const cookies = document.cookie.split('; ');
-    const email = cookies.find(row => row.startsWith('email=')).split('=')[1];
-    const token = cookies.find(row => row.startsWith('token=')).split('=')[1];
-    return email, token;
+    const token = cookies[0].split('=')[1];
+    const email = cookies[1].split('=')[1];
+    return [email, token];
 }
 
 async function logout() {
     // e.preventDefault()
+    // delete cookies by changing expiry date
+    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ";
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ";
 
     try {
         // ????? what data is required
         //const data = {};
-        console.log(data);
 
-        const options = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        }
-        const res = await fetch(`${url}users/logout`, options)
-        localStorage.clear();
+        // const options = {
+        //     method: 'PUT',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(data)
+        // }
+        // const res = await fetch(`${url}users/logout`, options)
+
     } catch (err) {
         console.warn(`Error: ${err}`);
     }

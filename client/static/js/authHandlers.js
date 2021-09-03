@@ -86,12 +86,5 @@ function login(token, email){
     document.cookie = `email=${email}; SameSite=None;`;
     // document.cookie = 'url=./static/html/landing.html';
 
-  //   document.cookie = {
-  //     url: './static/html/landing.html',
-  //     name: 'token',
-  //     value: token,
-  //     expirationDate: new Date()
-  // }
-
     window.location = "./static/html/landing.html";
 }
