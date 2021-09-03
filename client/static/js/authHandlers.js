@@ -1,9 +1,9 @@
 //-----------FUNCTIONS FOR AUTHNETICATION REQUESTS AND HANDLING AUTH-----------//
 // accessible only for index.html
 
-const url = 'http://localhost:5000/'
+const url = 'http://localhost:3030/'
 
-async function requestLogin(e){
+async function requestLogin(e) {
     e.preventDefault();
     try {
         const formData = Object.fromEntries(new FormData(e.target));
@@ -35,7 +35,7 @@ async function requestRegistration(formData) {
         const res = await fetch(`${url}users`, options)
         //change forms and request email verification
 
-        requestEmailVerification(formData);
+        await requestEmailVerification(formData);
         showEmailForm();
         localStorage.setItem('email', formData.user_email);
     } catch (err) {
@@ -79,7 +79,19 @@ async function verifyEmail(e) {
 }
 
 function login(token, email){
-    sessionStorage.setItem('email', email);
-    sessionStorage.setItem('token', token);
+    localStorage.setItem('email', email);
+    localStorage.setItem('token', token);
+    // document.cookie = "name=token; SameSite=None;";
+    document.cookie = `token=${token}; SameSite=None;`;
+    document.cookie = `email=${email}; SameSite=None;`;
+    // document.cookie = 'url=./static/html/landing.html';
+
+  //   document.cookie = {
+  //     url: './static/html/landing.html',
+  //     name: 'token',
+  //     value: token,
+  //     expirationDate: new Date()
+  // }
+
     window.location = "./static/html/landing.html";
 }

@@ -95,6 +95,14 @@ function currentUser(){
     return username;
 }
 
+function getCookies() {
+
+    const cookies = document.cookie.split('; ');
+    const email = cookies.find(row => row.startsWith('email=')).split('=')[1];
+    const token = cookies.find(row => row.startsWith('token=')).split('=')[1];
+    return email, token;
+}
+
 async function logout() {
     // e.preventDefault()
 

@@ -12,16 +12,16 @@ class Email {
 
 Email.verificationEmailTemplate = (verificationtoken) => {
     return `Hi! 
-            Thanks for choosing to use the Habit Smasher app.
-            Here is your verification code: ${verificationtoken}
-            It is valid for ${(process.env.VERIFICATION_CODE_LIFESPAN_MS / 100 / 60)} minutes.
-            Happy Smashing.`
+    Thanks for choosing to use the Habit Smasher app.
+    Here is your verification code: ${verificationtoken || 'token'}
+    It is valid for ${(process.env.VERIFICATION_CODE_LIFESPAN_MS / 100 / 60) || '2'} minutes.
+    Happy Smashing.`
 }
 
 Email.recoveryEmailTemplate = (recoveryCode) => {
-    return `Hi! 
+    return `Hi!
             Here is your recovery code: ${recoveryCode}
-            It is valid for ${(process.env.RECOVERY_CODE_LIFESPAN_MS / 100 / 60)} minutes.
+            It is valid for ${(process.env.RECOVERY_CODE_LIFESPAN_MS / 100 / 60) || '2'} minutes.
             Happy Smashing.`
 }
 
@@ -34,8 +34,8 @@ Email.securityBreachEmailTemplate = () => {
 Email.sendCode = (recipient, token, type) => {
 
     let mailOptions = {
-        from: process.env.AUTH_SERVER_PASSWORD,//'HabitSmasherApp@gmail.com',//process.env.AUTH_SERVER_EMAIL,
-        pass: process.env.AUTH_SERVER_PASSWORD,
+        from: (process.env.AUTH_SERVER_PASSWORD || 'HabitSmasherApp@gmail.com'),
+        pass: (process.env.AUTH_SERVER_PASSWORD || '*******'),// insert password here
         to: recipient,
         subject: Email.types.VERIFICATION,
         text: type == Email.types.VERIFICATION ?

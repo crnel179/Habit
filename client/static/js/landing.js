@@ -1,52 +1,21 @@
 //-----------------SCRIPTS THAT ARE RUN ON LOADING landing.html PAGE ---------//
 
-// let dummyRes = [
-//     {
-//         name: 'meditating',
-//         tag: 'mental wellness',
-//         frequency: 3,
-//         datesCompleted: [],
-//         highestStreak: 0,
-//         priority: false,
-//         dailyCount: 2
-//     },
-//         {
-//             name: 'running',
-//             tag: 'health',
-//             frequency: 6,
-//             datesCompleted: ['30-08-2021', '31-08-2021'],
-//             highestStreak: 2,
-//             priority: true,
-//             dailyCount: 2
-//         },
-//         {
-//             name: 'jogging',
-//             tag: 'health',
-//             frequency: 2,
-//             datesCompleted: ['30-08-2021', '31-08-2021'],
-//             highestStreak: 2,
-//             priority: false,
-//             dailyCount: 2
-//         },
-//         {
-//             name: 'swimming',
-//             tag: 'sport',
-//             frequency: 1,
-//             datesCompleted: ['30-08-2021', '31-08-2021'],
-//             highestStreak: 5,
-//             priority: false,
-//             dailyCount: 0
-//         },
-//         {
-//             name: 'drinking water',
-//             tag: 'welness',
-//             frequency: 3,
-//             datesCompleted: ['30-08-2021', '31-08-2021'],
-//             highestStreak: 7,
-//             priority: false,
-//             dailyCount: 0
-//         }
-// ]
+function getCookies() {
+
+    const cookies = document.cookie.split('; ');
+    console.log(cookies[5]);
+    let n = cookies.filter(cookie => cookie.startsWith('email').split('='))
+    let em = n[1]
+    console.log(em);
+    const email = cookies.find(row => row.startsWith('email=')).split('=')[1];
+    const token = cookies.find(row => row.startsWith('token=')).split('=')[1];
+    return email, token;
+}
+
+// delete cookies by changing expiry date
+// document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ";
+//
+// console.log(getCookies());
 
 renderLandingView();
 
