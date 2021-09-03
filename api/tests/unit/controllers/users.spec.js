@@ -56,7 +56,38 @@ describe('users controller', () => {
         })
     });
 
+    describe('update', () => {
+        test('it updates a current user with a 200 status code', async () =>{
+            let testUser = {   
+                test:
+                    {
+                        user_email: 'test@email.com',
+                        pseudoname: 'test',
+                        password: 'test123',
+                        verification: 1
+                    }
+                }
 
+            jest.spyOn(User, 'update')
+                .mockResolvedValue(new User(testUser))
+
+            const mockReq = { params: { name: 'test' } }
+            await userController.update(mockReq, mockRes);
+            expect(mockStatus).toHaveBeenCalledWith(200);
+            expect(mockJson).toHaveBeenCalledWith(new User(testUser));
+        })
+    })
+
+    describe('destroy', () => {
+        test('it returns a 200 status code on successful deletion', async () => {
+            jest.spyOn(User, 'destroy')
+                .mockResolvedValue('Deleted');
+            
+            const mockReq = { params: { name: 'test' } }
+            await userController.destroy(mockReq, mockRes);
+            expect(mockStatus).toHaveBeenCalledWith(200);
+        })
+    });
 
 
 })
