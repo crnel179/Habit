@@ -1,4 +1,5 @@
-const url = "http://localhost:3030/";
+// const db = connect("mongodb://localhost:27017/habittracker");
+// const url = "http://localhost:3030/";
 
 // navigation through months (keeps track of the selected month)
 let nav = 0;
@@ -79,8 +80,30 @@ function loadCalendar() {
             dayBox.classList.add("padding");
         }
 
+        // ############################# REMOVE #################################
+        const habits = element.filter(element => element.priority = true);
+            console.log(x);
+
+        // dummyRes.forEach(element => {
+
+        // });
+
+        //         const habit =  dummyRes.crew.captain['favorite foods'][0];
+
+        //         dummyRes.forEach((element) => {
+        //             if(priority === true) {
+        //                 return
+        //             }
+        //         })
+        // ###############################################################
+
         function displayHabits() {
-            const habits = getAllHabits();
+            const priority = dummyRes.filter(
+                (element) => (element.priority = true)
+            );
+            // console.log(habits);
+            const habits = priority.filter();
+            // const habits = getAllHabits();
             dayBox.querySelector("#divId").textContent = habits;
         }
 
