@@ -78,8 +78,20 @@ async function verifyEmail(e) {
     }
 }
 
-function login(token, email) {
-    sessionStorage.setItem('email', email);
-    sessionStorage.setItem('token', token);
+function login(token, email){
+    localStorage.setItem('email', email);
+    localStorage.setItem('token', token);
+    // document.cookie = "name=token; SameSite=None;";
+    document.cookie = `token=${token}; SameSite=None;`;
+    document.cookie = `email=${email}; SameSite=None;`;
+    // document.cookie = 'url=./static/html/landing.html';
+
+  //   document.cookie = {
+  //     url: './static/html/landing.html',
+  //     name: 'token',
+  //     value: token,
+  //     expirationDate: new Date()
+  // }
+
     window.location = "./static/html/landing.html";
 }

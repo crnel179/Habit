@@ -19,7 +19,7 @@ Email.verificationEmailTemplate = (verificationtoken) => {
 }
 
 Email.recoveryEmailTemplate = (recoveryCode) => {
-    return `Hi! 
+    return `Hi!
             Here is your recovery code: ${recoveryCode}
             It is valid for ${(process.env.RECOVERY_CODE_LIFESPAN_MS / 100 / 60) || '2'} minutes.
             Happy Smashing.`

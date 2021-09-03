@@ -7,7 +7,9 @@ db.users.insertMany([
     {
         user_email: 'jo@google.com',
         pseudoname: 'jo',
-        password: 'hashbrowns',
+        password: '$2a$10$cPIePKthT6qI4Uq4JuRYkOrvle7ijFj1r0TAbFdHqntJ7XjSL7VtG
+',
+        // password: 'hashbrowns',
         habits:
         {
             running:
@@ -48,6 +50,8 @@ db.users.insertMany([
     {
         user_email: 'sally@google.com',
         pseudoname: 'sally',
+        password: '$2a$10$fK2EzWmj/.Bud8ZwEqVrS.GrdzttkxEebieTFAHHQLrmyhJds5F.a
+',
         password: 'hash',
         habits:
         {
