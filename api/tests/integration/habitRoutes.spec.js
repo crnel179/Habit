@@ -16,7 +16,7 @@ describe('habits endpoints', () => {
     let api;
 
     beforeAll(async () => {
-        api = app.listen(5000, () => console.log('Test server running on port 5000'))
+        api = api.listen(5000, () => console.log('Test server running on port 5000'))
     });
 
     /* i do not believe this function is relevant in mongo */
@@ -28,7 +28,7 @@ describe('habits endpoints', () => {
     afterAll(done => {
         console.log('Stopping the test server')
         mongoose.connection.close();
-        api.close(done);
+        app.close(done);
     })
 
     it('responds to get / with 200 and gets the welcome message', async () => {

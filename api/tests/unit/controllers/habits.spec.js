@@ -18,12 +18,13 @@ describe('habits controller', () => {
         test('it returns a habit with a 200 status code', async () => {
             jest.spyOn(Habit, 'all')
                  .mockResolvedValue(['habit1', 'habit2']);
-            await habitController.index(null, mockRes);
-            expect(mockStatus).toHaveBeenCalledWith(200);
+            await habitController.index(undefined, mockRes);
+            expect(mockStatus).toHaveBeenCalledWith(200); 
             expect(mockJson).toHaveBeenCalledWith(['habit1', 'habit2']);
         })
     });
 
+    /* passing! */
     describe('show', () => {
         test('it returns a habit with a 200 status code', async () => {
             let testHabit = {   
@@ -50,6 +51,7 @@ describe('habits controller', () => {
         })
     });
 
+    /* passing! */
     describe('create', () => {
         test('it creates and returns a new habit with a 201 status code', async () => {
             let testHabit = {   
@@ -70,11 +72,12 @@ describe('habits controller', () => {
                 
             const mockReq = { body: testHabit }
             await habitController.create(mockReq, mockRes);
-            expect(mockStatus).toHaveBeenCalledWith(201);
+            expect(mockStatus).toHaveBeenCalledWith(201); 
             expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
         })
     });
     
+    /* passing! */
     describe('update', () => {
         test('it updates a current habit with a 200 status code', async () =>{
             let testHabit = {   
@@ -100,6 +103,8 @@ describe('habits controller', () => {
             expect(mockJson).toHaveBeenCalledWith(new Habit(testHabit));
         })
     })
+
+    /* not passing! */
 
     describe('updateCount', () => {
         test('it updates a current habits streak count with a ? status code', async () =>{
@@ -135,10 +140,12 @@ describe('habits controller', () => {
                 .mockResolvedValue('Deleted');
             
             const mockReq = { params: { name: 'test' } }
-            await habitController.destroy(mockReq, mockRes);
+            await habitController.delete(mockReq, mockRes);
             expect(mockStatus).toHaveBeenCalledWith(200);
         })
     });
+
+    /* not passing */
 
     describe('getStreak', () => {
         test('it returns a streak', async () => {

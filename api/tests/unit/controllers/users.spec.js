@@ -16,7 +16,7 @@ describe('users controller', () => {
 
     describe('get by username', () => {
         test('it returns a user with a 201 status code', async() => {
-            let testUser = {
+            let testUser = {   
                 test:
                     {
                         user_email: 'test@email.com',
@@ -29,7 +29,7 @@ describe('users controller', () => {
                 .mockResolvedValue(new User(testUser))
 
             const mockReq = { params: { name: 'test' } }
-            await User.findByUserName(mockReq, mockRes);
+            await userController.getAll(mockReq, mockRes);
             expect(mockStatus).toHaveBeenCalledWith(201);
             expect(mockJson).toHaveBeenCalledWith(new User(testUser));
         })
@@ -111,6 +111,6 @@ describe('users controller', () => {
         })
     });
 
-    
+
 
 })
