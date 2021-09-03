@@ -67,7 +67,7 @@ async function renderHabitsView(filter=null) {
     let habitsArr = Object.values(allHabits).map(habit => habit);
     // if filter is truthy get only habits with a specified tag
     if (filter) {
-        habitsArr = dummyRes.filter(i => i.tag === `${filter}`);
+        habitsArr = habitsArr.filter(i => i.tag === `${filter}`);
     }
     // render a card for each habit
     habitsArr.forEach(habit => {
