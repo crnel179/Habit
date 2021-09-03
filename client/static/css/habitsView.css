@@ -1,15 +1,32 @@
+#navbar {
+  background-color: #ffc46b;
+}
+
+.nav-link {
+  color: #0d5257;
+}
+
+.nav-link:hover {
+  color: #279e98;
+}
+
+.nav-link:active {
+  color: #40AD86;
+}
+
 #logo {
-  width: 100px;
+    width: 100px;
+    border-radius: 30%;
 }
 
 .float-btn {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  color: black;
-  border: solid 5px #C5A48D;
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  cursor: pointer;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    color: black;
+    border: solid 5px #c5a48d;
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    cursor: pointer;
 }
