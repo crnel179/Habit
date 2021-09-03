@@ -44,7 +44,7 @@ async function handleCreateHabit(e) {
         const date = new Date;
         data.start_date = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
         data.dates_completed = [];
-        data.dayCount = {};
+        data.day_count = {};
         data.highest_streak = 0;
         const user_email = localStorage.getItem('email');
         console.log(data);

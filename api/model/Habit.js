@@ -56,8 +56,8 @@ class Habit {
                 if (userData[0].habits[body.name]) {
                     throw new Error('you have a habit with this name already')
                 }
-                else if (body.priority == true) {
-                    Habit.resetPriority()
+                else if (body.priority == 'on') {
+                    Habit.resetPriority(userData, user, db)
                 }
                 const update = { $set: { [`habits.${body.name}`]: new Habit(body) } };
                 await db.collection('users').updateOne({ user_email: user }, update) //this returned the not updated object
@@ -74,28 +74,18 @@ class Habit {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init()
-                const userData = await db.collection('users').find({ user_email: user }).toArray()
-                const habit = userData[0].habits[name]
-                const currentCount = habit.day_count.count
-
-                if (currentCount < habit.frequency) {
-                    const newCount = currentCount + 1;
-                    const update = { $set: { [`${habit}.day_count.count`]: newCount } };
-                    await db.collection('users').updateOne({ user_email: user }, update)
-                    resolve('successfully updated habit count');
-                }
-                else if (currentCount == habit.frequency && habit.dayCount.completed == false) {
-                    const update =
-                    {
-                        $set: {
-                            [`${habit}.day_count.completed`]: true,
-                            'habit.dates_completed': habitCompleted(user, name),
-                            'habit.highest_streak': Habit.getStreak()
-                        
-                        }
-                    }
-                    db.collection('users').findOneAndUpdate({ user_email: user }, update)
+                const userData = await db.collection('users').find({ user_email: user }).toArray();
+                const habit = userData[0].habits[name];
+                const currentCount = habit.day_count.count;
+                if (currentCount == habit.frequency && habit.day_count.completed == false) {
+                    await Habit.markAsCompleted(habit, user, db)
                     resolve('habit has been successfully completed for today')
+                } else {
+                    const newCount = currentCount + 1;
+                    const update = { $set: { [`habits.${name}.day_count.count`]: newCount } };
+                   // const update = { $set: { [`habits.${body.name}`]: new Habit(body) } };
+                    await db.collection('users').updateOne({ user_email: user }, update) 
+                    resolve('successfully updated habit count');
                 }
             } catch (err) {
                 console.log(err)
@@ -133,32 +123,74 @@ class Habit {
         })
     }
 
+    static markAsCompleted(habit, user, db) {
+        const name = habit.name
+        const update =
+        {
+            $set: {
+                [`habits.${name}.day_count.completed`]: true,
+                [`habits.${name}.dates_completed`]: Habit.habitCompleted(habit),
+                [`habits.${name}.highest_streak`]: Habit.getStreak(habit)
+            }
+        }
+        db.collection('users').updateOne({ user_email: user }, update)
+    }
 
 
-    static getStreak(user) {
+    static getStreak(habit) {
+        const datesArr = habit.dates_completed;
+        let currentStreak;
+        for (let i = datesArr.length - 1; i < 0; i--) {
+            if (consecutiveDateCheck(datesArr[i], datesArr[i - 1])) {
+                currentStreak++;
+            }
+            else {
+                break;
+            }
+        }
+        return Habit.compareStreaks(currentStreak, habit.highest_streak)
+    }
 
+    static compareStreaks(currentStreak, longestStreak) {
+        if (currentStreak > longestStreak) {
+            return currentStreak;
+        } else {
+            return longestStreak;
+        }
+    }
+
+    static consecutiveDateCheck(date, previousDate) {
+        const monthLengths = [31, 28, 31, 30, 31, 30, 31, 30, 31, 30, 31]
+        let dateArr = date.split('-');
+        let previousDateArr = previousDate.split('-');
+        if (previousDateArr[0] == dateArr[0] - 1) {
+            return true;
+        }
+        else if (previousDateArr[0] == monthLengths[previousDateArr[1] - 1] && dateArr[0] == 1) {
+            return true;
+        }
+        else if (previousDateArr[0] == 31 && previousDateArr[1] == 12 && dateArr[0] == 1 && dateArr[1] == 1) {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    static habitCompleted(habit) {
+        const datesArr = habit.dates_completed
+        const date = new Date;
+        const completedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+        return datesArr.push(completedDate)
+    }
+
+    static resetPriority(userData, user, db) {
+        
+        const habits = Object.values(userData[0].habits)
+        const priorityHabit = habits.find(habit => habit.priority == true)
+        const update = {$set: { [`habits.${priorityHabit.name}.priority`]:  false }}
+        db.collection('users').updateOne({user_email: user}, update)
     }
 }
-
-//---------------------------------------------------------------------------------------//
-
-//     static destroy(name) {
-//         return new Promise(async (resolve, reject) => {
-//             try {
-//                 const db = await init();
-//                 const habitData = await db.collection.find({ user_email: user }, { habits: 1, _id: 0 }).toArray();
-//                 //need to find the correct habit to pop.
-//                 const habitIndex = habitData.find(habit => habit.name == name);
-//                 newHabitArray = habitData.splice(habitIndex, 1);
-//                 const removed = await db.collection.updateOne({ user_email: user }, { $set: { habits: newHabitArray } })
-//                 resolve(removed)
-//             }
-//             catch (err) {
-//                 console.log(err)
-//                 reject('error in deleting this habit')
-//             }
-//         })
-//     }
-//
 
 module.exports = Habit;
