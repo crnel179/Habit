@@ -72,7 +72,7 @@ const recoveryTokenValid = async (req, res, next) => {
 
 const accessTokenValid = (req, res, next) => {
     try {
-        jwt.verify(req.body.token, process.env.ACCESS_SECRET);
+        jwt.verify(req.headers.authorization, process.env.ACCESS_SECRET);
         if (blacklist.includes(req.body.token)) throw Error();
     } catch (err) {
         res.sendStatus(401);
