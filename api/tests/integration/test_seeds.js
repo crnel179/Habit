@@ -21,6 +21,8 @@ const db = connect("mongodb://localhost:27017/testing")
                     name: 'test',
                     tag: 'test',
                     dates_completed: ['30-08-2021', '31-08-2021'],
+                    frequency: 1,
+                    dayCount: {date: '01-09-21', completed: false, count:0},
                     highest_streak: 2,
                     priority: true
                 },
@@ -30,6 +32,8 @@ const db = connect("mongodb://localhost:27017/testing")
                     name: 'tester',
                     tag: 'tester',
                     dates_completed: [],
+                    frequency: 0,
+                    dayCount: {date: '01-09-21', completed: false, count:0},
                     highest_streak: 0,
                     priority: false
                 }

@@ -3,7 +3,7 @@
 
 const url = 'http://localhost:3030/'
 
-async function requestLogin(e){
+async function requestLogin(e) {
     e.preventDefault();
     try {
         const formData = Object.fromEntries(new FormData(e.target));
@@ -35,7 +35,7 @@ async function requestRegistration(formData) {
         const res = await fetch(`${url}users`, options)
         //change forms and request email verification
 
-        requestEmailVerification(formData);
+        await requestEmailVerification(formData);
         showEmailForm();
         localStorage.setItem('email', formData.user_email);
     } catch (err) {
