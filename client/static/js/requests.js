@@ -83,7 +83,7 @@ async function updateHabit(e, name) {
         const data = res.json();
         // return data;
         //if successful, close modal and refresh view
-        closeModal(e);
+       // closeModal(e);
         renderHabitsView();
     } catch (err) {
         console.log(err);

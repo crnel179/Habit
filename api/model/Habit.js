@@ -83,8 +83,8 @@ class Habit {
                 } else {
                     const newCount = currentCount + 1;
                     const update = { $set: { [`habits.${name}.day_count.count`]: newCount } };
-                   // const update = { $set: { [`habits.${body.name}`]: new Habit(body) } };
-                    await db.collection('users').updateOne({ user_email: user }, update) 
+                    // const update = { $set: { [`habits.${body.name}`]: new Habit(body) } };
+                    await db.collection('users').updateOne({ user_email: user }, update)
                     resolve('successfully updated habit count');
                 }
             } catch (err) {
@@ -97,15 +97,23 @@ class Habit {
     static update(user, name, body) {
         return new Promise(async (resolve, reject) => {
             try {
+                console.log('update called')
                 const db = await init();
-                const existingData = await db.collection('users').findOne({user_email: user}).toArray();
-                
+                const existingData = await db.collection('users').findOne({ user_email: user });
+                let existingHabit = existingData.habits[name];
+                let incomingChanges = Object.entries(body);
+                for (const [key, value] of incomingChanges) {
+                    console.log(key);
+                    if (key == 'priority') {
+                        console.log(key)
+                        console.log(value)
+                        existingHabit[key] = (value == 'on' ? true : false)
+                    }
+                    existingHabit[key] = value;
+                }
+                const updatedHabit = existingHabit;
 
-                // find existing habit data from db
-                // reassign with info from post request
-                //update db with new habit object
-
-                const update = { $set: { [`habits.${name}`]: body } };
+                const update = { $set: { [`habits.${name}`]: updatedHabit } };
                 await db.collection('users').updateOne({ user_email: user }, update);
                 resolve('successfully updated the habit')
             }
@@ -192,11 +200,11 @@ class Habit {
     }
 
     static resetPriority(userData, user, db) {
-        
+
         const habits = Object.values(userData[0].habits)
         const priorityHabit = habits.find(habit => habit.priority == true)
-        const update = {$set: { [`habits.${priorityHabit.name}.priority`]:  false }}
-        db.collection('users').updateOne({user_email: user}, update)
+        const update = { $set: { [`habits.${priorityHabit.name}.priority`]: false } }
+        db.collection('users').updateOne({ user_email: user }, update)
     }
 }
 
