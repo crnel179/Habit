@@ -4,6 +4,9 @@ main {
     margin-top: 50px;
 }
 
+#logo {
+    width: 100px;
+}
 
 button {
     width: 75px;
@@ -93,8 +96,6 @@ button {
 @media only screen and (max-width: 760px) {
     #calendar {
         display: flex;
-        /* display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr  auto; */
         align-self: center;
         justify-content: center;
     }
@@ -104,10 +105,9 @@ button {
     #weekdays {
         display: none;
     }
-    /* #calendar {
+    #calendar {
         display: flex;
-        /* flex-wrap: wrap; */
         align-self: center;
         justify-content: center;
-    } */
+    }
 }
