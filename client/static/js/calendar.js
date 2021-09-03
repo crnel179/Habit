@@ -80,54 +80,37 @@ function loadCalendar() {
             dayBox.classList.add("padding");
         }
 
-        // ############################# REMOVE #################################
-        const habits = element.filter(element => element.priority = true);
-            console.log(x);
-
-        // dummyRes.forEach(element => {
-
-        // });
-
-        //         const habit =  dummyRes.crew.captain['favorite foods'][0];
-
-        //         dummyRes.forEach((element) => {
-        //             if(priority === true) {
-        //                 return
-        //             }
-        //         })
-        // ###############################################################
-
-        function displayHabits() {
-            const priority = dummyRes.filter(
-                (element) => (element.priority = true)
-            );
-            // console.log(habits);
-            const habits = priority.filter();
-            // const habits = getAllHabits();
-            dayBox.querySelector("#divId").textContent = habits;
-        }
+    //     function displayHabits() {
+    //         const priority = dummyRes.filter(
+    //             (element) => (element.priority = true)
+    //         );
+    //         // console.log(habits);
+    //         const habits = priority.filter();
+    //         // const habits = getAllHabits();
+    //         dayBox.querySelector("#divId").textContent = habits;
+    //     }
 
         calendar.appendChild(dayBox);
     }
 
-    console.log(displayHabits());
+    // console.log(displayHabits());
 }
 
-async function getAllHabits() {
-    // GET all habits
-    const options = {
-        headers: new Headers({ Authorization: localStorage.getItem("token") }),
-    };
-    try {
-        const user_email = localStorage.getItem("email");
-        const res = await fetch(`${url}habits/${user_email}`, options);
-        const data = await res.json();
-        return data;
-    } catch (err) {
-        console.log(err);
-        // handleError;
-    }
-}
+// async function getAllHabits() {
+//     // GET all habits
+//     const options = {
+//         headers: new Headers({ Authorization: localStorage.getItem("token") }),
+//     };
+//     try {
+//         const user_email = localStorage.getItem("email");
+//         const res = await fetch(`${url}habits/${user_email}`, options);
+//         const data = await res.json();
+//         return data;
+//     } catch (err) {
+//         console.log(err);
+//         // handleError;
+//     }
+// }
 
 function buttons() {
     // on click event listener for the next button to display the next month

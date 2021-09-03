@@ -1,9 +1,9 @@
-body {
+main {
     display: flex;
-    margin-top: 50px;
     justify-content: center;
-    background-color: lightgray;
+    margin-top: 50px;
 }
+
 
 button {
     width: 75px;
@@ -58,7 +58,7 @@ button {
     height: 100px;
     cursor: pointer;
     box-sizing: border-box;
-    background-color: white;
+    background-color: lightgray;
     margin: 5px;
     box-shadow: 0px 0px 3px gray;
     display: flex;
@@ -74,7 +74,7 @@ button {
 
 .padding {
     cursor: default;
-    background-color: lightgray;
+    background-color: #fff;
     box-shadow: none;
 }
 
