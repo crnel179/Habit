@@ -98,6 +98,13 @@ class Habit {
         return new Promise(async (resolve, reject) => {
             try {
                 const db = await init();
+                const existingData = await db.collection('users').findOne({user_email: user}).toArray();
+                
+
+                // find existing habit data from db
+                // reassign with info from post request
+                //update db with new habit object
+
                 const update = { $set: { [`habits.${name}`]: body } };
                 await db.collection('users').updateOne({ user_email: user }, update);
                 resolve('successfully updated the habit')
