@@ -1,4 +1,5 @@
-const habitController = require('../../../controllers/habits')
+const habitController = require('../../../controllers/habits');
+const { getStreak } = require('../../../model/Habit');
 const Habit = require('../../../model/Habit');
 
 const mockSend = jest.fn();
@@ -138,5 +139,14 @@ describe('habits controller', () => {
             expect(mockStatus).toHaveBeenCalledWith(200);
         })
     });
+
+    describe('getStreak', () => {
+        test('it returns a streak', async () => {
+            jest.spyOn(Habit, 'all')
+                 .mockResolvedValue(Habit(testHabit, getStreak));
+            await habitController.index(null, mockRes);
+            expect(mockJson).toHaveBeenCalledWith(Habit(testHabit, getStreak));
+        })
+    })
 
 })

@@ -76,7 +76,7 @@ function habitStatusDiv(habit) {
     countBtn.addEventListener('click', e => updateCompletion(e, habit.name))
     // create span for displaying the count
     const countSpan = makeElement('span', {class: "daily-count"});
-    countSpan.innerText = `${habit.dayCount.count}/${habit.frequency}`;
+    countSpan.innerText = `${habit.day_count.count}/${habit.frequency}`;
     div.append(countBtn, countSpan);
     return div;
 }
@@ -93,6 +93,14 @@ function makeElement(element, atts) {
 function currentUser(){
     const username = localStorage.getItem('username')
     return username;
+}
+
+function getCookies() {
+
+    const cookies = document.cookie.split('; ');
+    const email = cookies.find(row => row.startsWith('email=')).split('=')[1];
+    const token = cookies.find(row => row.startsWith('token=')).split('=')[1];
+    return email, token;
 }
 
 async function logout() {
