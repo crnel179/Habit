@@ -84,7 +84,7 @@ class Habit {
                     const newCount = currentCount + 1;
                     const update = { $set: { [`habits.${name}.day_count.count`]: newCount } };
                    // const update = { $set: { [`habits.${body.name}`]: new Habit(body) } };
-                    await db.collection('users').updateOne({ user_email: user }, update) 
+                    await db.collection('users').updateOne({ user_email: user }, update)
                     resolve('successfully updated habit count');
                 }
             } catch (err) {
@@ -99,7 +99,7 @@ class Habit {
             try {
                 const db = await init();
                 const existingData = await db.collection('users').findOne({user_email: user}).toArray();
-                
+
 
                 // find existing habit data from db
                 // reassign with info from post request
@@ -192,11 +192,15 @@ class Habit {
     }
 
     static resetPriority(userData, user, db) {
-        
+
         const habits = Object.values(userData[0].habits)
-        const priorityHabit = habits.find(habit => habit.priority == true)
-        const update = {$set: { [`habits.${priorityHabit.name}.priority`]:  false }}
-        db.collection('users').updateOne({user_email: user}, update)
+        if (habits !==  []) {
+            const priorityHabit = habits.filter(habit => habit.priority == true)
+            console.log(priorityHabit);
+            const update = {$set: { [`habits.${priorityHabit.name}.priority`]:  false }}
+            console.log(`habits.${priorityHabit.name}.priority`);
+            db.collection('users').updateOne({user_email: user}, update)
+        }
     }
 }
 

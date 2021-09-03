@@ -5,7 +5,7 @@ const url = "http://localhost:3030/";
 async function getAllHabits() {
     // GET all habits
     try {
-        const [token, user_email] = getCookies();
+        const [user_email, token] = getCookies();
         const options = {
             headers: new Headers({'Authorization': token})
         }
@@ -21,7 +21,7 @@ async function getAllHabits() {
 async function getOneByName(name) {
     // GET a single habit by name
     try {
-        const [token, user_email] = getCookies();
+        const [user_email, token] = getCookies();
         const options = {
             headers: new Headers({'Authorization': token,
             'Content-Type': 'application/json'})
@@ -39,7 +39,7 @@ async function handleCreateHabit(e) {
     // POST a new habit
     try {
         // retrieve data from the form
-        const [token, user_email] = getCookies();
+        const [user_email, token] = getCookies();
         const data = Object.fromEntries(new FormData(e.target));
         const date = new Date;
         data.start_date = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -64,7 +64,7 @@ async function updateHabit(e, name) {
     // edit a habit (PUT)
     try {
         const formData = Object.fromEntries(new FormData(e.target));
-        const [token, user_email] = getCookies();
+        const [user_email, token] = getCookies();
 
         const options = {
             method: 'PUT',
@@ -91,7 +91,7 @@ async function updateCompletion(e, name) {
     const count = parseInt(split[0]) + 1;
 
     try {
-        const [token, user_email] = getCookies();
+        const [user_email, token] = getCookies();
         const options = {
             method: 'PUT',
             headers: new Headers({'Authorization': token,
@@ -114,7 +114,7 @@ async function deleteHabit(e, name) {
     e.preventDefault();
     // DELETE a habit
     try {
-        const [token, user_email] = getCookies();
+        const [user_email, token] = getCookies();
         const options = {
             method: 'DELETE',
             headers: new Headers({'Authorization': token,
