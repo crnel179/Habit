@@ -46,7 +46,7 @@ describe('users controller', () => {
                         verification: 1
                     }
                 }
-            jest.spyOn(Habit, 'create')
+            jest.spyOn(User, 'create')
                 .mockResolvedValue(new User(testUser));
                 
             const mockReq = { params: { name: 'test' } }
@@ -106,7 +106,7 @@ describe('users controller', () => {
                 .mockResolvedValue(User(testUser));
             
             const mockReq = { params: { name: 'test' } }
-            await habitController.exists(mockReq, mockRes);
+            await userController.exists(mockReq, mockRes);
             expect(mockStatus).toHaveBeenCalledWith(200);
         })
     });

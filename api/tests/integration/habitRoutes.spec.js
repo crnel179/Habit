@@ -1,7 +1,6 @@
 const supertest = require('supertest');
 const app = require('../../../api/habitRoutes');
 const mongoose = require('mongoose');
-const mongoDB = "mongo://127.0.0.1/test"
 
 /*  these tests are driving me nuts, there is a problem with the above things
     the app.listen and api.close functions are not working 
@@ -21,9 +20,9 @@ describe('habits endpoints', () => {
 
     /* i do not believe this function is relevant in mongo */
 
-    // beforeEach(async () => {
-    //     await resetTestDB();
-    // });
+    beforeEach(async () => {
+        await resetTestDB();
+    });
 
     afterAll(done => {
         console.log('Stopping the test server')
