@@ -90,4 +90,25 @@ describe('users controller', () => {
     });
 
 
+    describe('exists', () => {
+        test('it returns if an email exists in the database', async () => {
+            let testUser = {   
+                test:
+                    {
+                        user_email: 'test@email.com',
+                        pseudoname: 'test',
+                        password: 'test123',
+                        verification: 1
+                    }
+                }
+
+            jest.spyOn(User, 'exists')
+                .mockResolvedValue(User(testUser));
+            
+            const mockReq = { params: { name: 'test' } }
+            await habitController.exists(mockReq, mockRes);
+            expect(mockStatus).toHaveBeenCalledWith(200);
+        })
+    });
+
 })

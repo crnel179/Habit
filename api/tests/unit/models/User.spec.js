@@ -1,4 +1,4 @@
-const User = require('../../../model/Habit');
+const User = require('../../../model/User');
 const { MongoClient } = require ('mongodb');
 jest.mock('mongodb');
 
